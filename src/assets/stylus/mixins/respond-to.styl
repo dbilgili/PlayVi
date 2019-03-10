@@ -1,0 +1,16 @@
+@import '../miscs/variables.styl'
+
+media_queries = {
+  mobile-small      : "only screen and (max-width: " + ($mobile-small) + ")",
+  mobile-medium     : "only screen and (max-width: " + ($mobile-medium) + ")",
+  mobile-big        : "only screen and (max-width: " + ($mobile-big) + ")",
+  desktop           : "only screen and (max-width: " + ($desktop) + ")"
+}
+
+respond-to(breakpoints)
+  conditions = ()
+  for breakpoint in breakpoints
+    push(conditions, media_queries[breakpoint])
+  conditions = join(", ", conditions)
+  @media conditions
+    {block}
