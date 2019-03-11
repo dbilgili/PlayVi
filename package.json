@@ -5,7 +5,8 @@
   "dependencies": {
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "react-transition-group": "^2.6.0"
   },
   "scripts": {
     "build-css": "stylus -c src/assets/stylus/ --out src/assets/css",
