@@ -9,8 +9,8 @@
     "react-transition-group": "^2.6.0"
   },
   "scripts": {
-    "build-css": "stylus -c src/assets/stylus/ --out src/assets/css",
-    "watch-css": "npm run build-css && stylus -c -w src/assets/stylus/ --out src/assets/css",
+    "build-css": "stylus -c src/assets/stylus/ --out src/assets/stylus",
+    "watch-css": "npm run build-css && stylus -c -w src/assets/stylus/ --out src/assets/stylus",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
     "build-js": "react-scripts build",

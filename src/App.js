@@ -3,7 +3,7 @@ import { CSSTransition } from 'react-transition-group';
 import FrontPage from './components/views/FrontPage';
 import CreateParty from './components/views/CreateParty';
 import JoinParty from './components/views/JoinParty';
-import './assets/css/global.css';
+import './assets/stylus/global.css';
 
 const App = () => {
   const [screen, setScreen] = useState('frontpage');

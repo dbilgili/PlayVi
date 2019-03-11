@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TextInput from '../TextInput';
 import NavigationButtons from '../NavigationButtons';
-import '../../assets/css/global.css';
+import '../../assets/stylus/global.css';
 
 const CreateParty = (props) => {
   const { screen } = props;
