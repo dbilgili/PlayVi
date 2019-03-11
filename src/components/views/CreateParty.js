@@ -17,6 +17,8 @@ const CreateParty = (props) => {
       />
       <p className="info-text">Pick a nickname which will appear below the songs you added to the playlist.</p>
       <NavigationButtons
+        leftButton='Back'
+        rightButton='Create'
         backAction={() => screen('frontpage')}
         nextAction={null}
       />
