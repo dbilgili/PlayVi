@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 
 const TextInput = (props) => {
-  const { placeholder, getField, pattern } = props;
-  const [nickname, setNickname] = useState('');
-  useEffect(() => getField(nickname), [nickname]);
+  const { placeholder, getField, validate, pattern, alert } = props;
+  const [input, setInput] = useState('');
+
+  useEffect(() => {
+    getField(input);
+    validate(Boolean(input.length));
+  }, [input]);
 
   return (
     <input
       type="text"
+      maxLength="15"
       pattern={pattern}
-      className="custom-text-input"
+      className={alert ? 'custom-text-input alert' : 'custom-text-input'}
       placeholder={placeholder}
-      onChange={e => setNickname(e.target.value)}
+      onChange={e => setInput(e.target.value)}
     />
   );
 };

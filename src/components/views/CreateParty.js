@@ -6,21 +6,37 @@ import '../../assets/stylus/global.css';
 const CreateParty = (props) => {
   const { screen } = props;
   const [nickname, setNickname] = useState('');
+  const [isFieldValid, setIsFieldValid] = useState(false);
+  const [alert, setAlert] = useState(false);
 
-  useEffect(() => console.log(nickname), [nickname]);
+  const fieldValidation = () => {
+    if (isFieldValid) {
+      screen('admin');
+    } else {
+      setAlert(true);
+    }
+  };
+
+  useEffect(() => {
+    if (nickname.length) {
+      setAlert(false);
+    }
+  }, [nickname]);
 
   return (
     <div className="create-party-container">
       <TextInput
         getField={val => setNickname(val)}
         placeholder="Nickname"
+        validate={val => setIsFieldValid(val)}
+        alert={alert}
       />
       <p className="info-text">Pick a nickname which will appear below the songs you added to the playlist.</p>
       <NavigationButtons
         leftButton='Back'
         rightButton='Create'
         backAction={() => screen('frontpage')}
-        nextAction={null}
+        nextAction={fieldValidation}
       />
     </div>
   );

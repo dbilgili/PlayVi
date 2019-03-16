@@ -1,0 +1,31 @@
+.tab-menu-container
+  position: relative
+  display: flex
+  align-items: center
+  max-width: $screen-max-width
+  .tab-button
+    color: $white
+    font-size: 2rem
+    &:first-of-type
+      margin-right: 30px
+
+  .more-button
+    display: flex
+    margin-left: auto
+    img
+      width: 24px
+      height auto
+      padding: 8px 10px
+      box-sizing: content-box
+
+  .underline
+    position: absolute
+    left: 0
+    bottom: -5px
+    width: 66px
+    height: 2px
+    background-color: $white
+    transition: all 250ms ease
+    &.slide
+      transform: translateX(95px)
+      width: 97px

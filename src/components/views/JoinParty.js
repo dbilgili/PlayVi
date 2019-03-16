@@ -6,21 +6,42 @@ import '../../assets/stylus/global.css';
 const JoinParty = (props) => {
   const { screen } = props;
   const [nickname, setNickname] = useState('');
-  const [partyPin, setpartyPin] = useState('');
+  const [partyPin, setPartyPin] = useState('');
+  const [areFieldsValid, setAreFieldsValid] = useState([false, false]);
+  const [alertArray, setAlertArray] = useState([false, false]);
 
-  useEffect(() => console.log(nickname, ' - ', partyPin), [nickname, partyPin]);
+  const fieldValidation = () => {
+    if (areFieldsValid[0] && areFieldsValid[1]) {
+      screen('admin');
+    } else {
+      setAlertArray([!areFieldsValid[0], !areFieldsValid[1]]);
+    }
+  };
+
+  useEffect(() => {
+    if (partyPin.length) {
+      setAlertArray([false, alertArray[1]]);
+    }
+    if (nickname.length) {
+      setAlertArray([alertArray[0], false]);
+    }
+  }, [partyPin, nickname]);
 
   return (
     <div className="join-party-container">
       <div className="text-field-wrapper">
         <TextInput
-          getField={val => setNickname(val)}
+          getField={val => setPartyPin(val)}
           placeholder="PARTY PIN"
           pattern="\d*"
+          validate={val => setAreFieldsValid([val, areFieldsValid[1]])}
+          alert={alertArray[0]}
         />
         <TextInput
-          getField={val => setpartyPin(val)}
+          getField={val => setNickname(val)}
           placeholder="Nickname"
+          validate={val => setAreFieldsValid([areFieldsValid[0], val])}
+          alert={alertArray[1]}
         />
       </div>
       <p className="info-text">Pick a nickname which will appear below the songs you added to the playlist.</p>
@@ -28,7 +49,7 @@ const JoinParty = (props) => {
         leftButton='Back'
         rightButton='Join'
         backAction={() => screen('frontpage')}
-        nextAction={null}
+        nextAction={fieldValidation}
       />
     </div>
   );

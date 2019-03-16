@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "body-scroll-lock": "^2.6.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-scripts": "2.1.8",
-    "react-transition-group": "^2.6.0"
+    "react-swipe": "^6.0.4",
+    "react-transition-group": "^2.6.1"
   },
   "scripts": {
     "build-css": "stylus -c src/assets/stylus/ --out src/assets/stylus",

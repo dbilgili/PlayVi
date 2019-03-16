@@ -43,3 +43,63 @@
 .join-party-container-exit-active
   opacity: 0
   transition: opacity 350ms ease
+
+// -----------------------------------
+
+.generic-transition-enter
+  opacity: 0
+
+.generic-transition-enter-active
+  opacity: 1
+  transition: opacity 350ms ease
+
+.generic-transition-exit
+  opacity: 1
+
+.generic-transition-exit-active
+  opacity: 0
+  transition: opacity 350ms ease
+
+// -----------------------------------
+
+.play-list-container-enter
+  //opacity: 0
+  transform: translateX(-340px)
+
+.play-list-container-enter-active
+  //opacity: 1
+  transform: translateX(0)
+  transition: transform 250ms ease
+  //transition-property: transform, opacity
+
+.play-list-container-exit
+  //opacity: 1
+  transform: translateX(0)
+
+.play-list-container-exit-active
+  //opacity: 0
+  transform: translateX(-340px)
+  transition: transform 250ms ease
+  //transition-property: transform, opacity
+
+// -----------------------------------
+
+.add-song-container-enter
+  //opacity: 0
+  transform: translateX(340px)
+
+.add-song-container-enter-active
+  //opacity: 1
+  transform: translateX(0)
+  transition: transform 250ms ease
+  //transition-property: transform, opacity
+
+.add-song-container-exit
+  //opacity: 1
+  transform: translateX(0)
+
+.add-song-container-exit-active
+  //opacity: 0
+  transform: translateX(340px)
+  transition: transform 250ms ease
+  //transition-property: transform, opacity
