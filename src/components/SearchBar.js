@@ -35,7 +35,7 @@ const SearchBar = (props) => {
           backgroundRepeat: 'no-repeat',
         }}
       />
-      {songName.length && (
+      {Boolean(songName.length) && (
       <button
         type="button"
         className="delete-button"

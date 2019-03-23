@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-// import { CSSTransition } from 'react-transition-group';
-import ReactSwipe from 'react-swipe';
+import React, { useState, useRef } from 'react';
+import ReactSwipe from '../ReactSwipe';
 import TabMenu from '../TabMenu';
 import PlayList from './PlayList';
 import AddSong from './AddSong';
@@ -8,46 +7,30 @@ import AddSong from './AddSong';
 const PartyScreen = (props) => {
   const { screen } = props;
   const reactSwipeEl = useRef(null);
-  const [innerScreen, setInnerScreen] = useState('playlist');
+  const [tabPos, setTabPos] = useState(0);
+
+  const detectChange = () => {
+    console.log('change');
+    setTabPos(reactSwipeEl.current.getPos());
+  };
 
   return (
     <div className="party-screen-container">
       <TabMenu
         logout={() => screen('frontpage')}
-        setScreen={val => setInnerScreen(val)}
+        next={() => reactSwipeEl.current.next()}
+        prev={() => reactSwipeEl.current.prev()}
+        tabPos={tabPos}
       />
       <ReactSwipe
+        key="swipe"
         className="carousel"
-        swipeOptions={{ continuous: false }}
+        swipeOptions={{ continuous: false, callback: detectChange }}
         ref={reactSwipeEl}
       >
-        <PlayList />
-        <AddSong />
+        <PlayList key='playlist' />
+        <AddSong key='addsong' />
       </ReactSwipe>
-
-      {/* <div className="party-screen-container generic-transition">
-      <TabMenu
-        logout={() => screen('frontpage')}
-        setScreen={val => setInnerScreen(val)}
-      />
-      <CSSTransition
-        in={innerScreen === 'playlist'}
-        timeout={250}
-        classNames="play-list-container"
-        unmountOnExit
-      >
-        <PlayList />
-      </CSSTransition>
-
-      <CSSTransition
-        in={innerScreen === 'search'}
-        timeout={250}
-        classNames="add-song-container"
-        unmountOnExit
-      >
-        <AddSong />
-      </CSSTransition>
-    </div> */}
     </div>
   );
 };
