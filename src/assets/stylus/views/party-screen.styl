@@ -2,10 +2,14 @@
   background-color: $black
   //padding: 0 $page-margin-small
   padding-top: 5px
-  height: calc(100vh - 100px)
+  height: 100vh
   .carousel
+    position: relative
     max-width: $screen-max-width
+    height: calc(var(--vh, 1vh) * 100 - 70px)
+    // background-color: indianred
     margin: 0 -($page-margin)
     margin-top: 20px
+    overflow-y: scroll !important
     div
       display: flex

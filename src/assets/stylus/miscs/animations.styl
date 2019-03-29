@@ -103,3 +103,19 @@
   transform: translateX(340px)
   transition: transform 250ms ease
   //transition-property: transform, opacity
+
+// -----------------------------------
+
+.sliding-menu-enter
+  transform: translateY(-210px)
+
+.sliding-menu-enter-active
+  transform: translateY(0)
+  transition: transform 250ms ease
+
+.sliding-menu-exit
+  transform: translateY(0)
+
+.sliding-menu-exit-active
+  transform: translateY(-210px)
+  transition: transform 250ms ease-out

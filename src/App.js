@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { disableBodyScroll } from 'body-scroll-lock';
+import innerHeight from 'ios-inner-height';
 import FrontPage from './components/views/FrontPage';
 import CreateParty from './components/views/CreateParty';
 import JoinParty from './components/views/JoinParty';
@@ -8,11 +8,11 @@ import PartyScreen from './components/views/PartyScreen';
 import './assets/stylus/global.css';
 
 const App = () => {
-  const [screen, setScreen] = useState('frontpage');
+  const [screen, setScreen] = useState('admin');
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+
   useEffect(() => {
     console.log('Check for Cookie');
-    disableBodyScroll(document.querySelector('html'));
   }, []);
 
   return (

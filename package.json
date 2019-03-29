@@ -3,13 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "body-scroll-lock": "^2.6.1",
+    "ios-inner-height": "^1.1.0",
     "lodash.isequal": "^4.5.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-scripts": "2.1.8",
     "react-transition-group": "^2.6.1",
-    "swipe-js-iso": "^2.1.5"
+    "scroll-lock": "^2.1.0",
+    "swipe-js-iso": "^2.1.5",
+    "use-debounce": "^1.1.1",
+    "uselog-hook": "^1.1.0"
   },
   "scripts": {
     "build-css": "stylus -c src/assets/stylus/ --out src/assets/stylus",
@@ -36,7 +41,6 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "npm-run-all": "^4.1.5",
-    "stylus": "^0.54.5",
-    "uselog-hook": "^1.0.9"
+    "stylus": "^0.54.5"
   }
 }

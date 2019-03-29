@@ -1,6 +1,7 @@
 import React from 'react';
 
-const PlayList = () => {
+const PlayList = (props) => {
+  const {key} = props;
   return (
     <div className="play-list-container">
       The playlist is empty.

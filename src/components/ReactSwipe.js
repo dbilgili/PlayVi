@@ -14,6 +14,7 @@ class ReactSwipe extends PureComponent {
       wrapper: {
         overflow: 'hidden',
         position: 'relative',
+        height: '100%',
       },
       child: {
         float: 'left',

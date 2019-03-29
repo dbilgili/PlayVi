@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import useLog from 'uselog-hook';
 
 import more from '../assets/images/more.png';
 
 const TabMenu = (props) => {
-  const { logout, next, prev, tabPos } = props;
+  const { moreButton, next, prev, tabPos } = props;
   const [tab, setTab] = useState(0);
 
   const tabSwitch = (type) => {
@@ -27,7 +26,7 @@ const TabMenu = (props) => {
     <div className="tab-menu-container">
       <button type="button" className="tab-button" onClick={() => tabSwitch('prev')}>Playlist</button>
       <button type="button" className="tab-button" onClick={() => tabSwitch('next')}>Add Songs</button>
-      <button type="button" className="more-button" onClick={() => logout()}>
+      <button type="button" className="more-button" onClick={() => moreButton()}>
         <img alt="more" src={more} />
       </button>
       <span className={tab ? 'underline slide' : 'underline'} />

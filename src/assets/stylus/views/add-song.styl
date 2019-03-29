@@ -1,8 +1,47 @@
 .add-song-container
+  display: flex
+  flex-direction: column
   position: absolute
   left: 0 !important
-  //background-color: pink
+  // background-color: pink
   max-width: $screen-max-width
   width: 100%
-  height: 100px
+  height: 100%
   padding: 0 $page-margin
+
+  .transparent-gradient
+    position: fixed
+    top: 40px
+    left: 0
+    width: 100%
+    height: 20px
+    background-image: linear-gradient($black, rgba(0,0,0,0));
+
+  .songs-container
+    position: relative
+    overflow-y: scroll
+    -webkit-overflow-scrolling: touch
+    flex-direction: column
+    height: 100%
+
+  .song-wrapper
+    flex-shrink: 0
+    margin: 5px 0
+    &:nth-child(even)
+      // background-color: rgba(255,255,255,0.1)
+    &:nth-of-type(1)
+      margin-top: 10px
+    .album-cover
+      height: 46px
+      width: 46px
+    .text-info
+      flex-direction: column
+      justify-content: space-around
+      color: white
+      font-size: 1.6rem
+      margin-left: 10px
+      p
+       &:nth-of-type(2)
+         font-weight: 300
+         font-size: 1.4rem
+
