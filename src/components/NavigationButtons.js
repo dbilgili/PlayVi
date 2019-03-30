@@ -1,7 +1,9 @@
 import React from 'react';
 
 const NavigationButtons = (props) => {
-  const { backAction, nextAction, leftButton, rightButton } = props;
+  const {
+    backAction, nextAction, leftButton, rightButton,
+  } = props;
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {

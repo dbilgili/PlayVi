@@ -8,19 +8,17 @@ import AddSong from './AddSong';
 import SlidingMenu from '../SlidingMenu';
 
 const PartyScreen = (props) => {
-  const { screen } = props;
+  const { screen, userRole } = props;
   const reactSwipeEl = useRef(null);
   const [tabPos, setTabPos] = useState(0);
   const [toggleMore, setToggleMore] = useState(false);
 
   const detectChange = () => {
-    console.log('change');
     setTabPos(reactSwipeEl.current.getPos());
   };
 
   useEffect(() => {
     const vh = window.innerHeight * 0.01;
-    // Then we set the value in the --vh custom property to the root of the document
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   }, []);
 
@@ -49,7 +47,7 @@ const PartyScreen = (props) => {
         swipeOptions={{ continuous: false, callback: detectChange }}
         ref={reactSwipeEl}
       >
-        <PlayList key='playlist' />
+        <PlayList userRole={userRole} key='playlist' />
         <AddSong key='addsong' />
       </ReactSwipe>
     </div>

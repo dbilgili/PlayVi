@@ -25,13 +25,15 @@ const CreateParty = (props) => {
 
   return (
     <div className="create-party-container">
-      <TextInput
-        getField={val => setNickname(val)}
-        placeholder="Nickname"
-        validate={val => setIsFieldValid(val)}
-        alert={alert}
-      />
-      <p className="info-text">Pick a nickname which will appear below the songs you added to the playlist.</p>
+      <form onSubmit={() => alert('hey')}>
+        <TextInput
+          getField={val => setNickname(val)}
+          placeholder="Nickname"
+          validate={val => setIsFieldValid(val)}
+          alert={alert}
+        />
+      </form>
+      <p className="info-text">Pick a nickname which will appear below the songs you add to the playlist.</p>
       <NavigationButtons
         leftButton='Back'
         rightButton='Create'

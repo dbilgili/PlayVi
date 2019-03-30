@@ -16,7 +16,6 @@ const AddSong = () => {
     const result = await axios(`https://one-night-backend.herokuapp.com/song/search?q=${input}&limit=50&offset=1`);
     setResponse(result.data.tracks.items);
     refEl.current.scrollTop = 0;
-    console.log(result.data.tracks.items);
   };
 
   useEffect(() => {

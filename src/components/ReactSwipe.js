@@ -33,7 +33,6 @@ class ReactSwipe extends PureComponent {
 
   componentDidUpdate(prevProps) {
     const { childCount, swipeOptions } = this.props;
-    console.log(prevProps.childCount, childCount);
     const shouldUpdateSwipeInstance = prevProps.childCount !== childCount
       || !isEqual(prevProps.swipeOptions, swipeOptions);
 
@@ -74,8 +73,6 @@ class ReactSwipe extends PureComponent {
     const {
       id, className, style, children,
     } = this.props;
-
-    console.log('rerender')
 
     return (
       <div

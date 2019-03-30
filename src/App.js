@@ -13,6 +13,9 @@ const App = () => {
 
   useEffect(() => {
     console.log('Check for Cookie');
+    document.addEventListener('gesturestart', (e) => {
+      e.preventDefault();
+    });
   }, []);
 
   return (
@@ -47,7 +50,7 @@ const App = () => {
         classNames="generic-transition"
         unmountOnExit
       >
-        <PartyScreen screen={type => setScreen(type)} />
+        <PartyScreen userRole='admin' screen={type => setScreen(type)} />
       </CSSTransition>
     </div>
   );
