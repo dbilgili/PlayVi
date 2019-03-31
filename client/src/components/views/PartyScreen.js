@@ -17,11 +17,6 @@ const PartyScreen = (props) => {
     document.querySelector('.custom-search-bar').blur();
   };
 
-  useEffect(() => {
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-  }, []);
-
   return (
     <div className="party-screen-container">
       <CSSTransition

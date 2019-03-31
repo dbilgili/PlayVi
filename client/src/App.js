@@ -13,7 +13,12 @@ const App = () => {
 
   useEffect(() => {
     console.log('Check for Cookie');
+
     disablePageScroll(null);
+
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+
     document.addEventListener('gesturestart', (e) => {
       e.preventDefault();
     });
