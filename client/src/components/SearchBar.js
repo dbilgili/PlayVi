@@ -5,7 +5,9 @@ import cross from '../assets/images/cross.png';
 
 const SearchBar = (props) => {
   const { onChange, placeholder } = props;
+
   const inputEl = useRef('');
+
   const [songName, setSongName] = useState('');
 
   const handleChange = (e) => {

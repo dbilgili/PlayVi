@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import innerHeight from 'ios-inner-height';
 import { CSSTransition } from 'react-transition-group';
 import ReactSwipe from '../ReactSwipe';
 import TabMenu from '../TabMenu';
@@ -15,6 +14,7 @@ const PartyScreen = (props) => {
 
   const detectChange = () => {
     setTabPos(reactSwipeEl.current.getPos());
+    document.querySelector('.custom-search-bar').blur();
   };
 
   useEffect(() => {

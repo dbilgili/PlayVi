@@ -7,9 +7,11 @@ const PlayList = (props) => {
     case 'participant':
       return (
         <div className="play-list-container">
-          The playlist is empty.
-          <br />
-          Start adding songs to the playlist.
+          <p>
+            The playlist is empty.
+            <br/>
+            Start adding songs to the playlist.
+          </p>
         </div>
       );
     case 'admin':

@@ -1,48 +1,60 @@
-.create-party-container-enter
-  opacity: 0
-
-.create-party-container-enter-active
-  opacity: 1
-  transition: opacity 350ms ease
-
-.create-party-container-exit
-  opacity: 1
-
-.create-party-container-exit-active
-  opacity: 0
-  transition: opacity 350ms ease
-
-// -----------------------------------
-
 .front-page-container-enter
   opacity: 0
+  transform: scale(0.9)
 
 .front-page-container-enter-active
   opacity: 1
-  transition: opacity 350ms ease
+  transform: scale(1)
+  transition: all 350ms ease
 
 .front-page-container-exit
   opacity: 1
+  transform: scale(1)
 
 .front-page-container-exit-active
   opacity: 0
-  transition: opacity 350ms ease
+  transform: scale(0.9)
+  transition: all 350ms ease
+
+// -----------------------------------
+
+.create-party-container-enter
+  opacity: 0
+  transform: translateY(100vh)
+
+.create-party-container-enter-active
+  opacity: 1
+  transform: translateY(0)
+  transition: all 350ms ease
+
+.create-party-container-exit
+  opacity: 1
+  transform: translateY(0)
+
+.create-party-container-exit-active
+  opacity: 0
+  transform: translateY(100vh)
+  transition: all 350ms ease
 
 // -----------------------------------
 
 .join-party-container-enter
   opacity: 0
+  transform: scale(1.1)
 
 .join-party-container-enter-active
   opacity: 1
-  transition: opacity 350ms ease
+  transform: scale(1)
+  transition: all 350ms ease
 
 .join-party-container-exit
   opacity: 1
+  transform: scale(1)
 
 .join-party-container-exit-active
   opacity: 0
-  transition: opacity 350ms ease
+  transform: scale(1.1)
+  transition: all 350ms ease
 
 // -----------------------------------
 
@@ -62,47 +74,23 @@
 
 // -----------------------------------
 
-.play-list-container-enter
-  //opacity: 0
-  transform: translateX(-340px)
+.party-page-container-enter
+  opacity: 0
+  transform: scale(0.9)
 
-.play-list-container-enter-active
-  //opacity: 1
-  transform: translateX(0)
-  transition: transform 250ms ease
-  //transition-property: transform, opacity
+.party-page-container-enter-active
+  opacity: 1
+  transform: scale(1)
+  transition: all 350ms ease
 
-.play-list-container-exit
-  //opacity: 1
-  transform: translateX(0)
+.party-page-container-exit
+  opacity: 1
+  transform: scale(1)
 
-.play-list-container-exit-active
-  //opacity: 0
-  transform: translateX(-340px)
-  transition: transform 250ms ease
-  //transition-property: transform, opacity
-
-// -----------------------------------
-
-.add-song-container-enter
-  //opacity: 0
-  transform: translateX(340px)
-
-.add-song-container-enter-active
-  //opacity: 1
-  transform: translateX(0)
-  transition: transform 250ms ease
-  //transition-property: transform, opacity
-
-.add-song-container-exit
-  //opacity: 1
-  transform: translateX(0)
-
-.add-song-container-exit-active
-  //opacity: 0
-  transform: translateX(340px)
-  transition: transform 250ms ease
-  //transition-property: transform, opacity
+.party-page-container-exit-active
+  opacity: 0
+  transform: scale(1.1)
+  transition: all 350ms ease
 
 // -----------------------------------
 

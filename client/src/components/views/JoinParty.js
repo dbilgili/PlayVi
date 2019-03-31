@@ -12,7 +12,7 @@ const JoinParty = (props) => {
 
   const fieldValidation = () => {
     if (areFieldsValid[0] && areFieldsValid[1]) {
-      screen('admin');
+      screen('participant');
     } else {
       setAlertArray([!areFieldsValid[0], !areFieldsValid[1]]);
     }

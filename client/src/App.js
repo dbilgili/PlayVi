@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import innerHeight from 'ios-inner-height';
+import { disablePageScroll } from 'scroll-lock';
 import FrontPage from './components/views/FrontPage';
 import CreateParty from './components/views/CreateParty';
 import JoinParty from './components/views/JoinParty';
@@ -8,15 +8,18 @@ import PartyScreen from './components/views/PartyScreen';
 import './assets/stylus/global.css';
 
 const App = () => {
-  const [screen, setScreen] = useState('admin');
+  const [screen, setScreen] = useState('frontpage');
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   useEffect(() => {
     console.log('Check for Cookie');
+    disablePageScroll(null);
     document.addEventListener('gesturestart', (e) => {
       e.preventDefault();
     });
   }, []);
+
+  useEffect(() => console.log({screen}), [screen]);
 
   return (
     <div className="App">
@@ -31,7 +34,7 @@ const App = () => {
       <CSSTransition
         in={screen === 'create'}
         timeout={350}
-        classNames="front-page-container"
+        classNames="join-party-container"
         unmountOnExit
       >
         <CreateParty screen={type => setScreen(type)} />
@@ -39,18 +42,18 @@ const App = () => {
       <CSSTransition
         in={screen === 'join'}
         timeout={350}
-        classNames="front-page-container"
+        classNames="join-party-container"
         unmountOnExit
       >
         <JoinParty screen={type => setScreen(type)} />
       </CSSTransition>
       <CSSTransition
-        in={screen === 'admin'}
+        in={screen === 'admin' || screen === 'participant'}
         timeout={350}
-        classNames="generic-transition"
+        classNames="party-page-container"
         unmountOnExit
       >
-        <PartyScreen userRole='admin' screen={type => setScreen(type)} />
+        <PartyScreen userRole={screen} screen={type => setScreen(type)} />
       </CSSTransition>
     </div>
   );
