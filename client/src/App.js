@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
+
+import axios from 'axios';
 import { CSSTransition } from 'react-transition-group';
 import { disablePageScroll } from 'scroll-lock';
+
 import FrontPage from './components/views/FrontPage';
 import CreateParty from './components/views/CreateParty';
 import JoinParty from './components/views/JoinParty';
 import PartyScreen from './components/views/PartyScreen';
+
 import './assets/stylus/global.css';
 
 const App = () => {
   const [screen, setScreen] = useState('frontpage');
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [playlistData, setPlaylistData] = useState({ user: null, data: null });
 
   useEffect(() => {
     console.log('Check for Cookie');
@@ -24,7 +29,23 @@ const App = () => {
     });
   }, []);
 
-  useEffect(() => console.log({screen}), [screen]);
+  const createPlaylist = async (nickname) => {
+    const res = await axios.post(`https://one-night-backend.herokuapp.com/party/create?username=${nickname}`);
+    console.log(res.data);
+    setPlaylistData({ user: 'admin', data: res.data });
+  };
+
+  const joinParty = async (pin, nickname) => {
+    const res = await axios.post(`https://one-night-backend.herokuapp.com/party?username=${nickname}&pin=${pin}`);
+    console.log(res.data);
+    setPlaylistData({ user: 'participant', data: res.data });
+  };
+
+  useEffect(() => {
+    if (playlistData.data !== null && playlistData.user !== null) {
+      setScreen(playlistData.user);
+    }
+  }, [playlistData]);
 
   return (
     <div className="App">
@@ -42,7 +63,7 @@ const App = () => {
         classNames="join-party-container"
         unmountOnExit
       >
-        <CreateParty screen={type => setScreen(type)} />
+        <CreateParty screen={type => setScreen(type)} createPlaylist={createPlaylist} />
       </CSSTransition>
       <CSSTransition
         in={screen === 'join'}
@@ -50,7 +71,7 @@ const App = () => {
         classNames="join-party-container"
         unmountOnExit
       >
-        <JoinParty screen={type => setScreen(type)} />
+        <JoinParty screen={type => setScreen(type)} joinParty={joinParty} />
       </CSSTransition>
       <CSSTransition
         in={screen === 'admin' || screen === 'participant'}
@@ -58,7 +79,7 @@ const App = () => {
         classNames="party-page-container"
         unmountOnExit
       >
-        <PartyScreen userRole={screen} screen={type => setScreen(type)} />
+        <PartyScreen userRole={screen} screen={type => setScreen(type)} playlistData={playlistData.data} />
       </CSSTransition>
     </div>
   );

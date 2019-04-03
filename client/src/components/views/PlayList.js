@@ -1,7 +1,9 @@
 import React from 'react';
 
 const PlayList = (props) => {
-  const { userRole } = props;
+  const { userRole, playlistData } = props;
+
+  const { accessLink, spotifyName, pin } = playlistData;
 
   switch (userRole) {
     case 'participant':
@@ -20,14 +22,14 @@ const PlayList = (props) => {
           <div className="playlist-name">
             <span>PLAYLIST NAME</span>
             <br />
-            <span><a target='_new' href='https://open.spotify.com/user/11158904204/playlist/6G7sP8gjYK5hziuFUVwawg?si=wgUmU79kRhuLSSv7kVqukQ'>fishycat-24-01-2019</a></span>
+            <span><a target='_new' href={accessLink}>{spotifyName}</a></span>
             <br />
             <span>Click on the playlist name to open it in Spotify.</span>
           </div>
           <div className="playlist-pin">
             <span>PARTY PIN</span>
             <br />
-            <span>24535</span>
+            <span>{pin}</span>
             <br />
             <span>Share this with your friends.</span>
           </div>

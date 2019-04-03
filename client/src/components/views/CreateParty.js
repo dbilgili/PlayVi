@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
+
 import TextInput from '../TextInput';
 import NavigationButtons from '../NavigationButtons';
+
 import '../../assets/stylus/global.css';
 
 const CreateParty = (props) => {
-  const { screen } = props;
+  const { screen, createPlaylist } = props;
   const [nickname, setNickname] = useState('');
   const [isFieldValid, setIsFieldValid] = useState(false);
   const [alert, setAlert] = useState(false);
 
   const fieldValidation = () => {
     if (isFieldValid) {
-      screen('admin');
+      createPlaylist(nickname);
     } else {
       setAlert(true);
     }

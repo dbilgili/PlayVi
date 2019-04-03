@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
+
 import { CSSTransition } from 'react-transition-group';
+
 import ReactSwipe from '../ReactSwipe';
 import TabMenu from '../TabMenu';
 import PlayList from './PlayList';
@@ -7,7 +9,7 @@ import AddSong from './AddSong';
 import SlidingMenu from '../SlidingMenu';
 
 const PartyScreen = (props) => {
-  const { screen, userRole } = props;
+  const { screen, userRole, playlistData } = props;
   const reactSwipeEl = useRef(null);
   const [tabPos, setTabPos] = useState(0);
   const [toggleMore, setToggleMore] = useState(false);
@@ -28,6 +30,7 @@ const PartyScreen = (props) => {
         <SlidingMenu
           close={() => setToggleMore(prev => !prev)}
           exit={() => screen('frontpage')}
+          playlistData={playlistData}
         />
       </CSSTransition>
       <TabMenu
@@ -42,7 +45,7 @@ const PartyScreen = (props) => {
         swipeOptions={{ continuous: false, callback: detectChange }}
         ref={reactSwipeEl}
       >
-        <PlayList userRole={userRole} key='playlist' />
+        <PlayList userRole={userRole} key='playlist' playlistData={playlistData} />
         <AddSong key='addsong' />
       </ReactSwipe>
     </div>

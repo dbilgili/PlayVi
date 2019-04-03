@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+
 import TextInput from '../TextInput';
 import NavigationButtons from '../NavigationButtons';
+
 import '../../assets/stylus/global.css';
 
 const JoinParty = (props) => {
-  const { screen } = props;
+  const { screen, joinParty } = props;
   const [nickname, setNickname] = useState('');
   const [partyPin, setPartyPin] = useState('');
   const [areFieldsValid, setAreFieldsValid] = useState([false, false]);
@@ -12,7 +14,7 @@ const JoinParty = (props) => {
 
   const fieldValidation = () => {
     if (areFieldsValid[0] && areFieldsValid[1]) {
-      screen('participant');
+      joinParty(partyPin, nickname);
     } else {
       setAlertArray([!areFieldsValid[0], !areFieldsValid[1]]);
     }
