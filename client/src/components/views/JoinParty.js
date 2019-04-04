@@ -6,15 +6,25 @@ import NavigationButtons from '../NavigationButtons';
 import '../../assets/stylus/global.css';
 
 const JoinParty = (props) => {
-  const { screen, joinParty } = props;
+  const { screen, joinParty, playlistData } = props;
   const [nickname, setNickname] = useState('');
   const [partyPin, setPartyPin] = useState('');
   const [areFieldsValid, setAreFieldsValid] = useState([false, false]);
   const [alertArray, setAlertArray] = useState([false, false]);
+  const [partyPinError, setPartyPinError] = useState(false);
+
+  const pinValidation = () => {
+    console.log(playlistData);
+    if (playlistData) {
+      joinParty(partyPin, nickname);
+    } else {
+      setPartyPinError(true);
+    }
+  };
 
   const fieldValidation = () => {
     if (areFieldsValid[0] && areFieldsValid[1]) {
-      joinParty(partyPin, nickname);
+      pinValidation();
     } else {
       setAlertArray([!areFieldsValid[0], !areFieldsValid[1]]);
     }
@@ -22,10 +32,10 @@ const JoinParty = (props) => {
 
   useEffect(() => {
     if (partyPin.length) {
-      setAlertArray([false, alertArray[1]]);
+      setAlertArray(prevState => [false, prevState[1]]);
     }
     if (nickname.length) {
-      setAlertArray([alertArray[0], false]);
+      setAlertArray(prevState => [prevState[0], false]);
     }
   }, [partyPin, nickname]);
 
@@ -53,6 +63,7 @@ const JoinParty = (props) => {
         backAction={() => screen('frontpage')}
         nextAction={fieldValidation}
       />
+      {partyPinError && <div style={{ color: 'red' }}>Error</div>}
     </div>
   );
 };
