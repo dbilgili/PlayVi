@@ -15,14 +15,20 @@ const AddSong = () => {
   const refEl = useRef(null);
 
   const getSong = async (input) => {
-    const result = await axios(`https://one-night-backend.herokuapp.com/song/search?q=${input}&limit=20&offset=0`);
-    setResponse(result.data.tracks.items);
+    const res = await axios(`https://one-night-backend.herokuapp.com/song/search?q=${input}&limit=20&offset=0`);
+    setResponse(res.data.tracks.items);
+    console.log(res.data.tracks.items);
     refEl.current.scrollTop = 0;
   };
 
   const fetchMore = async () => {
-    const result = await axios(`https://one-night-backend.herokuapp.com/song/search?q=${inputDebounced}&limit=20&offset=${offset}`);
-    setResponse(prevState => [...prevState, ...result.data.tracks.items]);
+    const res = await axios(`https://one-night-backend.herokuapp.com/song/search?q=${inputDebounced}&limit=20&offset=${offset}`);
+    setResponse(prevState => [...prevState, ...res.data.tracks.items]);
+  };
+
+  const addSong = async (songId) => {
+    const res = await axios.post(`https://one-night-backend.herokuapp.com/party/addSong?songId=${songId}`);
+    console.log(res);
   };
 
   useEffect(() => {
@@ -62,13 +68,13 @@ const AddSong = () => {
   }, []);
 
   const song = item => (
-    <div key={item.id} className="song-wrapper">
+    <button key={item.id} className="song-wrapper" onClick={() => addSong(item.id)} onPress={() => addSong(item.id)}>
       <img alt="album-cover" className="album-cover" src={item.album.images[1].url} />
       <div className="text-info">
         <p>{item.name}</p>
         <p>{item.artists[0].name}</p>
       </div>
-    </div>
+    </button>
   );
 
   return (

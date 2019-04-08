@@ -16,22 +16,14 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [playlistData, setPlaylistData] = useState({ user: null, data: null });
 
-  useEffect(() => {
-    console.log('Check for Cookie');
-
-    disablePageScroll(null);
-
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-
-    document.addEventListener('gesturestart', (e) => {
-      e.preventDefault();
-    });
-  }, []);
+  const checkUser = async () => {
+    const res = await axios('https://one-night-backend.herokuapp.com/party');
+    console.log(res);
+  };
 
   const createPlaylist = async (nickname) => {
-    const res = await axios.post(`https://one-night-backend.herokuapp.com/party/create?username=${nickname}`);
-    console.log(res.data);
+    const res = await axios.post(`https://one-night-backend.herokuapp.com/party/create?username=${nickname}`, { withCredentials: true });
+    console.log(res);
     setPlaylistData({ user: 'admin', data: res.data });
   };
 
@@ -46,6 +38,18 @@ const App = () => {
       setScreen(playlistData.user);
     }
   }, [playlistData]);
+
+  useEffect(() => {
+    checkUser();
+    disablePageScroll(null);
+
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+    document.addEventListener('gesturestart', (e) => {
+      e.preventDefault();
+    });
+  }, []);
 
   return (
     <div className="App">
@@ -71,7 +75,7 @@ const App = () => {
         classNames="join-party-container"
         unmountOnExit
       >
-        <JoinParty screen={type => setScreen(type)} joinParty={joinParty} />
+        <JoinParty screen={type => setScreen(type)} joinParty={joinParty} playlistData={playlistData.data} />
       </CSSTransition>
       <CSSTransition
         in={screen === 'admin' || screen === 'participant'}

@@ -14,12 +14,8 @@ const JoinParty = (props) => {
   const [partyPinError, setPartyPinError] = useState(false);
 
   const pinValidation = () => {
-    console.log(playlistData);
-    if (playlistData) {
-      joinParty(partyPin, nickname);
-    } else {
-      setPartyPinError(true);
-    }
+    joinParty(partyPin, nickname);
+    // setPartyPinError(true);
   };
 
   const fieldValidation = () => {
@@ -63,7 +59,7 @@ const JoinParty = (props) => {
         backAction={() => screen('frontpage')}
         nextAction={fieldValidation}
       />
-      {partyPinError && <div style={{ color: 'red' }}>Error</div>}
+      {partyPinError && <div style={{ color: '#bf3131', fontWeight: '300' }}>Error</div>}
     </div>
   );
 };
