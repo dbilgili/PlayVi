@@ -22,22 +22,26 @@ const App = () => {
   };
 
   const createPlaylist = async (nickname) => {
-    const res = await axios.post(`https://one-night-backend.herokuapp.com/party/create?username=${nickname}`, { withCredentials: true });
-    console.log(res);
-    setPlaylistData({ user: 'admin', data: res.data });
+    try {
+      const res = await axios.post(`https://one-night-backend.herokuapp.com/party/create?username=${nickname}`, { withCredentials: true });
+      setPlaylistData({ user: 'admin', data: res.data });
+      console.log(res.data);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const joinParty = async (pin, nickname) => {
-    const res = await axios.post(`https://one-night-backend.herokuapp.com/party?username=${nickname}&pin=${pin}`);
-    console.log(res.data);
-    setPlaylistData({ user: 'participant', data: res.data });
+    try {
+      const res = await axios.post(`https://one-night-backend.herokuapp.com/party?username=${nickname}&pin=${pin}`);
+      setPlaylistData({ user: 'participant', data: res.data });
+      console.log(res.data);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  useEffect(() => {
-    if (playlistData.data !== null && playlistData.user !== null) {
-      setScreen(playlistData.user);
-    }
-  }, [playlistData]);
+  const clearParty = () => setPlaylistData({ user: null, data: null });
 
   useEffect(() => {
     checkUser();
@@ -67,7 +71,7 @@ const App = () => {
         classNames="join-party-container"
         unmountOnExit
       >
-        <CreateParty screen={type => setScreen(type)} createPlaylist={createPlaylist} />
+        <CreateParty screen={type => setScreen(type)} createPlaylist={createPlaylist} playlistData={playlistData} />
       </CSSTransition>
       <CSSTransition
         in={screen === 'join'}
@@ -75,7 +79,7 @@ const App = () => {
         classNames="join-party-container"
         unmountOnExit
       >
-        <JoinParty screen={type => setScreen(type)} joinParty={joinParty} playlistData={playlistData.data} />
+        <JoinParty screen={type => setScreen(type)} joinParty={joinParty} playlistData={playlistData} />
       </CSSTransition>
       <CSSTransition
         in={screen === 'admin' || screen === 'participant'}
@@ -83,7 +87,7 @@ const App = () => {
         classNames="party-page-container"
         unmountOnExit
       >
-        <PartyScreen userRole={screen} screen={type => setScreen(type)} playlistData={playlistData.data} />
+        <PartyScreen screen={type => setScreen(type)} userRole={screen} clearParty={clearParty} playlistData={playlistData.data} />
       </CSSTransition>
     </div>
   );

@@ -6,7 +6,7 @@ import NavigationButtons from '../NavigationButtons';
 import '../../assets/stylus/global.css';
 
 const CreateParty = (props) => {
-  const { screen, createPlaylist } = props;
+  const { screen, createPlaylist, playlistData } = props;
   const [nickname, setNickname] = useState('');
   const [isFieldValid, setIsFieldValid] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -24,6 +24,14 @@ const CreateParty = (props) => {
       setAlert(false);
     }
   }, [nickname]);
+
+  useEffect(() => {
+    if (playlistData.user === 'admin' && playlistData.data !== null) {
+      screen('admin');
+    } else {
+      // server error
+    }
+  }, [playlistData]);
 
   return (
     <div className="create-party-container">

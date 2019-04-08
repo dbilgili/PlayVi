@@ -33,8 +33,11 @@
       color: $white
 
   .song-wrapper
+    display: flex
     flex-shrink: 0
     margin: 5px 0
+    &:active
+      background-color: rgba(255, 255, 255, 0.2)
     &:nth-child(even)
       // background-color: rgba(255,255,255,0.1)
     &:nth-of-type(1)
@@ -43,10 +46,12 @@
       height: 46px
       width: 46px
     .text-info
+      display: flex
       flex-direction: column
       justify-content: space-around
       color: white
       font-size: 1.6rem
+      text-align: initial
       margin-left: 10px
       width: calc(100% - 70px);
       p

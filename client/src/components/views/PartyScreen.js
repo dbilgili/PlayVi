@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { CSSTransition } from 'react-transition-group';
 
@@ -9,7 +9,9 @@ import AddSong from './AddSong';
 import SlidingMenu from '../SlidingMenu';
 
 const PartyScreen = (props) => {
-  const { screen, userRole, playlistData } = props;
+  const {
+    screen, userRole, playlistData, clearParty,
+  } = props;
   const reactSwipeEl = useRef(null);
   const [tabPos, setTabPos] = useState(0);
   const [toggleMore, setToggleMore] = useState(false);
@@ -18,6 +20,8 @@ const PartyScreen = (props) => {
     setTabPos(reactSwipeEl.current.getPos());
     document.querySelector('.custom-search-bar').blur();
   };
+
+  useEffect(() => () => clearParty(), []);
 
   return (
     <div className="party-screen-container">

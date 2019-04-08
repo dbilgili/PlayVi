@@ -13,14 +13,20 @@ const JoinParty = (props) => {
   const [alertArray, setAlertArray] = useState([false, false]);
   const [partyPinError, setPartyPinError] = useState(false);
 
-  const pinValidation = () => {
-    joinParty(partyPin, nickname);
-    // setPartyPinError(true);
-  };
+  useEffect(() => {
+    if (playlistData.user === 'participant' && playlistData.data !== null) {
+      // pin validation (returns empty string if the pin is incorrect)
+      if (playlistData.data === '') {
+        setPartyPinError(true);
+      } else {
+        screen('participant');
+      }
+    }
+  }, [playlistData]);
 
   const fieldValidation = () => {
     if (areFieldsValid[0] && areFieldsValid[1]) {
-      pinValidation();
+      joinParty(partyPin, nickname);
     } else {
       setAlertArray([!areFieldsValid[0], !areFieldsValid[1]]);
     }
