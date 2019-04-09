@@ -6,7 +6,9 @@ import NavigationButtons from '../NavigationButtons';
 import '../../assets/stylus/global.css';
 
 const CreateParty = (props) => {
-  const { screen, createPlaylist, playlistData } = props;
+  const {
+    screen, createPlaylist, playlistData,
+  } = props;
   const [nickname, setNickname] = useState('');
   const [isFieldValid, setIsFieldValid] = useState(false);
   const [alert, setAlert] = useState(false);
