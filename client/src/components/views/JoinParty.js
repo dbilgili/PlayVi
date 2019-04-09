@@ -6,7 +6,9 @@ import NavigationButtons from '../NavigationButtons';
 import '../../assets/stylus/global.css';
 
 const JoinParty = (props) => {
-  const { screen, joinParty, playlistData } = props;
+  const {
+    screen, joinParty, playlistData,
+  } = props;
   const [nickname, setNickname] = useState('');
   const [partyPin, setPartyPin] = useState('');
   const [areFieldsValid, setAreFieldsValid] = useState([false, false]);
@@ -14,12 +16,13 @@ const JoinParty = (props) => {
   const [partyPinError, setPartyPinError] = useState(false);
 
   useEffect(() => {
+    console.log(playlistData);
     if (playlistData.user === 'participant' && playlistData.data !== null) {
       // pin validation (returns empty string if the pin is incorrect)
-      if (playlistData.data === '') {
-        setPartyPinError(true);
-      } else {
+      if (typeof playlistData.data === 'object') {
         screen('participant');
+      } else {
+        setPartyPinError(true);
       }
     }
   }, [playlistData]);
@@ -50,6 +53,7 @@ const JoinParty = (props) => {
           pattern="\d*"
           validate={val => setAreFieldsValid([val, areFieldsValid[1]])}
           alert={alertArray[0]}
+          maxlength={5}
         />
         <TextInput
           getField={val => setNickname(val)}
