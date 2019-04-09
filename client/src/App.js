@@ -4,6 +4,8 @@ import axios from 'axios';
 import { CSSTransition } from 'react-transition-group';
 import { disablePageScroll } from 'scroll-lock';
 
+import server from './server.json';
+
 import FrontPage from './components/views/FrontPage';
 import CreateParty from './components/views/CreateParty';
 import JoinParty from './components/views/JoinParty';
@@ -17,15 +19,22 @@ const App = () => {
   const [playlistData, setPlaylistData] = useState({ user: null, data: null });
 
   const checkUser = async () => {
-    const res = await axios('https://one-night-backend.herokuapp.com/party');
-    console.log(res);
+    try {
+      const res = await axios(`${server.url}/party`, { withCredentials: true });
+      console.log(res);
+      console.log(typeof res.data === 'object');
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const createPlaylist = async (nickname) => {
     try {
-      const res = await axios.post(`https://one-night-backend.herokuapp.com/party/create?username=${nickname}`, { withCredentials: true });
+      const bodyFormData = new FormData();
+      bodyFormData.set('username', nickname);
+      const res = await axios.post(`${server.url}/party/create`, bodyFormData, { withCredentials: true });
       setPlaylistData({ user: 'admin', data: res.data });
-      console.log(res.data);
+      console.log(res);
     } catch (e) {
       console.log(e);
     }
@@ -33,7 +42,10 @@ const App = () => {
 
   const joinParty = async (pin, nickname) => {
     try {
-      const res = await axios.post(`https://one-night-backend.herokuapp.com/party?username=${nickname}&pin=${pin}`);
+      const bodyFormData = new FormData();
+      bodyFormData.set('username', nickname);
+      bodyFormData.set('pin', pin);
+      const res = await axios.post(`${server.url}/party`, bodyFormData, { withCredentials: true });
       setPlaylistData({ user: 'participant', data: res.data });
       console.log(res.data);
     } catch (e) {
@@ -44,7 +56,7 @@ const App = () => {
   const clearParty = () => setPlaylistData({ user: null, data: null });
 
   useEffect(() => {
-    checkUser();
+    // checkUser();
     disablePageScroll(null);
 
     const vh = window.innerHeight * 0.01;
@@ -71,7 +83,7 @@ const App = () => {
         classNames="join-party-container"
         unmountOnExit
       >
-        <CreateParty screen={type => setScreen(type)} createPlaylist={createPlaylist} playlistData={playlistData} />
+        <CreateParty screen={type => setScreen(type)} clearParty={clearParty} createPlaylist={createPlaylist} playlistData={playlistData} />
       </CSSTransition>
       <CSSTransition
         in={screen === 'join'}
@@ -79,7 +91,7 @@ const App = () => {
         classNames="join-party-container"
         unmountOnExit
       >
-        <JoinParty screen={type => setScreen(type)} joinParty={joinParty} playlistData={playlistData} />
+        <JoinParty screen={type => setScreen(type)} clearParty={clearParty} joinParty={joinParty} playlistData={playlistData} />
       </CSSTransition>
       <CSSTransition
         in={screen === 'admin' || screen === 'participant'}
@@ -87,7 +99,7 @@ const App = () => {
         classNames="party-page-container"
         unmountOnExit
       >
-        <PartyScreen screen={type => setScreen(type)} userRole={screen} clearParty={clearParty} playlistData={playlistData.data} />
+        <PartyScreen screen={type => setScreen(type)} clearParty={clearParty} userRole={screen} playlistData={playlistData.data} />
       </CSSTransition>
     </div>
   );
