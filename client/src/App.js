@@ -15,32 +15,44 @@ import './assets/stylus/global.css';
 
 const App = () => {
   const [screen, setScreen] = useState('frontpage');
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [playlistData, setPlaylistData] = useState({ user: null, data: null });
 
   const checkUser = async () => {
+    setLoading(true);
     try {
       const res = await axios(`${server.url}/party`, { withCredentials: true });
       console.log(res);
-      console.log(typeof res.data === 'object');
+      if (typeof res.data === 'object') {
+        setIsLoggedIn(true);
+      }
+      setLoading(false);
     } catch (e) {
       console.log(e);
+      setLoading(false);
     }
   };
 
+  useEffect(() => console.log({isLoggedIn}), [isLoggedIn]);
+
   const createPlaylist = async (nickname) => {
+    setLoading(true);
     try {
       const bodyFormData = new FormData();
       bodyFormData.set('username', nickname);
       const res = await axios.post(`${server.url}/party/create`, bodyFormData, { withCredentials: true });
       setPlaylistData({ user: 'admin', data: res.data });
       console.log(res);
+      setLoading(false);
     } catch (e) {
       console.log(e);
+      setLoading(false);
     }
   };
 
   const joinParty = async (pin, nickname) => {
+    setLoading(true);
     try {
       const bodyFormData = new FormData();
       bodyFormData.set('username', nickname);
@@ -48,15 +60,17 @@ const App = () => {
       const res = await axios.post(`${server.url}/party`, bodyFormData, { withCredentials: true });
       setPlaylistData({ user: 'participant', data: res.data });
       console.log(res.data);
+      setLoading(false);
     } catch (e) {
       console.log(e);
+      setLoading(false);
     }
   };
 
   const clearParty = () => setPlaylistData({ user: null, data: null });
 
   useEffect(() => {
-    // checkUser();
+    checkUser();
     disablePageScroll(null);
 
     const vh = window.innerHeight * 0.01;
@@ -83,7 +97,13 @@ const App = () => {
         classNames="join-party-container"
         unmountOnExit
       >
-        <CreateParty screen={type => setScreen(type)} clearParty={clearParty} createPlaylist={createPlaylist} playlistData={playlistData} />
+        <CreateParty
+          screen={type => setScreen(type)}
+          loading={loading}
+          clearParty={clearParty}
+          createPlaylist={createPlaylist}
+          playlistData={playlistData}
+        />
       </CSSTransition>
       <CSSTransition
         in={screen === 'join'}
@@ -91,7 +111,13 @@ const App = () => {
         classNames="join-party-container"
         unmountOnExit
       >
-        <JoinParty screen={type => setScreen(type)} clearParty={clearParty} joinParty={joinParty} playlistData={playlistData} />
+        <JoinParty
+          screen={type => setScreen(type)}
+          loading={loading}
+          clearParty={clearParty}
+          joinParty={joinParty}
+          playlistData={playlistData}
+        />
       </CSSTransition>
       <CSSTransition
         in={screen === 'admin' || screen === 'participant'}
@@ -99,7 +125,12 @@ const App = () => {
         classNames="party-page-container"
         unmountOnExit
       >
-        <PartyScreen screen={type => setScreen(type)} clearParty={clearParty} userRole={screen} playlistData={playlistData.data} />
+        <PartyScreen
+          screen={type => setScreen(type)}
+          clearParty={clearParty}
+          userRole={screen}
+          playlistData={playlistData.data}
+        />
       </CSSTransition>
     </div>
   );
