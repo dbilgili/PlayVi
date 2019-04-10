@@ -7,7 +7,7 @@ import '../../assets/stylus/global.css';
 
 const CreateParty = (props) => {
   const {
-    screen, createPlaylist, playlistData,
+    screen, createPlaylist, playlistData, loading
   } = props;
   const [nickname, setNickname] = useState('');
   const [isFieldValid, setIsFieldValid] = useState(false);
@@ -50,7 +50,7 @@ const CreateParty = (props) => {
         leftButton='Back'
         rightButton='Create'
         backAction={() => screen('frontpage')}
-        nextAction={fieldValidation}
+        nextAction={loading ? null : fieldValidation}
       />
     </div>
   );

@@ -7,7 +7,7 @@ import '../../assets/stylus/global.css';
 
 const JoinParty = (props) => {
   const {
-    screen, joinParty, playlistData,
+    screen, joinParty, playlistData, loading
   } = props;
   const [nickname, setNickname] = useState('');
   const [partyPin, setPartyPin] = useState('');
@@ -67,7 +67,7 @@ const JoinParty = (props) => {
         leftButton='Back'
         rightButton='Join'
         backAction={() => screen('frontpage')}
-        nextAction={fieldValidation}
+        nextAction={loading ? null : fieldValidation}
       />
       {partyPinError && <div style={{ color: '#bf3131', fontWeight: '300' }}>Error</div>}
     </div>
