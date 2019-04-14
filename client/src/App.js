@@ -34,7 +34,11 @@ const App = () => {
     }
   };
 
-  useEffect(() => console.log({isLoggedIn}), [isLoggedIn]);
+  useEffect(() => console.log({ isLoggedIn }), [isLoggedIn]);
+
+  const setCookie = (res) => {
+    document.cookie = `SESSION=${res.headers.authorization}; expires=${new Date(new Date().setFullYear(new Date().getFullYear() + 1))}; path=/`;
+  };
 
   const createPlaylist = async (nickname) => {
     setLoading(true);
@@ -45,6 +49,7 @@ const App = () => {
       setPlaylistData({ user: 'admin', data: res.data });
       console.log(res);
       setLoading(false);
+      setCookie(res);
     } catch (e) {
       console.log(e);
       setLoading(false);
@@ -61,6 +66,7 @@ const App = () => {
       setPlaylistData({ user: 'participant', data: res.data });
       console.log(res.data);
       setLoading(false);
+      setCookie(res);
     } catch (e) {
       console.log(e);
       setLoading(false);
