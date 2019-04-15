@@ -19,11 +19,23 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [playlistData, setPlaylistData] = useState({ user: null, data: null });
 
+  const setCookie = (res) => {
+    document.cookie = `SESSION=${res.headers.authorization}; expires=${new Date(new Date().setFullYear(new Date().getFullYear() + 1))}; path=/`;
+  };
+
+  const getCookie = () => {
+    const cookieVal = document.cookie.split('=')[1];
+    const headers = { authorization: cookieVal };
+    return headers;
+  };
+
   const checkUser = async () => {
     setLoading(true);
     try {
-      const res = await axios(`${server.url}/party`, { withCredentials: true });
-      console.log(res);
+      const headers = getCookie();
+      console.log(headers);
+      const res = await axios(`${server.url}/party`, { withCredentials: true }, { headers });
+      console.log('check: ', res);
       if (typeof res.data === 'object') {
         setIsLoggedIn(true);
       }
@@ -35,10 +47,6 @@ const App = () => {
   };
 
   useEffect(() => console.log({ isLoggedIn }), [isLoggedIn]);
-
-  const setCookie = (res) => {
-    document.cookie = `SESSION=${res.headers.authorization}; expires=${new Date(new Date().setFullYear(new Date().getFullYear() + 1))}; path=/`;
-  };
 
   const createPlaylist = async (nickname) => {
     setLoading(true);
