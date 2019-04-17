@@ -34,14 +34,18 @@ const App = () => {
     try {
       const headers = getCookie();
       console.log(headers);
-      const res = await axios(`${server.url}/party`, { withCredentials: true }, { headers });
-      console.log('check: ', res);
+      // const res = await axios(`${server.url}/party`, { withCredentials: true }, { headers });
+      const res = await axios({
+        method: 'GET', url: `${server.url}/party`, withCredentials: true, headers,
+      });
       if (typeof res.data === 'object') {
         setIsLoggedIn(true);
       }
       setLoading(false);
+      // alert('suc');
+      console.log(res);
     } catch (e) {
-      console.log(e);
+      // alert('fail');
       setLoading(false);
     }
   };
@@ -55,11 +59,9 @@ const App = () => {
       bodyFormData.set('username', nickname);
       const res = await axios.post(`${server.url}/party/create`, bodyFormData, { withCredentials: true });
       setPlaylistData({ user: 'admin', data: res.data });
-      console.log(res);
       setLoading(false);
       setCookie(res);
     } catch (e) {
-      console.log(e);
       setLoading(false);
     }
   };
@@ -72,11 +74,11 @@ const App = () => {
       bodyFormData.set('pin', pin);
       const res = await axios.post(`${server.url}/party`, bodyFormData, { withCredentials: true });
       setPlaylistData({ user: 'participant', data: res.data });
-      console.log(res.data);
       setLoading(false);
       setCookie(res);
+      // alert('suc');
     } catch (e) {
-      console.log(e);
+      // alert('fail');
       setLoading(false);
     }
   };
