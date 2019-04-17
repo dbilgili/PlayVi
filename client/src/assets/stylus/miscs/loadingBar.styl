@@ -1,0 +1,85 @@
+$regular-height = 10px
+$smaller-height = 2px
+
+$linear-background = $black
+$linear-bar = $purple
+
+.linear-progress
+    background $linear-background
+    height $regular-height
+    position relative
+    width 50%
+    margin 0 auto
+    margin-top 2rem
+    overflow hidden
+    animation start .3s ease-in
+
+    &.small
+        width 100%
+        height $smaller-height
+
+    .bar
+        position absolute
+        background $linear-bar
+        transition transform .2s linear
+        position absolute
+        left 0
+        top 0
+        bottom 0
+        width 100%
+
+    .bar1
+        animation progressLinearMovement 2.5s infinite
+        animation-delay 0
+
+    .bar2
+        left -100%
+        animation progressLinearMovement 2.5s infinite
+        animation-delay .7s
+
+
+.linear-progress-material
+    background $linear-background
+    height $regular-height
+    position relative
+    width 50%
+    margin 0 auto
+    margin-top 2rem
+    overflow hidden
+    animation start .3s ease-in
+
+    &.small
+        width 100%
+        height $smaller-height
+
+    .bar
+        position absolute
+        background $linear-bar
+        transition transform .2s linear
+        position absolute
+        left 0
+        top 0
+        bottom 0
+        width 100%
+
+    .bar1
+        animation growBar1 2.5s infinite, moveBar1 2.5s infinite
+
+    .bar2
+        animation growBar2 2.5s infinite, moveBar2 2.5s infinite
+
+@keyframes start
+    from
+        max-height 0
+        opacity 0
+    to
+        max-height 20px
+        opacity 1
+
+@keyframes progressLinearMovement
+    0%
+        left -100%
+    50%
+        left 100%
+    100%
+        left 100%
