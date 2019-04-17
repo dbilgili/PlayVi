@@ -75,7 +75,9 @@ const App = () => {
     bodyFormData.set('pin', pin);
 
     try {
-      const res = await axios.post(`${server.url}/party`, bodyFormData, { withCredentials: true });
+      const res = await axios.post({
+        method: 'POST', url: `${server.url}/party`, data: bodyFormData, withCredentials: true,
+      });
       setPlaylistData({ user: 'participant', data: res.data });
       setLoading(false);
       setCookie(res);
