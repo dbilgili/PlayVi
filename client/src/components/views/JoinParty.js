@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 import TextInput from '../TextInput';
 import NavigationButtons from '../NavigationButtons';
+import LoadingBar from '../LoadingBar';
 
 import '../../assets/stylus/global.css';
 
 const JoinParty = (props) => {
   const {
-    screen, joinParty, playlistData, loading
+    screen, joinParty, playlistData, loading,
   } = props;
   const [nickname, setNickname] = useState('');
   const [partyPin, setPartyPin] = useState('');
@@ -69,6 +70,7 @@ const JoinParty = (props) => {
         backAction={() => screen('frontpage')}
         nextAction={loading ? null : fieldValidation}
       />
+      {loading && <LoadingBar />}
       {partyPinError && <div style={{ color: '#bf3131', fontWeight: '300' }}>Error</div>}
     </div>
   );

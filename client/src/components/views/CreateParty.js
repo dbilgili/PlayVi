@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 import TextInput from '../TextInput';
 import NavigationButtons from '../NavigationButtons';
+import LoadingBar from '../LoadingBar';
 
 import '../../assets/stylus/global.css';
 
 const CreateParty = (props) => {
   const {
-    screen, createPlaylist, playlistData, loading
+    screen, createPlaylist, playlistData, loading,
   } = props;
   const [nickname, setNickname] = useState('');
   const [isFieldValid, setIsFieldValid] = useState(false);
@@ -52,6 +53,7 @@ const CreateParty = (props) => {
         backAction={() => screen('frontpage')}
         nextAction={loading ? null : fieldValidation}
       />
+      {loading && <LoadingBar />}
     </div>
   );
 };
