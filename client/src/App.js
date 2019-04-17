@@ -15,49 +15,51 @@ import './assets/stylus/global.css';
 
 const App = () => {
   const [screen, setScreen] = useState('frontpage');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [playlistData, setPlaylistData] = useState({ user: null, data: null });
 
   const setCookie = (res) => {
+    // Fix expiration date
     document.cookie = `SESSION=${res.headers.authorization}; expires=${new Date(new Date().setFullYear(new Date().getFullYear() + 1))}; path=/`;
   };
 
   const getCookie = () => {
     const cookieVal = document.cookie.split('=')[1];
-    const headers = { authorization: cookieVal };
+    const headers = { Authorization: cookieVal };
     return headers;
   };
 
   const checkUser = async () => {
     setLoading(true);
+    const headers = getCookie();
+
     try {
-      const headers = getCookie();
-      console.log(headers);
-      // const res = await axios(`${server.url}/party`, { withCredentials: true }, { headers });
       const res = await axios({
-        method: 'GET', url: `${server.url}/party`, withCredentials: true, headers,
+        method: 'GET', url: `${server.url}/party`, headers, withCredentials: true,
       });
       if (typeof res.data === 'object') {
-        setIsLoggedIn(true);
+        setPlaylistData({ user: 'participant', data: res.data });
+        // setIsLoggedIn(true);
+        setScreen('participant');
       }
       setLoading(false);
-      // alert('suc');
-      console.log(res);
     } catch (e) {
-      // alert('fail');
+      // setIsLoggedIn(false);
       setLoading(false);
+      setScreen('frontpage');
     }
   };
 
-  useEffect(() => console.log({ isLoggedIn }), [isLoggedIn]);
-
   const createPlaylist = async (nickname) => {
     setLoading(true);
+    const bodyFormData = new FormData();
+    bodyFormData.set('username', nickname);
+
     try {
-      const bodyFormData = new FormData();
-      bodyFormData.set('username', nickname);
-      const res = await axios.post(`${server.url}/party/create`, bodyFormData, { withCredentials: true });
+      const res = await axios.post({
+        method: 'POST', url: `${server.url}/party/create`, data: bodyFormData, withCredentials: true,
+      });
       setPlaylistData({ user: 'admin', data: res.data });
       setLoading(false);
       setCookie(res);
@@ -68,10 +70,11 @@ const App = () => {
 
   const joinParty = async (pin, nickname) => {
     setLoading(true);
+    const bodyFormData = new FormData();
+    bodyFormData.set('username', nickname);
+    bodyFormData.set('pin', pin);
+
     try {
-      const bodyFormData = new FormData();
-      bodyFormData.set('username', nickname);
-      bodyFormData.set('pin', pin);
       const res = await axios.post(`${server.url}/party`, bodyFormData, { withCredentials: true });
       setPlaylistData({ user: 'participant', data: res.data });
       setLoading(false);
