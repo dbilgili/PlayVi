@@ -11,7 +11,7 @@ const PlayList = (props) => {
         <div className="play-list-container">
           <p>
             The playlist is empty.
-            <br/>
+            <br />
             Start adding songs to the playlist.
           </p>
         </div>
