@@ -31,23 +31,30 @@ const App = () => {
   };
 
   const checkUser = async () => {
-    setLoading(true);
+    // setLoading(true);
     const headers = getCookie();
 
-    try {
-      const res = await axios({
-        method: 'GET', url: `${server.url}/party`, headers, withCredentials: true,
-      });
-      if (typeof res.data === 'object') {
-        setPlaylistData({ user: 'participant', data: res.data });
-        // setIsLoggedIn(true);
-        setScreen('participant');
-      }
-      setLoading(false);
-    } catch (e) {
+    if (headers.Authorization === undefined) {
       // setIsLoggedIn(false);
-      setLoading(false);
+      // setLoading(false);
       setScreen('frontpage');
+    } else {
+      try {
+        const res = await axios({
+          method: 'GET', url: `${server.url}/party`, headers, withCredentials: true,
+        });
+        if (typeof res.data === 'object') {
+          setPlaylistData({ user: 'participant', data: res.data });
+          // setIsLoggedIn(true);
+          setScreen('participant');
+        }
+        setLoading(false);
+        console.log(res)
+      } catch (e) {
+      // setIsLoggedIn(false);
+        setLoading(false);
+        setScreen('frontpage');
+      }
     }
   };
 
@@ -57,7 +64,7 @@ const App = () => {
     bodyFormData.set('username', nickname);
 
     try {
-      const res = await axios.post({
+      const res = await axios({
         method: 'POST', url: `${server.url}/party/create`, data: bodyFormData, withCredentials: true,
       });
       setPlaylistData({ user: 'admin', data: res.data });
@@ -75,7 +82,7 @@ const App = () => {
     bodyFormData.set('pin', pin);
 
     try {
-      const res = await axios.post({
+      const res = await axios({
         method: 'POST', url: `${server.url}/party`, data: bodyFormData, withCredentials: true,
       });
       setPlaylistData({ user: 'participant', data: res.data });
