@@ -24,6 +24,9 @@ const App = () => {
   const setCookie = (res) => {
     // Fix expiration date
     document.cookie = `SESSION=${res.headers.authorization}; expires=${new Date(new Date().setFullYear(new Date().getFullYear() + 1))}; path=/`;
+    if (localStorage.getItem('songs') !== null) {
+      localStorage.removeItem('songs');
+    }
   };
 
   const checkUser = async () => {
