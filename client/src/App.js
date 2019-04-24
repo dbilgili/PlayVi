@@ -4,14 +4,16 @@ import axios from 'axios';
 import { CSSTransition } from 'react-transition-group';
 import { disablePageScroll } from 'scroll-lock';
 
-import server from './server.json';
-
 import FrontPage from './components/views/FrontPage';
 import CreateParty from './components/views/CreateParty';
 import JoinParty from './components/views/JoinParty';
 import PartyScreen from './components/views/PartyScreen';
 
+import GetCookie from './utilities/GetCookie';
+
+import server from './server.json';
 import './assets/stylus/global.css';
+
 
 const App = () => {
   const [screen, setScreen] = useState('frontpage');
@@ -24,15 +26,9 @@ const App = () => {
     document.cookie = `SESSION=${res.headers.authorization}; expires=${new Date(new Date().setFullYear(new Date().getFullYear() + 1))}; path=/`;
   };
 
-  const getCookie = () => {
-    const cookieVal = document.cookie.split('=')[1];
-    const headers = { Authorization: cookieVal };
-    return headers;
-  };
-
   const checkUser = async () => {
     // setLoading(true);
-    const headers = getCookie();
+    const headers = GetCookie();
 
     if (headers.Authorization === undefined) {
       // setIsLoggedIn(false);
