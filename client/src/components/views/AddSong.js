@@ -4,23 +4,20 @@ import axios from 'axios';
 import { useDebounce } from 'use-debounce';
 import { disablePageScroll } from 'scroll-lock';
 
+import SearchBar from '../SearchBar';
+import GetCookie from '../../utilities/GetCookie';
+
 import server from '../../server.json';
 
-import SearchBar from '../SearchBar';
+const AddSong = (props) => {
+  const { refreshPlaylist } = props;
 
-const AddSong = () => {
   const [songName, setSongName] = useState('');
   const [response, setResponse] = useState([]);
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
   const [inputDebounced] = useDebounce(songName, 300);
   const refEl = useRef(null);
-
-  const getCookie = () => {
-    const cookieVal = document.cookie.split('=')[1];
-    const headers = { Authorization: cookieVal };
-    return headers;
-  };
 
   const getSong = async (input) => {
     try {
@@ -47,7 +44,7 @@ const AddSong = () => {
   };
 
   const addSong = async (songId) => {
-    const headers = getCookie();
+    const headers = GetCookie();
     const bodyFormData = new FormData();
     bodyFormData.set('songId', songId);
 
@@ -56,6 +53,17 @@ const AddSong = () => {
         method: 'POST', url: `${server.url}/party/addSong`, data: bodyFormData, headers, withCredentials: true,
       });
       console.log(res);
+      const localSongs = localStorage.getItem('songs');
+      if (localSongs === null) {
+        const songs = [];
+        songs.push(songId);
+        localStorage.setItem('songs', JSON.stringify(songs));
+      } else {
+        const songs = JSON.parse(localSongs);
+        songs.push(songId);
+        localStorage.setItem('songs', JSON.stringify(songs));
+      }
+      refreshPlaylist();
     } catch (e) {
       console.log(e);
     }
