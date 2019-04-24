@@ -1,16 +1,74 @@
 .play-list-container
   display: flex
   flex-direction: column
-  align-items: center
-  justify-content: center
   color: white
-  text-align: center
   max-width: $screen-width
   width: 100%
-  height: calc(100% - 70px)
+  height: 100%
+  padding: 0 20px
+  padding-top: 10px
 
-  p
-    line-height: 2.5rem;
+  &.center
+    align-items: center
+    height: calc(100% - 70px)
+    justify-content: center
+    text-align: center
+
+  .play-list-stats
+    font-size: 1.3rem
+    font-weight: 300
+    color: $light-grey
+    padding-bottom: 10px
+
+    span
+      &:nth-of-type(2)
+        white-space: pre
+
+  .songs-container
+    position: relative
+    overflow-y: scroll
+    -webkit-overflow-scrolling: touch
+    flex-direction: column
+    height: 100%
+    padding-top: 5px
+    padding-bottom: 20px
+
+    .song-wrapper
+      display: flex
+      flex-shrink: 0
+      margin: 5px 0
+      &:active
+        background-color: rgba(255, 255, 255, 0.2)
+      &:nth-child(even)
+        // background-color: rgba(255,255,255,0.1)
+      &:nth-of-type(1)
+        margin-top: 10px
+      .album-cover
+        height: 48px
+        width: 48px
+      .text-info
+        display: flex
+        flex-direction: column
+        justify-content: space-around
+        color: white
+        font-size: 1.5rem
+        text-align: initial
+        margin-left: 10px
+        width: calc(100% - 70px);
+        p
+          width: 100%
+          white-space: nowrap
+          overflow: hidden
+          text-overflow: ellipsis
+          line-height: 1.4rem
+          padding-bottom: 5px
+          &:nth-of-type(2)
+            font-size: 1.3rem
+            line-height: 1.3rem
+          &:nth-of-type(3)
+            font-weight: 300
+            font-size: 1.1rem
+            line-height: 1.1rem
 
   .playlist-name
     flex-direction: column
@@ -44,3 +102,6 @@
         font-size: 1.6rem
         font-weight: 300
         width: 220px
+
+  p
+    line-height: 2.5rem
