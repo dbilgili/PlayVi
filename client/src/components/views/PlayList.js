@@ -11,10 +11,16 @@ const PlayList = (props) => {
 
   const refElPlaylist = useRef(null);
 
-  const millisToMinutesAndSeconds = (millis) => {
-    const minutes = Math.floor(millis / 60000);
+  const millisToHoursAndMinutesAndSeconds = (millis) => {
+    let hours = 0;
+    let minutes = Math.floor(millis / 60000);
     const seconds = ((millis % 60000) / 1000).toFixed(0);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    if (minutes > 60) {
+      minutes %= 60;
+      hours = 60 / 60;
+      return `${hours}:${minutes < 10 ? '0' : ''}${minutes} hours`;
+    }
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds} minutes`;
   };
 
   const totalSongDuration = () => {
@@ -22,7 +28,7 @@ const PlayList = (props) => {
     songs.map((song) => {
       duration += song.duration;
     });
-    return millisToMinutesAndSeconds(duration);
+    return millisToHoursAndMinutesAndSeconds(duration);
   };
 
   useEffect(() => {
@@ -46,7 +52,7 @@ const PlayList = (props) => {
         <div className="play-list-stats">
           <span>{songs.length > 1 ? `${songs.length} songs` : `${songs.length} song`}</span>
           <span>  -  </span>
-          <span>{`${totalSongDuration()} minutes`}</span>
+          <span>{totalSongDuration()}</span>
         </div>
         <div ref={refElPlaylist} data-scroll-lock-scrollable className="playlist-songs-container">
           {songs.map(song => songItem(song))}
