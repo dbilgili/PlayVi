@@ -83,7 +83,7 @@ const PartyScreen = (props) => {
         ref={reactSwipeEl}
       >
         <PlayList userRole={userRole} playlistData={playlistData} songs={songs} refreshPlaylist={refreshPlaylist} />
-        <AddSong refreshPlaylist={refreshPlaylist} />
+        <AddSong refreshPlaylist={refreshPlaylist} songs={songs} />
       </ReactSwipe>
     </div>
   );
