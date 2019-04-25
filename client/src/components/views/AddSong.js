@@ -24,6 +24,7 @@ const AddSong = (props) => {
         method: 'GET', url: `${server.url}/song/search?q=${input}&limit=20&offset=0`, withCredentials: true,
       });
       setResponse(res.data.tracks.items);
+      console.log(res.data.tracks.items)
       refEl.current.scrollTop = 0;
     } catch (e) {
       console.log(e);
@@ -109,7 +110,7 @@ const AddSong = (props) => {
       <img alt="album-cover" className="album-cover" src={item.album.images.length ? item.album.images[1].url : null} />
       <div className="text-info">
         <p>{item.name}</p>
-        <p>{item.artists[0].name}</p>
+        <p>{item.artists.map((artist, index) => <span key={artist.id}>{index !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
       </div>
     </button>
   );
