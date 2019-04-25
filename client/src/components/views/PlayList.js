@@ -1,15 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
-import { disablePageScroll } from 'scroll-lock';
+import axios from 'axios';
+
+import GetCookie from '../../utilities/GetCookie';
+
+import server from '../../server.json';
+import cross from '../../assets/images/cross.png';
 
 const PlayList = (props) => {
   const {
     userRole,
     playlistData: { accessLink, spotifyName, pin },
     songs,
+    refreshPlaylist,
   } = props;
-
-  const refElPlaylist = useRef(null);
 
   const millisToHoursAndMinutesAndSeconds = (millis) => {
     let hours = 0;
@@ -31,19 +35,57 @@ const PlayList = (props) => {
     return millisToHoursAndMinutesAndSeconds(duration);
   };
 
-  useEffect(() => {
-    // disablePageScroll(refElPlaylist.current);
-  }, []);
+  const removeSong = async (songId, position) => {
+    const headers = GetCookie();
+    const bodyFormData = new FormData();
+    bodyFormData.set('songId', songId);
+    bodyFormData.set('position', position);
 
-  const songItem = item => (
-    <button type="button" key={item.id} className="song-wrapper" onClick={null}>
+    try {
+      const res = await axios({
+        method: 'POST', url: `${server.url}/party/removeSong`, data: bodyFormData, headers, withCredentials: true,
+      });
+      console.log(res);
+      const localSongs = JSON.parse(localStorage.getItem('songs'));
+      localSongs.filter(item => item !== songId);
+      localStorage.setItem('songs', JSON.stringify(localSongs));
+      refreshPlaylist();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const isValidToDelete = (songId) => {
+    if (localStorage.getItem('songs')) {
+      return JSON.parse(localStorage.getItem('songs')).includes(songId);
+    }
+    return null;
+  };
+
+  const songItem = (item, index) => (
+    <div type="button" key={item.id} className="song-wrapper" onClick={null}>
       <img alt="album-cover" className="album-cover" src={item.albumCoverUrl} />
-      <div className="text-info">
+      <div className={isValidToDelete(item.id) ? 'text-info short-ellipsis' : 'text-info'}>
         <p>{item.name}</p>
         <p>{item.artistName}</p>
         <p>{`Added by ${item.creator.username}`}</p>
       </div>
-    </button>
+      {isValidToDelete(item.id)
+        ? (
+          <button
+            type="button"
+            className="delete-button"
+            onClick={() => removeSong(item.id, index)}
+            style={{
+              backgroundImage: `url(${cross})`,
+              backgroundPosition: 'center',
+              backgroundSize: '14px 14px',
+              backgroundRepeat: 'no-repeat',
+            }}
+          />
+        )
+        : null}
+    </div>
   );
 
   if (songs.length) {
@@ -54,8 +96,8 @@ const PlayList = (props) => {
           <span>  -  </span>
           <span>{totalSongDuration()}</span>
         </div>
-        <div ref={refElPlaylist} data-scroll-lock-scrollable className="playlist-songs-container">
-          {songs.map(song => songItem(song))}
+        <div className="playlist-songs-container" data-scroll-lock-scrollable>
+          {songs.map((song, index) => songItem(song, index))}
         </div>
         <div className="transparent-gradient" />
       </div>
