@@ -29,7 +29,6 @@ const PartyScreen = (props) => {
   };
 
   const refreshPlaylist = async () => {
-    // setLoading(true);
     const headers = GetCookie();
 
     try {
@@ -53,7 +52,13 @@ const PartyScreen = (props) => {
 
   useEffect(() => {
     setSongs(playlistData.songList);
-    return () => clearParty();
+    const autoFetch = setInterval(() => {
+      refreshPlaylist();
+    }, 5000);
+    return () => {
+      clearParty();
+      clearInterval(autoFetch);
+    };
   }, []);
 
   return (
