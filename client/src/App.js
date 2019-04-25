@@ -17,8 +17,8 @@ import './assets/stylus/global.css';
 
 const App = () => {
   const [screen, setScreen] = useState('frontpage');
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [pageLoaded, setPageLoaded] = useState(false);
   const [playlistData, setPlaylistData] = useState({ user: null, data: null });
 
   const setCookie = (res) => {
@@ -30,12 +30,10 @@ const App = () => {
   };
 
   const checkUser = async () => {
-    // setLoading(true);
     const headers = GetCookie();
 
     if (headers.Authorization === undefined) {
-      // setIsLoggedIn(false);
-      // setLoading(false);
+      setPageLoaded(true);
       setScreen('frontpage');
     } else {
       try {
@@ -44,14 +42,11 @@ const App = () => {
         });
         if (typeof res.data === 'object') {
           setPlaylistData({ user: 'participant', data: res.data });
-          // setIsLoggedIn(true);
           setScreen('participant');
+          setPageLoaded(true);
         }
-        setLoading(false);
-        console.log(res)
+        console.log(res);
       } catch (e) {
-      // setIsLoggedIn(false);
-        setLoading(false);
         setScreen('frontpage');
       }
     }
@@ -108,59 +103,62 @@ const App = () => {
     });
   }, []);
 
-  return (
-    <div className="App">
-      <CSSTransition
-        in={screen === 'frontpage'}
-        timeout={350}
-        classNames="front-page-container"
-        unmountOnExit
-      >
-        <FrontPage screen={type => setScreen(type)} />
-      </CSSTransition>
-      <CSSTransition
-        in={screen === 'create'}
-        timeout={350}
-        classNames="join-party-container"
-        unmountOnExit
-      >
-        <CreateParty
-          screen={type => setScreen(type)}
-          loading={loading}
-          clearParty={clearParty}
-          createPlaylist={createPlaylist}
-          playlistData={playlistData}
-        />
-      </CSSTransition>
-      <CSSTransition
-        in={screen === 'join'}
-        timeout={350}
-        classNames="join-party-container"
-        unmountOnExit
-      >
-        <JoinParty
-          screen={type => setScreen(type)}
-          loading={loading}
-          clearParty={clearParty}
-          joinParty={joinParty}
-          playlistData={playlistData}
-        />
-      </CSSTransition>
-      <CSSTransition
-        in={screen === 'admin' || screen === 'participant'}
-        timeout={350}
-        classNames="party-page-container"
-        unmountOnExit
-      >
-        <PartyScreen
-          screen={type => setScreen(type)}
-          clearParty={clearParty}
-          userRole={screen}
-          playlistData={playlistData.data}
-        />
-      </CSSTransition>
-    </div>
-  );
+  if (pageLoaded) {
+    return (
+      <div className="App">
+        <CSSTransition
+          in={screen === 'frontpage'}
+          timeout={350}
+          classNames="front-page-container"
+          unmountOnExit
+        >
+          <FrontPage screen={type => setScreen(type)} />
+        </CSSTransition>
+        <CSSTransition
+          in={screen === 'create'}
+          timeout={350}
+          classNames="join-party-container"
+          unmountOnExit
+        >
+          <CreateParty
+            screen={type => setScreen(type)}
+            loading={loading}
+            clearParty={clearParty}
+            createPlaylist={createPlaylist}
+            playlistData={playlistData}
+          />
+        </CSSTransition>
+        <CSSTransition
+          in={screen === 'join'}
+          timeout={350}
+          classNames="join-party-container"
+          unmountOnExit
+        >
+          <JoinParty
+            screen={type => setScreen(type)}
+            loading={loading}
+            clearParty={clearParty}
+            joinParty={joinParty}
+            playlistData={playlistData}
+          />
+        </CSSTransition>
+        <CSSTransition
+          in={screen === 'admin' || screen === 'participant'}
+          timeout={350}
+          classNames="party-page-container"
+          unmountOnExit
+        >
+          <PartyScreen
+            screen={type => setScreen(type)}
+            clearParty={clearParty}
+            userRole={screen}
+            playlistData={playlistData.data}
+          />
+        </CSSTransition>
+      </div>
+    );
+  }
+  return null;
 };
 
 
