@@ -82,7 +82,7 @@ const PartyScreen = (props) => {
         swipeOptions={{ continuous: false, callback: detectChange }}
         ref={reactSwipeEl}
       >
-        <PlayList userRole={userRole} playlistData={playlistData} songs={songs} />
+        <PlayList userRole={userRole} playlistData={playlistData} songs={songs} refreshPlaylist={refreshPlaylist} />
         <AddSong refreshPlaylist={refreshPlaylist} />
       </ReactSwipe>
     </div>
