@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import axios from 'axios';
 import { useDebounce } from 'use-debounce';
-// import { disablePageScroll } from 'scroll-lock';
 
 import SearchBar from '../SearchBar';
 import GetCookie from '../../utilities/GetCookie';
@@ -10,12 +9,11 @@ import GetCookie from '../../utilities/GetCookie';
 import server from '../../server.json';
 
 const AddSong = (props) => {
-  const { refreshPlaylist } = props;
+  const { refreshPlaylist, songs } = props;
 
   const [songName, setSongName] = useState('');
   const [response, setResponse] = useState([]);
   const [offset, setOffset] = useState(0);
-  // const [loading, setLoading] = useState(false);
   const [inputDebounced] = useDebounce(songName, 300);
 
   const refEl = useRef(null);
@@ -100,13 +98,14 @@ const AddSong = (props) => {
   };
 
   useEffect(() => {
-    // disablePageScroll(refEl.current);
     refEl.current.addEventListener('scroll', () => detectEndOfScroll());
     return refEl.current.removeEventListener('scroll', () => detectEndOfScroll());
   }, []);
 
+  const isSongExisting = songId => songs.some(e => e.id === songId);
+
   const song = item => (
-    <button type="button" key={item.id} className="song-wrapper" onClick={() => addSong(item.id)}>
+    <button type="button" key={item.id} className={isSongExisting(item.id) ? 'song-wrapper greyed-out' : 'song-wrapper'} onClick={isSongExisting(item.id) ? null : () => addSong(item.id)}>
       <img alt="album-cover" className="album-cover" src={item.album.images.length ? item.album.images[1].url : null} />
       <div className="text-info">
         <p>{item.name}</p>
@@ -114,6 +113,7 @@ const AddSong = (props) => {
       </div>
     </button>
   );
+
 
   return (
     <div className="add-song-container">
