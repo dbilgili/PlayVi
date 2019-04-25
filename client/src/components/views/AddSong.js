@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import axios from 'axios';
 import { useDebounce } from 'use-debounce';
-import { disablePageScroll } from 'scroll-lock';
+// import { disablePageScroll } from 'scroll-lock';
 
 import SearchBar from '../SearchBar';
 import GetCookie from '../../utilities/GetCookie';
@@ -15,7 +15,7 @@ const AddSong = (props) => {
   const [songName, setSongName] = useState('');
   const [response, setResponse] = useState([]);
   const [offset, setOffset] = useState(0);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [inputDebounced] = useDebounce(songName, 300);
 
   const refEl = useRef(null);
@@ -26,7 +26,6 @@ const AddSong = (props) => {
         method: 'GET', url: `${server.url}/song/search?q=${input}&limit=20&offset=0`, withCredentials: true,
       });
       setResponse(res.data.tracks.items);
-      console.log(res.data.tracks.items);
       refEl.current.scrollTop = 0;
     } catch (e) {
       console.log(e);
@@ -108,7 +107,7 @@ const AddSong = (props) => {
 
   const song = item => (
     <button type="button" key={item.id} className="song-wrapper" onClick={() => addSong(item.id)}>
-      <img alt="album-cover" className="album-cover" src={item.album.images[1].url} />
+      <img alt="album-cover" className="album-cover" src={item.album.images.length ? item.album.images[1].url : null} />
       <div className="text-info">
         <p>{item.name}</p>
         <p>{item.artists[0].name}</p>
@@ -122,7 +121,7 @@ const AddSong = (props) => {
         placeholder='Search a song'
         onChange={setSongName}
       />
-      <div ref={refEl} data-scroll-lock-scrollable className="songs-container">
+      <div ref={refEl} className="songs-container" data-scroll-lock-scrollable>
         {songName.length ? response.map(item => song(item)) : <span>Add a new song to playlist</span>}
       </div>
       <div className="transparent-gradient" />
