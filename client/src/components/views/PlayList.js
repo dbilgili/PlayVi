@@ -42,12 +42,11 @@ const PlayList = (props) => {
     bodyFormData.set('position', position);
 
     try {
-      const res = await axios({
-        method: 'POST', url: `${server.url}/party/removeSong`, data: bodyFormData, headers, withCredentials: true,
+      await axios({
+        method: 'DELETE', url: `${server.url}/party/removeSong`, data: bodyFormData, headers, withCredentials: true,
       });
-      console.log(res);
-      const localSongs = JSON.parse(localStorage.getItem('songs'));
-      localSongs.filter(item => item !== songId);
+      let localSongs = JSON.parse(localStorage.getItem('songs'));
+      localSongs = localSongs.filter(item => item !== songId);
       localStorage.setItem('songs', JSON.stringify(localSongs));
       refreshPlaylist();
     } catch (e) {
