@@ -8,7 +8,7 @@ import '../../assets/stylus/global.css';
 
 const JoinParty = (props) => {
   const {
-    screen, joinParty, playlistData, loading,
+    screen, joinParty, playlistData, loading, clearParty,
   } = props;
   const [nickname, setNickname] = useState('');
   const [partyPin, setPartyPin] = useState('');
@@ -36,6 +36,11 @@ const JoinParty = (props) => {
     }
   };
 
+  const goBack = () => {
+    screen('frontpage');
+    clearParty();
+  };
+
   useEffect(() => {
     if (partyPin.length) {
       setAlertArray(prevState => [false, prevState[1]]);
@@ -55,6 +60,7 @@ const JoinParty = (props) => {
           validate={val => setAreFieldsValid([val, areFieldsValid[1]])}
           alert={alertArray[0]}
           maxlength={5}
+          onChange={() => setPartyPinError(false)}
         />
         <TextInput
           getField={val => setNickname(val)}
@@ -67,7 +73,7 @@ const JoinParty = (props) => {
       <NavigationButtons
         leftButton='Back'
         rightButton='Join'
-        backAction={() => screen('frontpage')}
+        backAction={goBack}
         nextAction={loading ? null : fieldValidation}
       />
       {loading && <LoadingBar />}
