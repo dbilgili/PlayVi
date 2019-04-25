@@ -60,6 +60,8 @@ const JoinParty = (props) => {
           validate={val => setAreFieldsValid([val, areFieldsValid[1]])}
           alert={alertArray[0]}
           maxlength={5}
+          invalidValue={partyPinError}
+          invalidMessage="Invalid PIN"
           onChange={() => setPartyPinError(false)}
         />
         <TextInput
@@ -77,7 +79,6 @@ const JoinParty = (props) => {
         nextAction={loading ? null : fieldValidation}
       />
       {loading && <LoadingBar />}
-      {partyPinError && <div style={{ color: '#bf3131', fontWeight: '300' }}>Error</div>}
     </div>
   );
 };

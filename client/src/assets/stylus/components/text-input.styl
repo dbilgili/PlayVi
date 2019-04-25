@@ -1,14 +1,26 @@
-.custom-text-input
-  font-weight: 300
-  background-color: $black
-  border-bottom: 1px solid $white
-  color: $white
-  height: 30px
-  max-width: 240px
-  width: 100%
-  font-size: 1.8rem
-  border-radius: 0
-  transition: border-color, 0.2s ease
-  &.alert
-    border-color: $alert-red
+.custon-text-input-wrapper
+  position: relative
+
+  .custom-text-input
+    font-weight: 300
+    background-color: $black
+    border-bottom: 1px solid $white
+    color: $white
+    height: 30px
+    max-width: 240px
+    width: 100%
+    font-size: 1.8rem
+    border-radius: 0
     transition: border-color, 0.2s ease
+
+    &.alert
+      border-color: $alert-red
+      transition: border-color, 0.2s ease
+
+  span
+    color: $alert-red
+    position: absolute
+    top: 8px
+    right: 10px
+    font-size: 1.3rem
+    font-weight: 300

@@ -9,6 +9,8 @@ const TextInput = (props) => {
     maxlength,
     alert,
     onChange,
+    invalidMessage,
+    invalidValue,
   } = props;
 
   const [input, setInput] = useState('');
@@ -24,20 +26,25 @@ const TextInput = (props) => {
   }, [input]);
 
   return (
-    <input
-      type="text"
-      maxLength={maxlength}
-      pattern={pattern}
-      className={alert ? 'custom-text-input alert' : 'custom-text-input'}
-      placeholder={placeholder}
-      onChange={onChangeHandler}
-    />
+    <div className="custon-text-input-wrapper">
+      <input
+        type="text"
+        maxLength={maxlength}
+        pattern={pattern}
+        className={alert ? 'custom-text-input alert' : 'custom-text-input'}
+        placeholder={placeholder}
+        onChange={onChangeHandler}
+      />
+      {invalidValue && <span>{invalidMessage}</span>}
+    </div>
   );
 };
 
 TextInput.defaultProps = {
   maxLength: 15,
   onChange: () => {},
+  invalidValue: false,
+  invalidMessage: '',
 };
 
 export default TextInput;
