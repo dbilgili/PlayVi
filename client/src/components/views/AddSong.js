@@ -54,12 +54,12 @@ const AddSong = (props) => {
       console.log(res);
       const localSongs = localStorage.getItem('songs');
       if (localSongs === null) {
-        const songs = [];
-        songs.push(songId);
+        const songsArray = [];
+        songsArray.push(songId);
         localStorage.setItem('songs', JSON.stringify(songs));
       } else {
-        const songs = JSON.parse(localSongs);
-        songs.push(songId);
+        const songsArray = JSON.parse(localSongs);
+        songsArray.push(songId);
         localStorage.setItem('songs', JSON.stringify(songs));
       }
       refreshPlaylist();
