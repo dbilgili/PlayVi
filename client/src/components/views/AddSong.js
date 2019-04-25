@@ -101,7 +101,7 @@ const AddSong = (props) => {
   };
 
   useEffect(() => {
-    disablePageScroll(refEl.current);
+    // disablePageScroll(refEl.current);
     refEl.current.addEventListener('scroll', () => detectEndOfScroll());
     return refEl.current.removeEventListener('scroll', () => detectEndOfScroll());
   }, []);
@@ -122,7 +122,7 @@ const AddSong = (props) => {
         placeholder='Search a song'
         onChange={setSongName}
       />
-      <div ref={refEl} className="songs-container">
+      <div ref={refEl} data-scroll-lock-scrollable className="songs-container">
         {songName.length ? response.map(item => song(item)) : <span>Add a new song to playlist</span>}
       </div>
       <div className="transparent-gradient" />

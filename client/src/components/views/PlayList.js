@@ -25,7 +25,9 @@ const PlayList = (props) => {
     return millisToMinutesAndSeconds(duration);
   };
 
-  useEffect(() => disablePageScroll(refElPlaylist.current), []);
+  useEffect(() => {
+    // disablePageScroll(refElPlaylist.current);
+  }, []);
 
   const songItem = item => (
     <button type="button" key={item.id} className="song-wrapper" onClick={null}>
@@ -46,9 +48,10 @@ const PlayList = (props) => {
           <span>  -  </span>
           <span>{`${totalSongDuration()} minutes`}</span>
         </div>
-        <div ref={refElPlaylist} className="songs-container">
+        <div ref={refElPlaylist} data-scroll-lock-scrollable className="playlist-songs-container">
           {songs.map(song => songItem(song))}
         </div>
+        <div className="transparent-gradient" />
       </div>
     );
   } else {
