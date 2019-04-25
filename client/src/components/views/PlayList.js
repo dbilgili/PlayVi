@@ -66,7 +66,7 @@ const PlayList = (props) => {
       <img alt="album-cover" className="album-cover" src={item.albumCoverUrl} />
       <div className={isValidToDelete(item.id) ? 'text-info short-ellipsis' : 'text-info'}>
         <p>{item.name}</p>
-        <p>{item.artistName}</p>
+        <p>{item.artists.map((artist, index) => <span key={artist.id}>{index !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
         <p>{`Added by ${item.creator.username}`}</p>
       </div>
       {isValidToDelete(item.id)
