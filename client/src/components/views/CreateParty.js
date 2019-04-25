@@ -47,6 +47,7 @@ const CreateParty = (props) => {
         />
       </form>
       <p className="info-text">Pick a nickname which will appear below the songs you add to the playlist.</p>
+      <p className="info-text">Note that the party is going to expire after 7 days.</p>
       <NavigationButtons
         leftButton='Back'
         rightButton='Create'
