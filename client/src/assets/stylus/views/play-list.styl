@@ -35,16 +35,19 @@
     padding-bottom: 20px
 
     .song-wrapper
+      align-items: center
       display: flex
       flex-shrink: 0
       margin: 5px 0
-      &:nth-child(even)
-        // background-color: rgba(255,255,255,0.1)
+      padding-right: 5px
+
       &:nth-of-type(1)
         margin-top: 10px
+
       .album-cover
         height: 48px
         width: 48px
+
       .text-info
         display: flex
         flex-direction: column
@@ -54,6 +57,10 @@
         text-align: initial
         margin-left: 10px
         width: calc(100% - 70px);
+
+        &.short-ellipsis
+          width: calc(100% - 110px)
+
         p
           width: 100%
           white-space: nowrap
@@ -68,6 +75,15 @@
             font-weight: 300
             font-size: 1.1rem
             line-height: 1.1rem
+            padding-bottom: 1px
+
+      .delete-button
+        width: 14px
+        height: 14px
+        padding: 11px
+        box-sizing: content-box
+        opacity: 0.6
+        margin-left: auto
 
   .playlist-name
     flex-direction: column
