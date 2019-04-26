@@ -3,9 +3,12 @@ import React from 'react';
 import cross from '../assets/images/cross.png';
 
 const SlidingMenu = (props) => {
-  const { close, exit, playlistData } = props;
+  const {
+    close, exit, playlistData: {
+      accessLink, spotifyName, pin,
+    },
+  } = props;
 
-  const { accessLink, spotifyName, pin } = playlistData;
   return (
     <div className="sliding-menu-container">
       <div className="vertical-wrapper">
