@@ -14,6 +14,8 @@ const AddSong = (props) => {
   const [songName, setSongName] = useState('');
   const [response, setResponse] = useState([]);
   const [offset, setOffset] = useState(0);
+  const [noResult, setNoResult] = useState(false);
+  // const [disableAdd, setDisableAdd] = useState(false);
   const [inputDebounced] = useDebounce(songName, 300);
 
   const refEl = useRef(null);
@@ -24,7 +26,9 @@ const AddSong = (props) => {
         method: 'GET', url: `${server.url}/song/search?q=${input}&limit=20&offset=0`, withCredentials: true,
       });
       setResponse(res.data.tracks.items);
-      console.log(res.data.tracks.items)
+      if (!res.data.tracks.items.length) {
+        setNoResult(true);
+      }
       refEl.current.scrollTop = 0;
     } catch (e) {
       console.log(e);
@@ -47,6 +51,8 @@ const AddSong = (props) => {
     const bodyFormData = new FormData();
     bodyFormData.set('songId', songId);
 
+    // setDisableAdd(true);
+
     try {
       const res = await axios({
         method: 'POST', url: `${server.url}/party/addSong`, data: bodyFormData, headers, withCredentials: true,
@@ -63,8 +69,10 @@ const AddSong = (props) => {
         localStorage.setItem('songs', JSON.stringify(songsArray));
       }
       refreshPlaylist();
+      // setDisableAdd(false);
     } catch (e) {
       console.log(e);
+      // setDisableAdd(false);
     }
   };
 
@@ -115,15 +123,16 @@ const AddSong = (props) => {
     </button>
   );
 
-
   return (
     <div className="add-song-container">
       <SearchBar
         placeholder='Search a song'
         onChange={setSongName}
+        onClear={() => setNoResult(false)}
       />
       <div ref={refEl} className="songs-container" data-scroll-lock-scrollable>
         {songName.length ? response.map(item => song(item)) : <span>Add a new song to playlist</span>}
+        {noResult && <span>No matching result</span>}
       </div>
       <div className="transparent-gradient" />
     </div>
