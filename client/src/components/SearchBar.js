@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import '../assets/stylus/global.css';
 import search from '../assets/images/search.png';
 import cross from '../assets/images/cross.png';
 
 const SearchBar = (props) => {
-  const { onChange, placeholder } = props;
+  const { onChange, onClear, placeholder } = props;
 
   const inputEl = useRef('');
 
@@ -16,6 +16,7 @@ const SearchBar = (props) => {
   };
 
   const clearInput = () => {
+    onClear();
     setSongName('');
     onChange('');
     inputEl.current.value = '';
