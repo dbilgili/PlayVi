@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import axios from 'axios';
 
@@ -14,6 +14,8 @@ const PlayList = (props) => {
     songs,
     refreshPlaylist,
   } = props;
+
+  const [removeStatus, setRemoveStatus] = useState({ isRemoving: false, songId: null });
 
   const millisToHoursAndMinutesAndSeconds = (millis) => {
     let hours = 0;
@@ -41,6 +43,8 @@ const PlayList = (props) => {
     bodyFormData.set('songId', songId);
     bodyFormData.set('position', position);
 
+    setRemoveStatus({ isRemoving: true, songId });
+
     try {
       await axios({
         method: 'DELETE', url: `${server.url}/party/removeSong`, data: bodyFormData, headers, withCredentials: true,
@@ -48,8 +52,13 @@ const PlayList = (props) => {
       let localSongs = JSON.parse(localStorage.getItem('songs'));
       localSongs = localSongs.filter(item => item !== songId);
       localStorage.setItem('songs', JSON.stringify(localSongs));
+      setTimeout(() => {
+        setRemoveStatus({ isRemoving: false, songId: null });
+      }, 100);
+
       refreshPlaylist();
     } catch (e) {
+      setRemoveStatus({ isRemoving: false, songId: null });
       console.log(e);
     }
   };
@@ -66,22 +75,25 @@ const PlayList = (props) => {
       <img alt="album-cover" className="album-cover" src={item.albumCoverUrl} />
       <div className={isValidToDelete(item.id) ? 'text-info short-ellipsis' : 'text-info'}>
         <p>{item.name}</p>
-        <p>{item.artists.map((artist, index) => <span key={artist.id}>{index !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
+        <p>{item.artists.map((artist, artistIndex) => <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
         <p>{`Added by ${item.creator.username}`}</p>
       </div>
       {isValidToDelete(item.id)
         ? (
-          <button
-            type="button"
-            className="delete-button"
-            onClick={() => removeSong(item.id, index)}
-            style={{
-              backgroundImage: `url(${cross})`,
-              backgroundPosition: 'center',
-              backgroundSize: '14px 14px',
-              backgroundRepeat: 'no-repeat',
-            }}
-          />
+          (removeStatus.isRemoving && removeStatus.songId === item.id) ? <span className="spinner" />
+            : (
+              <button
+                type="button"
+                className="delete-button"
+                onClick={() => removeSong(item.id, index)}
+                style={{
+                  backgroundImage: `url(${cross})`,
+                  backgroundPosition: 'center',
+                  backgroundSize: '14px 14px',
+                  backgroundRepeat: 'no-repeat',
+                }}
+              />
+            )
         )
         : null}
     </div>
