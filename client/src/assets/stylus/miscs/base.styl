@@ -10,17 +10,21 @@ html
   font-size: 62.5%
 
 body
-  background-color: $black
+  background-color: $bg-color
   color: $black
+  display: flex
   font-size: 1.6rem
+  justify-content: center
   margin: 0
-  padding: $page-margin
-  padding-bottom: 0
   position: relative
   user-select: none
   touch-action: manipulation
 
+  +respond-to(mobile)
+    display: block
+
 button, input, a
+  cursor: pointer
   padding: 0
   margin: 0
   background-color: transparent
@@ -35,4 +39,13 @@ p
   margin: 0
 
 .App
+  width: 425px
+  height: 100vh
+  background-color: $black
   position: relative
+  border-top: 20px solid
+  border-left: 20px solid
+  border-right: 20px solid
+
+  +respond-to(mobile)
+    width: auto
