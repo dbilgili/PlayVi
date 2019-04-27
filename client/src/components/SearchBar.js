@@ -16,9 +16,9 @@ const SearchBar = (props) => {
   };
 
   const clearInput = () => {
-    onClear();
     setSongName('');
     onChange('');
+    onClear();
     inputEl.current.value = '';
     inputEl.current.focus();
   };
