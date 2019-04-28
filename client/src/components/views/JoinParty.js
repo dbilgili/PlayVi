@@ -8,10 +8,10 @@ import '../../assets/stylus/global.css';
 
 const JoinParty = (props) => {
   const {
-    screen, joinParty, playlistData, loading, clearParty,
+    screen, joinParty, playlistData, loading, clearParty, initialPin,
   } = props;
   const [nickname, setNickname] = useState('');
-  const [partyPin, setPartyPin] = useState('');
+  const [partyPin, setPartyPin] = useState(initialPin);
   const [areFieldsValid, setAreFieldsValid] = useState([false, false]);
   const [alertArray, setAlertArray] = useState([false, false]);
   const [partyPinError, setPartyPinError] = useState(false);
@@ -50,12 +50,19 @@ const JoinParty = (props) => {
     }
   }, [partyPin, nickname]);
 
+  useEffect(() => {
+    if (initialPin !== '') {
+      setAreFieldsValid([true, false]);
+    }
+  }, []);
+
   return (
     <div className="join-party-container">
       <div className="text-field-wrapper">
         <TextInput
           getField={val => setPartyPin(val)}
           placeholder="PARTY PIN"
+          initialValue={partyPin}
           pattern="\d*"
           validate={val => setAreFieldsValid([val, areFieldsValid[1]])}
           alert={alertArray[0]}
