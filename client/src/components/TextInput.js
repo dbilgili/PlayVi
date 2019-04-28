@@ -11,9 +11,10 @@ const TextInput = (props) => {
     onChange,
     invalidMessage,
     invalidValue,
+    initialValue,
   } = props;
 
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(initialValue);
 
   const onChangeHandler = (e) => {
     setInput(e.target.value);
@@ -34,6 +35,7 @@ const TextInput = (props) => {
         className={alert ? 'custom-text-input alert' : 'custom-text-input'}
         placeholder={placeholder}
         onChange={onChangeHandler}
+        defaultValue={initialValue}
       />
       {invalidValue && <span>{invalidMessage}</span>}
     </div>
@@ -45,6 +47,7 @@ TextInput.defaultProps = {
   onChange: () => {},
   invalidValue: false,
   invalidMessage: '',
+  initialValue: '',
 };
 
 export default TextInput;
