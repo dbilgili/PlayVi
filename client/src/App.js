@@ -18,6 +18,7 @@ import './assets/stylus/global.css';
 const App = () => {
   const [screen, setScreen] = useState('frontpage');
   const [loading, setLoading] = useState(false);
+  const [initialPin, setInitialPin] = useState('');
   const [playlistData, setPlaylistData] = useState({ user: null, data: null });
 
   const setCookie = (res) => {
@@ -28,11 +29,20 @@ const App = () => {
     }
   };
 
+  const parseQueryString = () => {
+    const pin = window.location.search.substring(1).split('=')[1];
+    if (pin !== undefined) {
+      setInitialPin(pin);
+      setScreen('join');
+    }
+  };
+
   const checkUser = async () => {
     const headers = GetCookie();
 
     if (headers.Authorization === undefined) {
       setScreen('frontpage');
+      parseQueryString();
     } else {
       try {
         const res = await axios({
@@ -45,6 +55,7 @@ const App = () => {
 
         console.log(res);
       } catch (e) {
+        console.log(e);
         setScreen('frontpage');
       }
     }
@@ -79,10 +90,10 @@ const App = () => {
       });
       setPlaylistData({ user: 'participant', data: res.data });
       setLoading(false);
-      setCookie(res);
-      // alert('suc');
+      if (res.data !== '') {
+        setCookie(res);
+      }
     } catch (e) {
-      // alert('fail');
       setLoading(false);
     }
   };
@@ -137,6 +148,7 @@ const App = () => {
           clearParty={clearParty}
           joinParty={joinParty}
           playlistData={playlistData}
+          initialPin={initialPin}
         />
       </CSSTransition>
       <CSSTransition
