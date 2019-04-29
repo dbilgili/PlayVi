@@ -15,7 +15,7 @@ const PlayList = (props) => {
     refreshPlaylist,
   } = props;
 
-  const [removeStatus, setRemoveStatus] = useState({ isRemoving: false, songId: null });
+  const [removeStatus, setRemoveStatus] = useState({ isRemoving: false, songId: null, position: null });
 
   const millisToHoursAndMinutesAndSeconds = (millis) => {
     let hours = 0;
@@ -43,7 +43,7 @@ const PlayList = (props) => {
     bodyFormData.set('songId', songId);
     bodyFormData.set('position', position);
 
-    setRemoveStatus({ isRemoving: true, songId });
+    setRemoveStatus({ isRemoving: true, songId, position });
 
     try {
       await axios({
@@ -53,12 +53,12 @@ const PlayList = (props) => {
       localSongs = localSongs.filter(item => item !== songId);
       localStorage.setItem('songs', JSON.stringify(localSongs));
       setTimeout(() => {
-        setRemoveStatus({ isRemoving: false, songId: null });
+        setRemoveStatus({ isRemoving: false, songId: null, position: null });
       }, 100);
 
       refreshPlaylist();
     } catch (e) {
-      setRemoveStatus({ isRemoving: false, songId: null });
+      setRemoveStatus({ isRemoving: false, songId: null, position: null });
       console.log(e);
     }
   };
@@ -70,32 +70,38 @@ const PlayList = (props) => {
     return null;
   };
 
+  const songRemoveButton = (id, index, state) => {
+    if (isValidToDelete(id)) {
+      if (state.isRemoving && state.songId === id && state.position === index) {
+        return <span className="spinner" />;
+      } else {
+        return (
+          <button
+            type="button"
+            className="delete-button"
+            onClick={() => removeSong(id, index)}
+            style={{
+              backgroundImage: `url(${cross})`,
+              backgroundPosition: 'center',
+              backgroundSize: '14px 14px',
+              backgroundRepeat: 'no-repeat',
+            }}
+          />
+        );
+      }
+    }
+    return null;
+  };
+
   const songItem = (item, index) => (
-    <div type="button" key={item.id} className="song-wrapper" onClick={null}>
+    <div key={item.id} className="song-wrapper">
       <img alt="album-cover" className="album-cover" src={item.albumCoverUrl} />
       <div className={isValidToDelete(item.id) ? 'text-info short-ellipsis' : 'text-info'}>
         <p>{item.name}</p>
         <p>{item.artists.map((artist, artistIndex) => <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
         <p>{`Added by ${item.creator.username}`}</p>
       </div>
-      {isValidToDelete(item.id)
-        ? (
-          (removeStatus.isRemoving && removeStatus.songId === item.id) ? <span className="spinner" />
-            : (
-              <button
-                type="button"
-                className="delete-button"
-                onClick={() => removeSong(item.id, index)}
-                style={{
-                  backgroundImage: `url(${cross})`,
-                  backgroundPosition: 'center',
-                  backgroundSize: '14px 14px',
-                  backgroundRepeat: 'no-repeat',
-                }}
-              />
-            )
-        )
-        : null}
+      {songRemoveButton(item.id, index, removeStatus)}
     </div>
   );
 
