@@ -15,6 +15,7 @@
   .vertical-wrapper
     display: flex
     flex-direction: column
+    justify-content: space-between
     height: 100%
     align-items: flex-start
     padding: $page-margin 0
@@ -23,6 +24,15 @@
       margin-top: 5px
       &:nth-of-type(2)
         margin-top: 10px
+
+    .inner-wrapper-bottom
+      display: flex
+      justify-content: space-between
+      width: 100%
+
+      button
+        &:first-of-type
+          color: $white
 
     button
       margin-top: auto

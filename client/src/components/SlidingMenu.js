@@ -20,7 +20,7 @@ const SlidingMenu = (props) => {
           <p className="header">Party PIN</p>
           <p className="text">{pin}</p>
         </div>
-        <div style={{ display: 'flex' }}>
+        <div className="inner-wrapper-bottom">
           <button type="button" onClick={copyAccessLink}>Access Link</button>
           <button type="button" onClick={exit}>Leave the party</button>
         </div>
