@@ -8,7 +8,7 @@ import TabMenu from '../TabMenu';
 import PlayList from './PlayList';
 import AddSong from './AddSong';
 import SlidingMenu from '../SlidingMenu';
-import GetCookie from '../../utilities/GetCookie';
+import { getCookie, clearCookie } from '../../utilities/CookieUtils';
 
 import server from '../../server.json';
 
@@ -29,13 +29,14 @@ const PartyScreen = (props) => {
   };
 
   const refreshPlaylist = async () => {
-    const headers = GetCookie();
+    const headers = getCookie();
 
     try {
       const res = await axios({
         method: 'GET', url: `${server.url}/party`, headers, withCredentials: true,
       });
       if (typeof res.data === 'object') {
+        console.log(res.data);
         setSongs(res.data.songList);
         console.log(res.data);
       }
@@ -46,8 +47,13 @@ const PartyScreen = (props) => {
 
   const leaveParty = () => {
     screen('frontpage');
-    localStorage.removeItem('songs');
-    document.cookie = 'SESSION=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    localStorage.removeItem('userId');
+    clearCookie();
+  };
+
+  const copyAccessLink = () => {
+    const url = 'localhost:3000';
+    navigator.clipboard.writeText(`${url}/?pin=${playlistData.pin}`);
   };
 
   useEffect(() => {
@@ -71,6 +77,7 @@ const PartyScreen = (props) => {
       >
         <SlidingMenu
           close={() => setToggleMore(prev => !prev)}
+          copyAccessLink={copyAccessLink}
           exit={leaveParty}
           playlistData={playlistData}
         />

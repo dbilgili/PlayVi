@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useDebounce } from 'use-debounce';
 
 import SearchBar from '../SearchBar';
-import GetCookie from '../../utilities/GetCookie';
+import { getCookie } from '../../utilities/CookieUtils';
 
 import server from '../../server.json';
 
@@ -17,6 +17,8 @@ const AddSong = (props) => {
   const [noResult, setNoResult] = useState(false);
   // const [disableAdd, setDisableAdd] = useState(false);
   const [inputDebounced] = useDebounce(songName, 300);
+
+  let addSongTimeOut;
 
   const refEl = useRef(null);
 
@@ -46,8 +48,8 @@ const AddSong = (props) => {
     }
   };
 
-  const addSong = async (songId) => {
-    const headers = GetCookie();
+  const addSongToPlaylist = async (songId) => {
+    const headers = getCookie();
     const bodyFormData = new FormData();
     bodyFormData.set('songId', songId);
 
@@ -58,16 +60,6 @@ const AddSong = (props) => {
         method: 'POST', url: `${server.url}/party/addSong`, data: bodyFormData, headers, withCredentials: true,
       });
       console.log(res);
-      const localSongs = localStorage.getItem('songs');
-      if (localSongs === null) {
-        const songsArray = [];
-        songsArray.push(songId);
-        localStorage.setItem('songs', JSON.stringify(songsArray));
-      } else {
-        const songsArray = JSON.parse(localSongs);
-        songsArray.push(songId);
-        localStorage.setItem('songs', JSON.stringify(songsArray));
-      }
       refreshPlaylist();
       // setDisableAdd(false);
     } catch (e) {
@@ -106,6 +98,14 @@ const AddSong = (props) => {
     }
   };
 
+  const debouncedAddSong = (id) => {
+    clearTimeout(addSongTimeOut);
+
+    addSongTimeOut = setTimeout(() => {
+      addSongToPlaylist(id);
+    }, 200);
+  };
+
   useEffect(() => {
     refEl.current.addEventListener('scroll', () => detectEndOfScroll());
     return refEl.current.removeEventListener('scroll', () => detectEndOfScroll());
@@ -114,7 +114,7 @@ const AddSong = (props) => {
   const isSongExisting = songId => songs.some(e => e.id === songId);
 
   const song = item => (
-    <button type="button" key={item.id} className={isSongExisting(item.id) ? 'song-wrapper greyed-out' : 'song-wrapper'} onClick={isSongExisting(item.id) ? null : () => addSong(item.id)}>
+    <button type="button" key={item.id} className={isSongExisting(item.id) ? 'song-wrapper greyed-out' : 'song-wrapper'} onClick={isSongExisting(item.id) ? null : () => debouncedAddSong(item.id)}>
       <img alt="album-cover" className="album-cover" src={item.album.images.length ? item.album.images[1].url : null} />
       <div className="text-info">
         <p>{item.name}</p>

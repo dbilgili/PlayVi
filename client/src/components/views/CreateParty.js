@@ -29,7 +29,7 @@ const CreateParty = (props) => {
   }, [nickname]);
 
   useEffect(() => {
-    if (playlistData.user === 'admin' && playlistData.data !== null) {
+    if (playlistData !== null) {
       screen('admin');
     } else {
       // server error

@@ -9,7 +9,7 @@ import CreateParty from './components/views/CreateParty';
 import JoinParty from './components/views/JoinParty';
 import PartyScreen from './components/views/PartyScreen';
 
-import GetCookie from './utilities/GetCookie';
+import { getCookie, clearCookie, setCookie } from './utilities/CookieUtils';
 
 import server from './server.json';
 import './assets/stylus/global.css';
@@ -19,29 +19,23 @@ const App = () => {
   const [screen, setScreen] = useState('frontpage');
   const [loading, setLoading] = useState(false);
   const [initialPin, setInitialPin] = useState('');
-  const [playlistData, setPlaylistData] = useState({ user: null, data: null });
-
-  const setCookie = (res) => {
-    // Fix expiration date
-    document.cookie = `SESSION=${res.headers.authorization}; expires=${new Date(new Date().setFullYear(new Date().getFullYear() + 1))}; path=/`;
-    if (localStorage.getItem('songs') !== null) {
-      localStorage.removeItem('songs');
-    }
-  };
+  const [playlistData, setPlaylistData] = useState(null);
+  const [isPinValid, setIsPinValid] = useState(null);
 
   const parseQueryString = () => {
     const pin = window.location.search.substring(1).split('=')[1];
     if (pin !== undefined) {
       setInitialPin(pin);
       setScreen('join');
+    } else {
+      setScreen('frontpage');
     }
   };
 
   const checkUser = async () => {
-    const headers = GetCookie();
+    const headers = getCookie();
 
     if (headers.Authorization === undefined) {
-      setScreen('frontpage');
       parseQueryString();
     } else {
       try {
@@ -49,14 +43,17 @@ const App = () => {
           method: 'GET', url: `${server.url}/party`, headers, withCredentials: true,
         });
         if (typeof res.data === 'object') {
-          setPlaylistData({ user: 'participant', data: res.data });
-          setScreen('participant');
+          if (res.data.creator.id === localStorage.getItem('userId')) {
+            setPlaylistData(res.data);
+            setScreen('admin');
+          } else {
+            setPlaylistData(res.data);
+            setScreen('participant');
+          }
         }
-
-        console.log(res);
       } catch (e) {
-        console.log(e);
-        setScreen('frontpage');
+        clearCookie();
+        parseQueryString();
       }
     }
   };
@@ -70,7 +67,8 @@ const App = () => {
       const res = await axios({
         method: 'POST', url: `${server.url}/party/create`, data: bodyFormData, withCredentials: true,
       });
-      setPlaylistData({ user: 'admin', data: res.data });
+      localStorage.setItem('userId', res.data.creator.id);
+      setPlaylistData(res.data);
       setLoading(false);
       setCookie(res);
     } catch (e) {
@@ -80,6 +78,7 @@ const App = () => {
 
   const joinParty = async (pin, nickname) => {
     setLoading(true);
+    setIsPinValid(null);
     const bodyFormData = new FormData();
     bodyFormData.set('username', nickname);
     bodyFormData.set('pin', pin);
@@ -88,17 +87,21 @@ const App = () => {
       const res = await axios({
         method: 'POST', url: `${server.url}/party`, data: bodyFormData, withCredentials: true,
       });
-      setPlaylistData({ user: 'participant', data: res.data });
       setLoading(false);
-      if (res.data !== '') {
+      if (typeof res.data === 'object') {
+        localStorage.setItem('userId', res.data.id);
+        setIsPinValid(true);
         setCookie(res);
+        checkUser();
+      } else {
+        setIsPinValid(false);
       }
     } catch (e) {
       setLoading(false);
     }
   };
 
-  const clearParty = () => setPlaylistData({ user: null, data: null });
+  const clearParty = () => setPlaylistData(null);
 
   useEffect(() => {
     checkUser();
@@ -147,7 +150,7 @@ const App = () => {
           loading={loading}
           clearParty={clearParty}
           joinParty={joinParty}
-          playlistData={playlistData}
+          isPinValid={isPinValid}
           initialPin={initialPin}
         />
       </CSSTransition>
@@ -161,7 +164,7 @@ const App = () => {
           screen={type => setScreen(type)}
           clearParty={clearParty}
           userRole={screen}
-          playlistData={playlistData.data}
+          playlistData={playlistData}
         />
       </CSSTransition>
     </div>

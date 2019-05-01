@@ -4,7 +4,7 @@ import cross from '../assets/images/cross.png';
 
 const SlidingMenu = (props) => {
   const {
-    close, exit, playlistData: {
+    close, exit, copyAccessLink, playlistData: {
       accessLink, spotifyName, pin,
     },
   } = props;
@@ -20,7 +20,10 @@ const SlidingMenu = (props) => {
           <p className="header">Party PIN</p>
           <p className="text">{pin}</p>
         </div>
-        <button type="button" onClick={exit}>Leave the party</button>
+        <div style={{ display: 'flex' }}>
+          <button type="button" onClick={copyAccessLink}>Access Link</button>
+          <button type="button" onClick={exit}>Leave the party</button>
+        </div>
       </div>
 
       <button type="button" className="close-button" onClick={close}>

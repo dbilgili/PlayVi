@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import axios from 'axios';
 
-import GetCookie from '../../utilities/GetCookie';
+import { getCookie } from '../../utilities/CookieUtils';
 
 import server from '../../server.json';
 import cross from '../../assets/images/cross.png';
@@ -10,12 +10,16 @@ import cross from '../../assets/images/cross.png';
 const PlayList = (props) => {
   const {
     userRole,
-    playlistData: { accessLink, spotifyName, pin },
+    playlistData: {
+      accessLink, spotifyName, pin, creator,
+    },
     songs,
     refreshPlaylist,
   } = props;
 
-  const [removeStatus, setRemoveStatus] = useState({ isRemoving: false, songId: null, position: null });
+  console.log({ songs });
+
+  const [removeStatus, setRemoveStatus] = useState({ songId: null, position: null });
 
   const millisToHoursAndMinutesAndSeconds = (millis) => {
     let hours = 0;
@@ -38,48 +42,49 @@ const PlayList = (props) => {
   };
 
   const removeSong = async (songId, position) => {
-    const headers = GetCookie();
+    const headers = getCookie();
     const bodyFormData = new FormData();
     bodyFormData.set('songId', songId);
     bodyFormData.set('position', position);
 
-    setRemoveStatus({ isRemoving: true, songId, position });
+    setRemoveStatus({ songId, position });
 
     try {
       await axios({
         method: 'DELETE', url: `${server.url}/party/removeSong`, data: bodyFormData, headers, withCredentials: true,
       });
-      let localSongs = JSON.parse(localStorage.getItem('songs'));
-      localSongs = localSongs.filter(item => item !== songId);
-      localStorage.setItem('songs', JSON.stringify(localSongs));
-      setTimeout(() => {
-        setRemoveStatus({ isRemoving: false, songId: null, position: null });
-      }, 100);
+      setRemoveStatus({ songId: null, position: null });
 
       refreshPlaylist();
     } catch (e) {
-      setRemoveStatus({ isRemoving: false, songId: null, position: null });
+      setRemoveStatus({ songId: null, position: null });
       console.log(e);
     }
   };
 
-  const isValidToDelete = (songId) => {
-    if (localStorage.getItem('songs')) {
-      return JSON.parse(localStorage.getItem('songs')).includes(songId);
+  const isValidToDelete = (creatorId) => {
+    const userId = localStorage.getItem('userId');
+
+    if (userId) {
+      if (creator.id === userId) {
+        return true;
+      } else {
+        return userId === creatorId;
+      }
     }
     return null;
   };
 
-  const songRemoveButton = (id, index, state) => {
-    if (isValidToDelete(id)) {
-      if (state.isRemoving && state.songId === id && state.position === index) {
+  const songRemoveButton = (creatorId, songId, index, state) => {
+    if (isValidToDelete(creatorId)) {
+      if (state.position === index) {
         return <span className="spinner" />;
       } else {
         return (
           <button
             type="button"
             className="delete-button"
-            onClick={() => removeSong(id, index)}
+            onClick={() => removeSong(songId, index)}
             style={{
               backgroundImage: `url(${cross})`,
               backgroundPosition: 'center',
@@ -96,12 +101,12 @@ const PlayList = (props) => {
   const songItem = (item, index) => (
     <div key={item.id} className="song-wrapper">
       <img alt="album-cover" className="album-cover" src={item.albumCoverUrl} />
-      <div className={isValidToDelete(item.id) ? 'text-info short-ellipsis' : 'text-info'}>
+      <div className={isValidToDelete(item.creator.id) ? 'text-info short-ellipsis' : 'text-info'}>
         <p>{item.name}</p>
         <p>{item.artists.map((artist, artistIndex) => <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
         <p>{`Added by ${item.creator.username}`}</p>
       </div>
-      {songRemoveButton(item.id, index, removeStatus)}
+      {songRemoveButton(item.creator.id, item.id, index, removeStatus)}
     </div>
   );
 

@@ -8,7 +8,7 @@ import '../../assets/stylus/global.css';
 
 const JoinParty = (props) => {
   const {
-    screen, joinParty, playlistData, loading, clearParty, initialPin,
+    screen, joinParty, isPinValid, loading, clearParty, initialPin,
   } = props;
   const [nickname, setNickname] = useState('');
   const [partyPin, setPartyPin] = useState(initialPin);
@@ -17,16 +17,10 @@ const JoinParty = (props) => {
   const [partyPinError, setPartyPinError] = useState(false);
 
   useEffect(() => {
-    console.log(playlistData);
-    if (playlistData.user === 'participant' && playlistData.data !== null) {
-      // pin validation (returns empty string if the pin is incorrect)
-      if (typeof playlistData.data === 'object') {
-        screen('participant');
-      } else {
-        setPartyPinError(true);
-      }
+    if (isPinValid !== null && !isPinValid) {
+      setPartyPinError(true);
     }
-  }, [playlistData]);
+  }, [isPinValid]);
 
   const fieldValidation = () => {
     if (areFieldsValid[0] && areFieldsValid[1]) {
