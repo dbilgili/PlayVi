@@ -42,6 +42,7 @@ const App = () => {
         const res = await axios({
           method: 'GET', url: `${server.url}/party`, headers, withCredentials: true,
         });
+        console.log(res);
         if (typeof res.data === 'object') {
           if (res.data.creator.id === localStorage.getItem('userId')) {
             setPlaylistData(res.data);
@@ -50,6 +51,9 @@ const App = () => {
             setPlaylistData(res.data);
             setScreen('participant');
           }
+        } else {
+          clearCookie();
+          parseQueryString();
         }
       } catch (e) {
         clearCookie();
