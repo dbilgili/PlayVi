@@ -15,6 +15,7 @@ const PlayList = (props) => {
     },
     songs,
     refreshPlaylist,
+    copyAccessLink
   } = props;
 
   console.log({ songs });
@@ -37,6 +38,7 @@ const PlayList = (props) => {
     let duration = 0;
     songs.map((song) => {
       duration += song.duration;
+      return null;
     });
     return millisToHoursAndMinutesAndSeconds(duration);
   };
@@ -152,6 +154,10 @@ const PlayList = (props) => {
               <span>{pin}</span>
               <br />
               <span>Share this with your friends.</span>
+              <br />
+              <span>or</span>
+              <br />
+              <button type="button" onClick={copyAccessLink}>Click to Copy the Quick Access Link</button>
             </div>
           </div>
         );

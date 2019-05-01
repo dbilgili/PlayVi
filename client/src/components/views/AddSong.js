@@ -15,7 +15,7 @@ const AddSong = (props) => {
   const [response, setResponse] = useState([]);
   const [offset, setOffset] = useState(0);
   const [noResult, setNoResult] = useState(false);
-  // const [disableAdd, setDisableAdd] = useState(false);
+  const [addingSong, setAddingSong] = useState({ id: null, index: null });
   const [inputDebounced] = useDebounce(songName, 300);
 
   let addSongTimeOut;
@@ -53,18 +53,16 @@ const AddSong = (props) => {
     const bodyFormData = new FormData();
     bodyFormData.set('songId', songId);
 
-    // setDisableAdd(true);
-
     try {
       const res = await axios({
         method: 'POST', url: `${server.url}/party/addSong`, data: bodyFormData, headers, withCredentials: true,
       });
       console.log(res);
+      setTimeout(() => setAddingSong({ id: null, index: null }), 100);
       refreshPlaylist();
-      // setDisableAdd(false);
     } catch (e) {
+      setAddingSong({ id: null, index: null });
       console.log(e);
-      // setDisableAdd(false);
     }
   };
 
@@ -98,11 +96,12 @@ const AddSong = (props) => {
     }
   };
 
-  const debouncedAddSong = (id) => {
+  const debouncedAddSong = (id, index) => {
     clearTimeout(addSongTimeOut);
 
     addSongTimeOut = setTimeout(() => {
       addSongToPlaylist(id);
+      setAddingSong({ id, index });
     }, 200);
   };
 
@@ -113,13 +112,14 @@ const AddSong = (props) => {
 
   const isSongExisting = songId => songs.some(e => e.id === songId);
 
-  const song = item => (
-    <button type="button" key={item.id} className={isSongExisting(item.id) ? 'song-wrapper greyed-out' : 'song-wrapper'} onClick={isSongExisting(item.id) ? null : () => debouncedAddSong(item.id)}>
+  const song = (item, index) => (
+    <button type="button" key={item.id} className={isSongExisting(item.id) ? 'song-wrapper greyed-out' : 'song-wrapper'} onClick={isSongExisting(item.id) || addingSong.index ? null : () => debouncedAddSong(item.id, index)}>
       <img alt="album-cover" className="album-cover" src={item.album.images.length ? item.album.images[1].url : null} />
-      <div className="text-info">
+      <div className={addingSong.index === index ? 'text-info short-ellipsis' : 'text-info'}>
         <p>{item.name}</p>
-        <p>{item.artists.map((artist, index) => <span key={artist.id}>{index !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
+        <p>{item.artists.map((artist, artistIndex) => <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
       </div>
+      {addingSong.index === index && <span className="spinner" />}
     </button>
   );
 
@@ -131,7 +131,7 @@ const AddSong = (props) => {
         onClear={() => setNoResult(false)}
       />
       <div ref={refEl} className="songs-container" data-scroll-lock-scrollable>
-        {songName.length ? response.map(item => song(item)) : <span>Add a new song to playlist</span>}
+        {songName.length ? response.map((item, index) => song(item, index)) : <span>Add a new song to playlist</span>}
         {noResult && <span>No matching result</span>}
       </div>
       <div className="transparent-gradient" />
