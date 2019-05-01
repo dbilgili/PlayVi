@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import Swipe from 'swipe-js-iso';
-import isEqual from 'lodash.isequal';
 
 class ReactSwipe extends PureComponent {
   static defaultProps = {
@@ -29,19 +28,6 @@ class ReactSwipe extends PureComponent {
 
   componentDidMount() {
     this.swipe = Swipe(this.containerEl, this.props.swipeOptions);
-  }
-
-  componentDidUpdate(prevProps) {
-    const { childCount, swipeOptions } = this.props;
-    const shouldUpdateSwipeInstance = prevProps.childCount !== childCount
-      || !isEqual(prevProps.swipeOptions, swipeOptions);
-
-    /*
-    if (shouldUpdateSwipeInstance) {
-      this.swipe.kill();
-      this.swipe = Swipe(this.containerEl, this.props.swipeOptions);
-    }
-    */
   }
 
   componentWillUnmount() {
