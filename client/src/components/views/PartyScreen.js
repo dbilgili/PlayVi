@@ -52,7 +52,7 @@ const PartyScreen = (props) => {
   };
 
   const copyAccessLink = () => {
-    const url = 'localhost:3000';
+    const url = process.env.REACT_APP_URL;
     navigator.clipboard.writeText(`${url}/?pin=${playlistData.pin}`);
   };
 
