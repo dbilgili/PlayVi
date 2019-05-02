@@ -85,6 +85,13 @@
         opacity: 0.6
         margin-left: auto
 
+  .dashed-separator
+    border:none
+    border-top:2px dashed $white
+    height:1px
+    width:70%
+    margin-top: 30px
+
   .playlist-name
     flex-direction: column
     align-items: center
@@ -104,7 +111,7 @@
   .playlist-pin
     flex-direction: column
     align-items: center
-    margin-top: 50px
+    margin-top: 30px
     span
       font-weight: 300
       &:nth-of-type(1)
@@ -116,10 +123,6 @@
       &:nth-of-type(3)
         font-size: 1.6rem
         width: 220px
-    button
-      color: $green
-      font-weight: 700
-      text-decoration: underline
 
   .transparent-gradient
     position: fixed

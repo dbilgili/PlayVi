@@ -148,16 +148,13 @@ const PlayList = (props) => {
               <br />
               <span>Click on the playlist name to open it in Spotify.</span>
             </div>
+            <span className="dashed-separator" />
             <div className="playlist-pin">
               <span>PARTY PIN</span>
               <br />
               <span>{pin}</span>
               <br />
               <span>Share this with your friends.</span>
-              <br />
-              <span>or</span>
-              <br />
-              <button type="button" onClick={copyAccessLink}>Click to Copy the Quick Access Link</button>
             </div>
           </div>
         );
