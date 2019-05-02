@@ -89,8 +89,12 @@ const AddSong = (props) => {
     }
   }, [offset]);
 
-  const detectEndOfScroll = () => {
+  const detectScroll = () => {
     const element = refEl.current;
+
+    document.querySelector('.custom-search-bar').blur();
+
+    // Detect end of scroll
     if (element.offsetHeight + element.scrollTop >= element.scrollHeight) {
       setOffset(prevState => prevState + 20);
     }
@@ -106,8 +110,8 @@ const AddSong = (props) => {
   };
 
   useEffect(() => {
-    refEl.current.addEventListener('scroll', () => detectEndOfScroll());
-    return refEl.current.removeEventListener('scroll', () => detectEndOfScroll());
+    refEl.current.addEventListener('scroll', () => detectScroll());
+    return refEl.current.removeEventListener('scroll', () => detectScroll());
   }, []);
 
   const isSongExisting = songId => songs.some(e => e.id === songId);
