@@ -10,14 +10,14 @@ html
   font-size: 62.5%
 
 body
-  background-color: $bg-color
+  background-color: $black
   color: $black
   display: flex
   font-size: 1.6rem
   justify-content: center
   margin: 0
   position: relative
-  user-select: none
+  // user-select: none
   touch-action: manipulation
 
   +respond-to(mobile)
@@ -40,13 +40,11 @@ p
 
 .App
   width: 425px
-  height: 100vh
   background-color: $black
   position: relative
   border-top: 20px solid
   border-left: 20px solid
   border-right: 20px solid
-  overflow: hidden
 
   +respond-to(mobile)
     width: auto
