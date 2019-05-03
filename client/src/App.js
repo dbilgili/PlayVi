@@ -108,16 +108,14 @@ const App = () => {
   const clearParty = () => setPlaylistData(null);
 
   useEffect(() => {
-    checkUser();
     disablePageScroll(null);
+    checkUser();
 
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
-
-    document.addEventListener('gesturestart', (e) => {
-      e.preventDefault();
-    });
+    document.addEventListener('gesturestart', e => e.preventDefault());
   }, []);
+
 
   return (
     <div className="App">
