@@ -33,7 +33,7 @@ class ReactSwipe extends PureComponent {
 
   componentDidMount() {
     const { swipeOptions } = this.props;
-    this.swipe = Swipe(this.containerEl, swipeOptions);
+    this.swipe = Swipe(this.containerEl.current, swipeOptions);
   }
 
   componentWillUnmount() {
