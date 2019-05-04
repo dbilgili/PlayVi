@@ -21,7 +21,7 @@ const SlidingMenu = (props) => {
           <p className="text">{pin}</p>
         </div>
         <div className="inner-wrapper-bottom">
-          <button type="button" onClick={copyAccessLink}>Access Link</button>
+          {/* <button type="button" onClick={copyAccessLink}>Access Link</button> */}
           <button type="button" onClick={exit}>Leave the party</button>
         </div>
       </div>
