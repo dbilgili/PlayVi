@@ -26,17 +26,19 @@ class ReactSwipe extends PureComponent {
     childCount: 0,
   };
 
+  constructor() {
+    super();
+    this.containerEl = React.createRef();
+  }
+
   componentDidMount() {
-    this.swipe = Swipe(this.containerEl, this.props.swipeOptions);
+    const { swipeOptions } = this.props;
+    this.swipe = Swipe(this.containerEl, swipeOptions);
   }
 
   componentWillUnmount() {
     this.swipe.kill();
-    this.swipe = void 0;
-  }
-
-  slide(...args) {
-    this.swipe.slide(...args);
+    this.swipe = undefined;
   }
 
   getPos() {
@@ -45,6 +47,10 @@ class ReactSwipe extends PureComponent {
 
   getNumSlides() {
     return this.swipe.getNumSlides();
+  }
+
+  slide(...args) {
+    this.swipe.slide(...args);
   }
 
   next() {
@@ -63,7 +69,7 @@ class ReactSwipe extends PureComponent {
     return (
       <div
         id={id}
-        ref={el => (this.containerEl = el)}
+        ref={this.containerEl}
         className={`react-swipe-container ${className}`}
         style={style.container}
       >
