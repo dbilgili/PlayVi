@@ -48,6 +48,7 @@ const JoinParty = (props) => {
     if (initialPin !== '') {
       setAreFieldsValid([true, false]);
     }
+    return setPartyPinError(false);
   }, []);
 
   return (
