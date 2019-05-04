@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const TextInput = (props) => {
   const {
@@ -15,6 +15,8 @@ const TextInput = (props) => {
     initialValue,
   } = props;
 
+  const textField = useRef(null);
+
   const [input, setInput] = useState(initialValue);
 
   const onChangeHandler = (e) => {
@@ -29,6 +31,7 @@ const TextInput = (props) => {
 
   const handleKeyPress = (e) => {
     if (e.keyCode === 13) {
+      textField.current.blur();
       onReturnKeyPress();
     }
   };
@@ -36,6 +39,7 @@ const TextInput = (props) => {
   return (
     <div className="custon-text-input-wrapper">
       <input
+        ref={textField}
         type="text"
         maxLength={maxlength}
         pattern={pattern}
