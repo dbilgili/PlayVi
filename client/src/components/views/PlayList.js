@@ -55,9 +55,9 @@ const PlayList = (props) => {
       await axios({
         method: 'DELETE', url: `${server.url}/party/removeSong`, data: bodyFormData, headers, withCredentials: true,
       });
-      setRemoveStatus({ songId: null, position: null });
 
       refreshPlaylist();
+      setTimeout(() => setRemoveStatus({ songId: null, position: null }), 100);
     } catch (e) {
       setRemoveStatus({ songId: null, position: null });
       console.log(e);
