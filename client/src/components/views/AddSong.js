@@ -135,8 +135,8 @@ const AddSong = (props) => {
         onClear={() => setNoResult(false)}
       />
       <div ref={refEl} className="songs-container" data-scroll-lock-scrollable>
-        {songName.length ? response.map((item, index) => song(item, index)) : <span>Add a new song to playlist</span>}
-        {noResult && <span>No matching result</span>}
+        {songName.length ? response.map((item, index) => song(item, index)) : <span className="add-song-message">Add a new song to playlist</span>}
+        {noResult && <span className="add-song-message">No matching result</span>}
       </div>
       <div className="transparent-gradient" />
     </div>
