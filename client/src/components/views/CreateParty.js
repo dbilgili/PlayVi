@@ -38,14 +38,13 @@ const CreateParty = (props) => {
 
   return (
     <div className="create-party-container">
-      <form onSubmit={() => alert('hey')}>
-        <TextInput
-          getField={val => setNickname(val)}
-          placeholder="Nickname"
-          validate={val => setIsFieldValid(val)}
-          alert={alert}
-        />
-      </form>
+      <TextInput
+        getField={val => setNickname(val)}
+        placeholder="Nickname"
+        validate={val => setIsFieldValid(val)}
+        isAlert={alert}
+        onReturnKeyPress={loading ? null : fieldValidation}
+      />
       <p className="info-text">Pick a nickname which will appear below the songs you add to the playlist.</p>
       <p className="info-text">Note that the party is going to expire after 7 days.</p>
       <NavigationButtons

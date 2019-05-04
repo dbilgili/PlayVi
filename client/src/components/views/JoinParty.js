@@ -59,7 +59,7 @@ const JoinParty = (props) => {
           initialValue={partyPin}
           pattern="\d*"
           validate={val => setAreFieldsValid([val, areFieldsValid[1]])}
-          alert={alertArray[0]}
+          isAlert={alertArray[0]}
           maxlength={5}
           invalidValue={partyPinError}
           invalidMessage="Invalid PIN"
@@ -69,7 +69,8 @@ const JoinParty = (props) => {
           getField={val => setNickname(val)}
           placeholder="Nickname"
           validate={val => setAreFieldsValid([areFieldsValid[0], val])}
-          alert={alertArray[1]}
+          isAlert={alertArray[1]}
+          onReturnKeyPress={loading ? null : fieldValidation}
         />
       </div>
       <p className="info-text">Pick a nickname which will appear below the songs you add to the playlist.</p>
