@@ -39,6 +39,7 @@ const TextInput = (props) => {
   return (
     <div className="custon-text-input-wrapper">
       <input
+        spellCheck={false}
         ref={textField}
         type="text"
         maxLength={maxlength}

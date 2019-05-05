@@ -26,6 +26,7 @@ const SearchBar = (props) => {
   return (
     <div className="search-bar-container">
       <input
+        spellCheck={false}
         type="text"
         ref={inputEl}
         className="custom-search-bar"
