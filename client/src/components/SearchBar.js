@@ -23,6 +23,12 @@ const SearchBar = (props) => {
     inputEl.current.focus();
   };
 
+  const handleKeyPress = (e) => {
+    if (e.keyCode === 13) {
+      inputEl.current.blur();
+    }
+  };
+
   return (
     <div className="search-bar-container">
       <input
@@ -32,6 +38,7 @@ const SearchBar = (props) => {
         className="custom-search-bar"
         placeholder={placeholder}
         onChange={handleChange}
+        onKeyDown={handleKeyPress}
         style={{
           backgroundImage: `url(${search})`,
           backgroundPosition: '10px center',
