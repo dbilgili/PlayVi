@@ -8,6 +8,7 @@ import FrontPage from './components/views/FrontPage';
 import CreateParty from './components/views/CreateParty';
 import JoinParty from './components/views/JoinParty';
 import PartyScreen from './components/views/PartyScreen';
+import AboutPage from './components/views/AboutPage';
 
 import { getCookie, clearCookie, setCookie } from './utilities/CookieUtils';
 
@@ -42,7 +43,6 @@ const App = () => {
         const res = await axios({
           method: 'GET', url: `${server.url}/party`, headers, withCredentials: true,
         });
-        console.log(res);
         if (typeof res.data === 'object') {
           if (res.data.creator.id === localStorage.getItem('userId')) {
             setPlaylistData(res.data);
@@ -159,7 +159,7 @@ const App = () => {
       <CSSTransition
         in={screen === 'admin' || screen === 'participant'}
         timeout={350}
-        classNames="party-page-container"
+        classNames="join-party-container"
         unmountOnExit
       >
         <PartyScreen
@@ -167,6 +167,16 @@ const App = () => {
           clearParty={clearParty}
           userRole={screen}
           playlistData={playlistData}
+        />
+      </CSSTransition>
+      <CSSTransition
+        in={screen === 'about'}
+        timeout={350}
+        classNames="join-party-container"
+        unmountOnExit
+      >
+        <AboutPage
+          screen={type => setScreen(type)}
         />
       </CSSTransition>
     </div>
