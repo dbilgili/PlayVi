@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../assets/stylus/global.css';
+// import '../assets/stylus/global.css';
 
 const LoadingBar = () => (
   <div className="linear-progress small">

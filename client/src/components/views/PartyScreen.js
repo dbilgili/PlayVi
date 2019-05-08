@@ -36,9 +36,7 @@ const PartyScreen = (props) => {
         method: 'GET', url: `${server.url}/party`, headers, withCredentials: true,
       });
       if (typeof res.data === 'object') {
-        console.log(res.data);
         setSongs(res.data.songList);
-        console.log(res.data);
       }
     } catch (e) {
       console.log(e);

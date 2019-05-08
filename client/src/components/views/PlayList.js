@@ -18,8 +18,6 @@ const PlayList = (props) => {
     copyAccessLink
   } = props;
 
-  console.log({ songs });
-
   const [removeStatus, setRemoveStatus] = useState({ songId: null, position: null });
 
   const millisToHoursAndMinutesAndSeconds = (millis) => {

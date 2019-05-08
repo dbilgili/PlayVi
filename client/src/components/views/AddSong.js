@@ -57,7 +57,6 @@ const AddSong = (props) => {
       const res = await axios({
         method: 'POST', url: `${server.url}/party/addSong`, data: bodyFormData, headers, withCredentials: true,
       });
-      console.log(res);
       setTimeout(() => setAddingSong({ id: null, index: null }), 100);
       refreshPlaylist();
     } catch (e) {
