@@ -54,7 +54,7 @@ const AddSong = (props) => {
     bodyFormData.set('songId', songId);
 
     try {
-      const res = await axios({
+      await axios({
         method: 'POST', url: `${server.url}/party/addSong`, data: bodyFormData, headers, withCredentials: true,
       });
       setTimeout(() => setAddingSong({ id: null, index: null }), 100);
@@ -103,10 +103,15 @@ const AddSong = (props) => {
     clearTimeout(addSongTimeOut);
 
     addSongTimeOut = setTimeout(() => {
-      addSongToPlaylist(id);
       setAddingSong({ id, index });
     }, 200);
   };
+
+  useEffect(() => {
+    if (addingSong.id !== null) {
+      addSongToPlaylist(addingSong.id);
+    }
+  }, [addingSong]);
 
   useEffect(() => {
     refEl.current.addEventListener('scroll', () => detectScroll());
@@ -116,7 +121,7 @@ const AddSong = (props) => {
   const isSongExisting = songId => songs.some(e => e.id === songId);
 
   const song = (item, index) => (
-    <button type="button" key={item.id} className={isSongExisting(item.id) ? 'song-wrapper greyed-out' : 'song-wrapper'} onClick={isSongExisting(item.id) || addingSong.index ? null : () => debouncedAddSong(item.id, index)}>
+    <button type="button" key={item.id} className={isSongExisting(item.id) ? 'song-wrapper greyed-out' : 'song-wrapper'} onClick={isSongExisting(item.id) ? null : () => debouncedAddSong(item.id, index)}>
       <img alt="album-cover" className="album-cover" src={item.album.images.length ? item.album.images[1].url : null} />
       <div className={addingSong.index === index ? 'text-info short-ellipsis' : 'text-info'}>
         <p>{item.name}</p>
