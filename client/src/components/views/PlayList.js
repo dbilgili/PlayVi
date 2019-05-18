@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import axios from 'axios';
 
@@ -18,7 +18,7 @@ const PlayList = (props) => {
     copyAccessLink
   } = props;
 
-  const [removeStatus, setRemoveStatus] = useState({ songId: null, position: null });
+  const [removeStatus, setRemoveStatus] = useState({ songId: null, index: null });
 
   const millisToHoursAndMinutesAndSeconds = (millis) => {
     let hours = 0;
@@ -41,13 +41,11 @@ const PlayList = (props) => {
     return millisToHoursAndMinutesAndSeconds(duration);
   };
 
-  const removeSong = async (songId, position) => {
+  const removeSong = async (songId, index) => {
     const headers = getCookie();
     const bodyFormData = new FormData();
     bodyFormData.set('songId', songId);
-    bodyFormData.set('position', position);
-
-    setRemoveStatus({ songId, position });
+    bodyFormData.set('position', index);
 
     try {
       await axios({
@@ -55,9 +53,8 @@ const PlayList = (props) => {
       });
 
       refreshPlaylist();
-      setTimeout(() => setRemoveStatus({ songId: null, position: null }), 100);
     } catch (e) {
-      setRemoveStatus({ songId: null, position: null });
+      setRemoveStatus({ songId: null, index: null });
       console.log(e);
     }
   };
@@ -75,16 +72,27 @@ const PlayList = (props) => {
     return null;
   };
 
-  const songRemoveButton = (creatorId, songId, index, state) => {
+  useEffect(() => {
+    if (removeStatus.songId !== null) {
+      console.log(removeStatus);
+      removeSong(removeStatus.songId, removeStatus.index);
+    }
+  }, [removeStatus]);
+
+  useEffect(() => {
+    setRemoveStatus({ songId: null, index: null });
+  }, [songs]);
+
+  const songRemoveButton = (creatorId, songId, index) => {
     if (isValidToDelete(creatorId)) {
-      if (state.position === index) {
+      if (removeStatus.index === index) {
         return <span className="spinner" />;
       } else {
         return (
           <button
             type="button"
             className="delete-button"
-            onClick={() => removeSong(songId, index)}
+            onClick={() => setRemoveStatus({ songId, index })}
             style={{
               backgroundImage: `url(${cross})`,
               backgroundPosition: 'center',
@@ -106,7 +114,7 @@ const PlayList = (props) => {
         <p>{item.artists.map((artist, artistIndex) => <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
         <p>{`Added by ${item.creator.username}`}</p>
       </div>
-      {songRemoveButton(item.creator.id, item.id, index, removeStatus)}
+      {songRemoveButton(item.creator.id, item.id, index)}
     </div>
   );
 
