@@ -66,7 +66,7 @@ const PartyScreen = (props) => {
   }, []);
 
   return (
-    <div className="party-screen-container">
+    <div className="party-screen-container" onClick={() => toggleMore && setToggleMore(prev => !prev)}>
       <CSSTransition
         in={toggleMore}
         timeout={250}
