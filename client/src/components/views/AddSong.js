@@ -140,7 +140,7 @@ const AddSong = (props) => {
         <p>{item.artists.map((artist, artistIndex) => <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
         <div className={isPlaying.id === item.id ? 'playing-song-bar playing' : 'playing-song-bar'} />
         { /* eslint-disable-next-line jsx-a11y/media-has-caption */}
-        {isPlaying.id && <audio src='https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3' autoPlay />}
+        {isPlaying.id === item.id && <audio src='https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3' autoPlay />}
       </div>
       {addingSong.index === index && <span className="spinner" />}
     </div>
