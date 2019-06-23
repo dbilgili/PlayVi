@@ -129,6 +129,11 @@ const AddSong = (props) => {
   }, [addingSong]);
 
   useEffect(() => {
+    setReadyToPlay(false);
+    setIsPlaying({ id: null });
+  }, [songName]);
+
+  useEffect(() => {
     refEl.current.addEventListener('scroll', () => detectScroll());
     return refEl.current.removeEventListener('scroll', () => detectScroll());
   }, []);
@@ -137,7 +142,7 @@ const AddSong = (props) => {
 
   const song = (item, index) => (
     <div key={item.id} className={isSongExisting(item.id) ? 'song-wrapper greyed-out' : 'song-wrapper'}>
-      <button type="button" className={item.preview_url ? "album-cover" : "album-cover no-click"} onClick={(isSongExisting(item.id) || !item.preview_url) ? null : () => togglePreview(item.id)}>
+      <button type="button" className={item.preview_url ? 'album-cover' : 'album-cover no-click'} onClick={(isSongExisting(item.id) || !item.preview_url) ? null : () => togglePreview(item.id)}>
         {(isPlaying.id === item.id && readyToPlay)
           && (
           <div className="circle">
