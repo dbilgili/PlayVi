@@ -137,13 +137,14 @@ const AddSong = (props) => {
 
   const song = (item, index) => (
     <div key={item.id} className={isSongExisting(item.id) ? 'song-wrapper greyed-out' : 'song-wrapper'}>
-      <button type="button" className="album-cover" onClick={isSongExisting(item.id) ? null : () => togglePreview(item.id)}>
+      <button type="button" className="album-cover" onClick={(isSongExisting(item.id) || !item.preview_url) ? null : () => togglePreview(item.id)}>
         {(isPlaying.id === item.id && readyToPlay)
           && (
           <div className="circle">
             <div className="square" />
           </div>
           )}
+        {item.preview_url && <div className="preview-indicator" />}
         <img alt="album-cover" className={(isPlaying.id === item.id && readyToPlay) ? 'playing' : null} src={item.album.images.length ? item.album.images[1].url : null} />
       </button>
       <div type="button" className={addingSong.index === index ? 'text-info short-ellipsis' : 'text-info'} onClick={isSongExisting(item.id) ? null : () => debouncedAddSong(item.id, index)}>
