@@ -144,7 +144,12 @@ const AddSong = (props) => {
             <div className="square" />
           </div>
           )}
-        {item.preview_url && <div className="preview-indicator" />}
+        {item.preview_url
+          && (
+            <div className="preview-indicator">
+              <div className="arrow" />
+            </div>
+          )}
         <img alt="album-cover" className={(isPlaying.id === item.id && readyToPlay) ? 'playing' : null} src={item.album.images.length ? item.album.images[1].url : null} />
       </button>
       <div type="button" className={addingSong.index === index ? 'text-info short-ellipsis' : 'text-info'} onClick={isSongExisting(item.id) ? null : () => debouncedAddSong(item.id, index)}>
