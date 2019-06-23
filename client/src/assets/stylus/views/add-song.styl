@@ -38,8 +38,29 @@
       margin-top: 10px
 
     .album-cover
+      position: relative
+
+      .circle
+        top: 5px
+        left: 5px
+        width: 35px
+        height: 35px
+        position: absolute
+        border-radius: 50%
+        border: 3px white solid
+
+        .square
+          top: 8px
+          left: 8px
+          width: 13px
+          height: 13px
+          position: absolute
+          background-color: white
       img
         height: 45px
+
+        &.playing
+          opacity: 0.4
 
     .text-info
       display: flex
