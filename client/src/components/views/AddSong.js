@@ -14,6 +14,7 @@ const AddSong = (props) => {
   const [songName, setSongName] = useState('');
   const [response, setResponse] = useState([]);
   const [isPlaying, setIsPlaying] = useState({ id: null });
+  const [readyToPlay, setReadyToPlay] = useState(false);
   const [offset, setOffset] = useState(0);
   const [noResult, setNoResult] = useState(false);
   const [addingSong, setAddingSong] = useState({ id: null, index: null });
@@ -69,6 +70,7 @@ const AddSong = (props) => {
   const togglePreview = (id) => {
     if (isPlaying.id === id) {
       setIsPlaying({ id: null });
+      setReadyToPlay(false);
     } else {
       setIsPlaying({ id });
     }
@@ -109,7 +111,9 @@ const AddSong = (props) => {
   };
 
   const debouncedAddSong = (id, index) => {
-    togglePreview(id);
+    if (isPlaying.id === id) {
+      togglePreview(id);
+    }
     clearTimeout(addSongTimeOut);
 
     addSongTimeOut = setTimeout(() => {
@@ -138,9 +142,9 @@ const AddSong = (props) => {
       <div type="button" className={addingSong.index === index ? 'text-info short-ellipsis' : 'text-info'} onClick={isSongExisting(item.id) ? null : () => debouncedAddSong(item.id, index)}>
         <p>{item.name}</p>
         <p>{item.artists.map((artist, artistIndex) => <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
-        <div className={isPlaying.id === item.id ? 'playing-song-bar playing' : 'playing-song-bar'} />
+        <div className={(isPlaying.id === item.id && readyToPlay) ? 'playing-song-bar playing' : 'playing-song-bar'} />
         { /* eslint-disable-next-line jsx-a11y/media-has-caption */}
-        {isPlaying.id === item.id && <audio src='https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3' autoPlay />}
+        {isPlaying.id === item.id && <audio src='https://d1490khl9dq1ow.cloudfront.net/music/mp3preview/black-orchids-30-seconds_fySEnbVO.mp3' autoPlay onCanPlay={() => setReadyToPlay(true)} />}
       </div>
       {addingSong.index === index && <span className="spinner" />}
     </div>
