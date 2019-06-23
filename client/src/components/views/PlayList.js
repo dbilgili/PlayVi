@@ -151,12 +151,16 @@ const PlayList = (props) => {
               <span>PLAYLIST NAME</span>
               <br />
               <span><a target='_new' href={accessLink}>{spotifyName}</a></span>
+              <br />
+              <span>Click on the playlist name to open it in Spotify.</span>
             </div>
             <span className="dashed-separator" />
             <div className="playlist-pin">
               <span>PARTY PIN</span>
               <br />
               <span>{pin}</span>
+              <br />
+              <span>Share this with your friends.</span>
             </div>
           </div>
         );
