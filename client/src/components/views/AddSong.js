@@ -13,6 +13,7 @@ const AddSong = (props) => {
 
   const [songName, setSongName] = useState('');
   const [response, setResponse] = useState([]);
+  const [isPlaying, setIsPlaying] = useState({ id: null });
   const [offset, setOffset] = useState(0);
   const [noResult, setNoResult] = useState(false);
   const [addingSong, setAddingSong] = useState({ id: null, index: null });
@@ -65,6 +66,14 @@ const AddSong = (props) => {
     }
   };
 
+  const togglePreview = (id) => {
+    if (isPlaying.id === id) {
+      setIsPlaying({ id: null });
+    } else {
+      setIsPlaying({ id });
+    }
+  };
+
   useEffect(() => {
     if (inputDebounced.length) {
       setOffset(0);
@@ -100,6 +109,7 @@ const AddSong = (props) => {
   };
 
   const debouncedAddSong = (id, index) => {
+    togglePreview(id);
     clearTimeout(addSongTimeOut);
 
     addSongTimeOut = setTimeout(() => {
@@ -121,14 +131,19 @@ const AddSong = (props) => {
   const isSongExisting = songId => songs.some(e => e.id === songId);
 
   const song = (item, index) => (
-    <button type="button" key={item.id} className={isSongExisting(item.id) ? 'song-wrapper greyed-out' : 'song-wrapper'} onClick={isSongExisting(item.id) ? null : () => debouncedAddSong(item.id, index)}>
-      <img alt="album-cover" className="album-cover" src={item.album.images.length ? item.album.images[1].url : null} />
-      <div className={addingSong.index === index ? 'text-info short-ellipsis' : 'text-info'}>
+    <div key={item.id} className={isSongExisting(item.id) ? 'song-wrapper greyed-out' : 'song-wrapper'}>
+      <button type="button" className="album-cover" onClick={isSongExisting(item.id) ? null : () => togglePreview(item.id)}>
+        <img alt="album-cover" src={item.album.images.length ? item.album.images[1].url : null} />
+      </button>
+      <div type="button" className={addingSong.index === index ? 'text-info short-ellipsis' : 'text-info'} onClick={isSongExisting(item.id) ? null : () => debouncedAddSong(item.id, index)}>
         <p>{item.name}</p>
         <p>{item.artists.map((artist, artistIndex) => <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
+        <div className={isPlaying.id === item.id ? 'playing-song-bar playing' : 'playing-song-bar'} />
+        { /* eslint-disable-next-line jsx-a11y/media-has-caption */}
+        {isPlaying.id && <audio src='https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3' autoPlay />}
       </div>
       {addingSong.index === index && <span className="spinner" />}
-    </button>
+    </div>
   );
 
   return (

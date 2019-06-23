@@ -34,15 +34,12 @@
     &.greyed-out
       opacity: 0.35
 
-    &:active
-      background-color: rgba(255, 255, 255, 0.2)
-
     &:nth-of-type(1)
       margin-top: 10px
 
     .album-cover
-      height: 40px
-      width: 40px
+      img
+        height: 45px
 
     .text-info
       display: flex
@@ -53,7 +50,11 @@
       text-align: initial
       margin-left: 10px
       width: calc(100% - 70px)
-      height: 40px
+      height: 45px
+      cursor: pointer
+
+      &:active
+        background-color: rgba(255, 255, 255, 0.2)
 
       &.short-ellipsis
         width: calc(100% - 110px)
@@ -68,10 +69,26 @@
           font-weight: 300
           font-size: 1.4rem
 
+      .playing-song-bar
+        height: 2px
+        width: 0
+        background-color: $green
+        margin-top: auto
+
+        &.playing
+          animation-name: song-playing
+          animation-timing-function: linear
+          animation-duration: 30s
+
+
 
   .add-song-message
     color: $white
     padding-top: 30px
     text-align: center
 
-
+@keyframes song-playing
+  from
+    width: 0
+  to
+    width: 100%
