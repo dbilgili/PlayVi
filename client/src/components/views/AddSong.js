@@ -29,6 +29,7 @@ const AddSong = (props) => {
       const res = await axios({
         method: 'GET', url: `${server.url}/song/search?q=${input}&limit=20&offset=0`, withCredentials: true,
       });
+      console.log(res.data.tracks);
       setResponse(res.data.tracks.items);
       if (!res.data.tracks.items.length) {
         setNoResult(true);
@@ -143,14 +144,14 @@ const AddSong = (props) => {
             <div className="square" />
           </div>
           )}
-        <img alt="album-cover" className={(isPlaying.id === item.id && readyToPlay) && 'playing'} src={item.album.images.length ? item.album.images[1].url : null} />
+        <img alt="album-cover" className={(isPlaying.id === item.id && readyToPlay) ? 'playing' : null} src={item.album.images.length ? item.album.images[1].url : null} />
       </button>
       <div type="button" className={addingSong.index === index ? 'text-info short-ellipsis' : 'text-info'} onClick={isSongExisting(item.id) ? null : () => debouncedAddSong(item.id, index)}>
         <p>{item.name}</p>
         <p>{item.artists.map((artist, artistIndex) => <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
         <div className={(isPlaying.id === item.id && readyToPlay) ? 'playing-song-bar playing' : 'playing-song-bar'} />
         { /* eslint-disable-next-line jsx-a11y/media-has-caption */}
-        {isPlaying.id === item.id && <audio src='https://d1490khl9dq1ow.cloudfront.net/music/mp3preview/black-orchids-30-seconds_fySEnbVO.mp3' autoPlay onCanPlay={() => setReadyToPlay(true)} />}
+        {isPlaying.id === item.id && <audio src={item.preview_url} autoPlay onCanPlay={() => setReadyToPlay(true)} onEnded={() => setReadyToPlay(false)} />}
       </div>
       {addingSong.index === index && <span className="spinner" />}
     </div>
