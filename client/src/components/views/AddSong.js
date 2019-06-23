@@ -29,7 +29,6 @@ const AddSong = (props) => {
       const res = await axios({
         method: 'GET', url: `${server.url}/song/search?q=${input}&limit=20&offset=0`, withCredentials: true,
       });
-      console.log(res.data.tracks);
       setResponse(res.data.tracks.items);
       if (!res.data.tracks.items.length) {
         setNoResult(true);
