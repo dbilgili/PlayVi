@@ -14,9 +14,6 @@ const AboutPage = (props) => {
       <p>
       Even people who don’t have a Spotify account can still decide what to be played next!
       </p>
-      <p>
-    Just start a party and share the party PIN with people.
-      </p>
       <NavigationButtons
         leftButton='Back'
         backAction={() => screen('frontpage')}
