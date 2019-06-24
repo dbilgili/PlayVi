@@ -68,9 +68,9 @@ const AddSong = (props) => {
   };
 
   const togglePreview = (id) => {
+    setReadyToPlay(false);
     if (isPlaying.id === id) {
       setIsPlaying({ id: null });
-      setReadyToPlay(false);
     } else {
       setIsPlaying({ id });
     }
