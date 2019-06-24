@@ -8,12 +8,15 @@ import { getCookie } from '../../utilities/CookieUtils';
 
 import server from '../../server.json';
 
+let loaderTimeout = null;
+
 const AddSong = (props) => {
   const { refreshPlaylist, songs } = props;
 
   const [songName, setSongName] = useState('');
   const [response, setResponse] = useState([]);
   const [isPlaying, setIsPlaying] = useState({ id: null });
+  const [showSongLoading, setShowSongLoading] = useState(false);
   const [readyToPlay, setReadyToPlay] = useState(false);
   const [offset, setOffset] = useState(0);
   const [noResult, setNoResult] = useState(false);
@@ -67,12 +70,24 @@ const AddSong = (props) => {
     }
   };
 
+  const onCanPlayThrough = () => {
+    setReadyToPlay(true);
+    setShowSongLoading(false);
+    clearTimeout(loaderTimeout);
+  };
+
+  const handleSongLoadingSpinner = () => {
+    loaderTimeout = setTimeout(() => setShowSongLoading(true), 200);
+  };
+
   const togglePreview = (id) => {
     setReadyToPlay(false);
     if (isPlaying.id === id) {
       setIsPlaying({ id: null });
+      setShowSongLoading(false);
     } else {
       setIsPlaying({ id });
+      handleSongLoadingSpinner();
     }
   };
 
@@ -151,6 +166,7 @@ const AddSong = (props) => {
         {item.preview_url
           && (
             <div className="preview-indicator">
+              {(isPlaying.id === item.id && showSongLoading) && <span className="spinner mini" />}
               <div className="arrow" />
             </div>
           )}
@@ -161,7 +177,7 @@ const AddSong = (props) => {
         <p>{item.artists.map((artist, artistIndex) => <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
         <div className={(isPlaying.id === item.id && readyToPlay) ? 'playing-song-bar playing' : 'playing-song-bar'} />
         { /* eslint-disable-next-line jsx-a11y/media-has-caption */}
-        {isPlaying.id === item.id && <audio src={item.preview_url} autoPlay onCanPlayThrough={() => setReadyToPlay(true)} onEnded={() => setReadyToPlay(false)} />}
+        {isPlaying.id === item.id && <audio src={item.preview_url} autoPlay onCanPlayThrough={onCanPlayThrough} onEnded={togglePreview} />}
       </div>
       {addingSong.index === index && <span className="spinner" />}
     </div>
