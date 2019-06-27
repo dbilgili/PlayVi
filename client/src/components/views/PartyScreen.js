@@ -88,7 +88,7 @@ const PartyScreen = (props) => {
       />
       <ReactSwipe
         key="swipe"
-        className="carousel"
+        className={toggleMore ? 'carousel blur' : 'carousel'}
         swipeOptions={{ continuous: false, callback: detectChange }}
         ref={reactSwipeEl}
       >

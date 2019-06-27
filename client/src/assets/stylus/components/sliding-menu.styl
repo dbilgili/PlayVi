@@ -6,11 +6,30 @@
   max-width: $screen-tab-menu-width
   width: 100%
   height: 210px
-  background-color: $dark-grey
-  border-right: 20px solid $dark-grey
-  border-left: 20px solid $dark-grey
+  background-color: $black
+  border-right: 20px solid $black
+  border-left: 20px solid $black
+  border-bottom: 2px solid #1f1f1f
   box-sizing: content-box
-  box-shadow: 0px 4px 12px -1px rgba(0,0,0,0.75)
+  box-shadow: 0 20px 25px 3px #000000b8
+
+  &:after
+    position: absolute
+    content: ''
+    left: -20px
+    bottom: -2px
+    width: 20px
+    height 2px
+    background-color: #1f1f1f
+
+  &:before
+    position: absolute
+    content: ''
+    right: -20px
+    bottom: -2px
+    width: 20px
+    height 2px
+    background-color: #1f1f1f
 
   .vertical-wrapper
     display: flex
