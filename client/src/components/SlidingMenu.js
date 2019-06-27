@@ -11,6 +11,7 @@ const SlidingMenu = (props) => {
 
   return (
     <div className="sliding-menu-container" onClick={e => e.stopPropagation()}>
+      <div className="cover" onClick={close} />
       <div className="vertical-wrapper">
         <div className="inner-wrapper">
           <p className="header">Playlist Name</p>
