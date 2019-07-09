@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import axios from 'axios';
+import InfoIndicator from '../InfoIndicator';
 
 import { getCookie } from '../../utilities/CookieUtils';
 
@@ -15,7 +16,7 @@ const PlayList = (props) => {
     },
     songs,
     refreshPlaylist,
-    copyAccessLink
+    copyAccessLink,
   } = props;
 
   const [removeStatus, setRemoveStatus] = useState({ songId: null, index: null });
@@ -150,12 +151,15 @@ const PlayList = (props) => {
             <div className="playlist-name">
               <span>PLAYLIST NAME</span>
               <br />
-              <span><a target='_new' href={accessLink}>{spotifyName}</a></span>
+              <span style={{ position: 'relative' }}>
+                <InfoIndicator id={1} element="playlist-link" index={0} />
+                <a target='_new' className="playlist-link" href={accessLink}>{spotifyName}</a>
+              </span>
               <br />
               <span>Click on the playlist name to open it in Spotify.</span>
             </div>
             <span className="dashed-separator" />
-            <div className="playlist-pin">
+            <div className="party-pin">
               <span>PARTY PIN</span>
               <br />
               <span>{pin}</span>
