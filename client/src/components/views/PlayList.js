@@ -21,6 +21,27 @@ const PlayList = (props) => {
 
   const [removeStatus, setRemoveStatus] = useState({ songId: null, index: null });
 
+  const playlistNameInfo = `
+    <p>
+      <span style="color: #49DA8B">${spotifyName}</span> is the auto-generated Spotify playlist for your party.
+    </p>
+    <p>
+      Songs added will appear both under the Playlist tab and the actual playlist in Spotify.
+    </p>
+    <p>
+      Tap on the playlist name to open it with Spotify or tap and hold to copy the link to the playlist.
+    </p>
+  `;
+
+  const partyPinInfo = `
+    <p>
+      This is the PIN code to join to the party you have created.
+    </p>
+    <p>
+      Share this PIN code with people so that they can contribute to your party playlist.
+    </p>
+  `;
+
   const millisToHoursAndMinutesAndSeconds = (millis) => {
     let hours = 0;
     let minutes = Math.floor(millis / 60000);
@@ -75,7 +96,6 @@ const PlayList = (props) => {
 
   useEffect(() => {
     if (removeStatus.songId !== null) {
-      console.log(removeStatus);
       removeSong(removeStatus.songId, removeStatus.index);
     }
   }, [removeStatus]);
@@ -149,10 +169,12 @@ const PlayList = (props) => {
         return (
           <div className="play-list-container center">
             <div className="playlist-name">
-              <span>PLAYLIST NAME</span>
+              <span>
+                <InfoIndicator id={1} info={playlistNameInfo} />
+                PLAYLIST NAME
+              </span>
               <br />
-              <span style={{ position: 'relative' }}>
-                <InfoIndicator id={1} element="playlist-link" index={0} />
+              <span>
                 <a target='_new' className="playlist-link" href={accessLink}>{spotifyName}</a>
               </span>
               <br />
@@ -160,7 +182,10 @@ const PlayList = (props) => {
             </div>
             <span className="dashed-separator" />
             <div className="party-pin">
-              <span>PARTY PIN</span>
+              <span style={{ position: 'relative' }}>
+                <InfoIndicator id={2} info={partyPinInfo} />
+                PARTY PIN
+              </span>
               <br />
               <span>{pin}</span>
               <br />
