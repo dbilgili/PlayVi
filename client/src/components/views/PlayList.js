@@ -35,7 +35,7 @@ const PlayList = (props) => {
 
   const partyPinInfo = `
     <p>
-      This is the PIN code to join to the party you have created.
+      <span style="color: #49DA8B">${pin}</span> is the PIN code to join to the party you have created.
     </p>
     <p>
       Share this PIN code with people so that they can contribute to your party playlist.
