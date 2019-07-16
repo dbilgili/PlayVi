@@ -47,16 +47,14 @@ const LoadingBar = (props) => {
   if (!localStorage.getItem(`seen-${id}`)) {
     return (
       <div className="info-indicator-container">
-        {!isSeen && (
         <button
           type="button"
-          className="attention-indicator"
+          className={isSeen ? 'attention-indicator remove-animation' : 'attention-indicator'}
           onClick={close}
           style={{ left: `${-30}px`, top: `${2}px` }}
         >
           i
         </button>
-        )}
         {ReactDOM.createPortal(
           <CSSTransition
             in={isOpen}
