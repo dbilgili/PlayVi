@@ -31,9 +31,7 @@ const LoadingBar = (props) => {
   const gotIt = () => {
     setIsOpen(prevState => !prevState);
     setIsSeen(true);
-    setTimeout(() => {
-      localStorage.setItem(`seen-${id}`, true);
-    }, 350);
+    localStorage.setItem(`seen-${id}`, true);
   };
 
   useEffect(() => {
@@ -44,39 +42,41 @@ const LoadingBar = (props) => {
     }
   }, [isOpen]);
 
-  if (!localStorage.getItem(`seen-${id}`)) {
-    return (
-      <div className="info-indicator-container">
-        <button
-          type="button"
-          className={isSeen ? 'attention-indicator remove-animation' : 'attention-indicator'}
-          onClick={close}
-          style={{ left: `${-30}px`, top: `${2}px` }}
-        >
-          i
-        </button>
-        {ReactDOM.createPortal(
-          <CSSTransition
-            in={isOpen}
-            timeout={350}
-            classNames="front-page-container"
-            unmountOnExit
-          >
-            <div className="info-modal-container" onClick={close}>
-              <div className="info-modal" onClick={e => e.stopPropagation()}>
-                {ReactHtmlParser(info)}
-                {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
-                <button type="button" className="close-button" onClick={gotIt}><span role="img">👍🏻</span></button>
-              </div>
-            </div>
-          </CSSTransition>,
-          document.body,
-        )}
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (localStorage.getItem(`seen-${id}`)) {
+      setIsSeen(true);
+    }
+  });
 
-  return null;
+  return (
+    <div className="info-indicator-container">
+      <button
+        type="button"
+        className={isSeen ? 'attention-indicator remove-animation' : 'attention-indicator'}
+        onClick={close}
+        style={{ left: `${-30}px`, top: `${2}px` }}
+      >
+          i
+      </button>
+      {ReactDOM.createPortal(
+        <CSSTransition
+          in={isOpen}
+          timeout={350}
+          classNames="front-page-container"
+          unmountOnExit
+        >
+          <div className="info-modal-container" onClick={close}>
+            <div className="info-modal" onClick={e => e.stopPropagation()}>
+              {ReactHtmlParser(info)}
+              {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
+              <button type="button" className="close-button" onClick={gotIt}><span role="img">👍🏻</span></button>
+            </div>
+          </div>
+        </CSSTransition>,
+        document.body,
+      )}
+    </div>
+  );
 };
 
 export default LoadingBar;
