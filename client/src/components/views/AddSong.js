@@ -32,7 +32,7 @@ const AddSong = (props) => {
   const getSong = async (input) => {
     try {
       const res = await axios({
-        method: 'GET', url: `${server.url}/song/search?q=${input}&limit=20&offset=0`, withCredentials: true,
+        method: 'GET', url: `${server.url}/song/search?q=${input}&limit=50&offset=0`, withCredentials: true,
       });
       setResponse(res.data.tracks.items);
       if (!res.data.tracks.items.length) {
@@ -109,7 +109,7 @@ const AddSong = (props) => {
   useEffect(() => {
     if (offset > 0 && response.length < 60) {
       try {
-        fetchMore();
+        // fetchMore();
       } catch (e) {
         console.log(e);
       }
@@ -121,11 +121,9 @@ const AddSong = (props) => {
 
     clearTimeout(scrollTimeOut);
 
-    if (scrollTimeOut === null) {
-      scrollTimeOut = setTimeout(() => {
-        setIsScrollingFinished(true);
-      }, 500);
-    }
+    scrollTimeOut = setTimeout(() => {
+      setIsScrollingFinished(true);
+    }, 500);
 
     if (isScrollingFinished) {
       document.querySelector('.custom-search-bar').blur();
@@ -159,11 +157,6 @@ const AddSong = (props) => {
     setReadyToPlay(false);
     setIsPlaying({ id: null });
   }, [songName]);
-
-  useEffect(() => {
-    refEl.current.addEventListener('scroll', () => detectScroll());
-    return refEl.current.removeEventListener('scroll', () => detectScroll());
-  }, []);
 
   const isSongExisting = songId => songs.some(e => e.id === songId);
 
@@ -203,7 +196,7 @@ const AddSong = (props) => {
         onChange={setSongName}
         onClear={() => setNoResult(false)}
       />
-      <div ref={refEl} className="songs-container" data-scroll-lock-scrollable>
+      <div ref={refEl} className="songs-container" data-scroll-lock-scrollable onScroll={detectScroll}>
         {songName.length ? response.map((item, index) => song(item, index)) : <span className="add-song-message">Add a new song to playlist</span>}
         {noResult && <span className="add-song-message">No matching result</span>}
       </div>
