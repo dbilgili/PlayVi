@@ -123,9 +123,10 @@ const AddSong = (props) => {
 
     scrollTimeOut = setTimeout(() => {
       setIsScrollingFinished(true);
-    }, 500);
+    }, 1200);
 
     if (isScrollingFinished) {
+      console.log('hide');
       document.querySelector('.custom-search-bar').blur();
       setIsScrollingFinished(false);
     }
