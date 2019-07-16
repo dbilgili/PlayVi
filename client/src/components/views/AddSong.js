@@ -22,8 +22,10 @@ const AddSong = (props) => {
   const [noResult, setNoResult] = useState(false);
   const [addingSong, setAddingSong] = useState({ id: null, index: null });
   const [inputDebounced] = useDebounce(songName, 300);
+  const [isScrollingFinished, setIsScrollingFinished] = useState(true);
 
   let addSongTimeOut;
+  let scrollTimeOut = null;
 
   const refEl = useRef(null);
 
@@ -105,7 +107,7 @@ const AddSong = (props) => {
   }, [inputDebounced]);
 
   useEffect(() => {
-    if (offset > 0) {
+    if (offset > 0 && response.length < 60) {
       try {
         fetchMore();
       } catch (e) {
@@ -117,7 +119,18 @@ const AddSong = (props) => {
   const detectScroll = () => {
     const element = refEl.current;
 
-    document.querySelector('.custom-search-bar').blur();
+    clearTimeout(scrollTimeOut);
+
+    if (scrollTimeOut === null) {
+      scrollTimeOut = setTimeout(() => {
+        setIsScrollingFinished(true);
+      }, 500);
+    }
+
+    if (isScrollingFinished) {
+      document.querySelector('.custom-search-bar').blur();
+      setIsScrollingFinished(false);
+    }
 
     // Detect end of scroll
     if (element.offsetHeight + element.scrollTop >= element.scrollHeight) {
