@@ -7,7 +7,7 @@ const AboutPage = (props) => {
   return (
     <div className="about-page-container">
       <p>
-        <b className="app-name">Playvy</b>
+        <b className="app-name">Playvi</b>
         {' '}
       makes it easy to collaborate on Spotify playlists mainly for home parties where several people get involved and want to have control on the songs to be played during the event.
       </p>
