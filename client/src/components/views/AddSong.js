@@ -119,11 +119,12 @@ const AddSong = (props) => {
   const detectScroll = () => {
     const element = refEl.current;
 
+    console.log('s');
     clearTimeout(scrollTimeOut);
 
     scrollTimeOut = setTimeout(() => {
       setIsScrollingFinished(true);
-    }, 1200);
+    }, 500);
 
     if (isScrollingFinished) {
       console.log('hide');
@@ -162,8 +163,8 @@ const AddSong = (props) => {
   const isSongExisting = songId => songs.some(e => e.id === songId);
 
   const song = (item, index) => (
-    <div key={item.id} className={isSongExisting(item.id) ? 'song-wrapper greyed-out' : 'song-wrapper'}>
-      <button type="button" className={item.preview_url ? 'album-cover' : 'album-cover no-click'} onClick={(isSongExisting(item.id) || !item.preview_url) ? null : () => togglePreview(item.id)}>
+    <div key={item.id} className="song-wrapper">
+      <button type="button" className={item.preview_url ? 'album-cover' : 'album-cover no-click'} onClick={() => togglePreview(item.id)}>
         {(isPlaying.id === item.id && readyToPlay)
           && (
           <div className="circle">
@@ -180,8 +181,8 @@ const AddSong = (props) => {
         <img alt="album-cover" className={(isPlaying.id === item.id && readyToPlay) ? 'playing' : null} src={item.album.images.length ? item.album.images[1].url : null} />
       </button>
       <div type="button" className={addingSong.index === index ? 'text-info short-ellipsis' : 'text-info'} onClick={isSongExisting(item.id) ? null : () => debouncedAddSong(item.id, index)}>
-        <p>{item.name}</p>
-        <p>{item.artists.map((artist, artistIndex) => <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
+        <p className={isSongExisting(item.id) && 'greyed-out'}>{item.name}</p>
+        <p className={isSongExisting(item.id) && 'greyed-out'}>{item.artists.map((artist, artistIndex) => <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
         <div className={(isPlaying.id === item.id && readyToPlay) ? 'playing-song-bar playing' : 'playing-song-bar'} />
         { /* eslint-disable-next-line jsx-a11y/media-has-caption */}
         {isPlaying.id === item.id && <audio src={item.preview_url} autoPlay onCanPlayThrough={onCanPlayThrough} onEnded={togglePreview} />}
