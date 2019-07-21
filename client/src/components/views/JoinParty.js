@@ -68,13 +68,13 @@ const JoinParty = (props) => {
         />
         <TextInput
           getField={val => setNickname(val)}
-          placeholder="Name"
+          placeholder="Nickname"
           validate={val => setAreFieldsValid([areFieldsValid[0], val])}
           isAlert={alertArray[1]}
           onReturnKeyPress={loading ? null : fieldValidation}
         />
       </div>
-      <p className="info-text">Pick a name which will appear below the songs you add to the playlist.</p>
+      <p className="info-text">Pick a nickname which will appear below the songs you add to the playlist.</p>
       <NavigationButtons
         leftButton='Back'
         rightButton='Join'
