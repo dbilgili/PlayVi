@@ -61,7 +61,7 @@ const JoinParty = (props) => {
           pattern="\d*"
           validate={val => setAreFieldsValid([val, areFieldsValid[1]])}
           isAlert={alertArray[0]}
-          maxlength={5}
+          maxlength={4}
           invalidValue={partyPinError}
           invalidMessage="Invalid PIN"
           onChange={() => setPartyPinError(false)}
