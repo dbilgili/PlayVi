@@ -4,6 +4,7 @@ import axios from 'axios';
 import { CSSTransition } from 'react-transition-group';
 import { disablePageScroll } from 'scroll-lock';
 
+import LoadingPage from './components/views/LoadingPage';
 import FrontPage from './components/views/FrontPage';
 import CreateParty from './components/views/CreateParty';
 import JoinParty from './components/views/JoinParty';
@@ -17,20 +18,36 @@ import './assets/stylus/global.css';
 
 
 const App = () => {
-  const [screen, setScreen] = useState('frontpage');
+  const [screen, setScreen] = useState('loading');
   const [loading, setLoading] = useState(false);
   const [initialPin, setInitialPin] = useState('');
   const [playlistData, setPlaylistData] = useState(null);
   const [isPinValid, setIsPinValid] = useState(null);
 
+  const dummyReq = async () => {
+    const headers = {
+      Authorization: null,
+    };
+
+    await axios({
+      method: 'GET', url: `${server.url}/party`, headers, withCredentials: true,
+    });
+  };
+
   const parseQueryString = () => {
     const pin = window.location.search.substring(1).split('=')[1];
-    if (pin !== undefined) {
-      setInitialPin(pin);
-      setScreen('join');
-    } else {
-      setScreen('frontpage');
-    }
+
+    // To wake up the heroku dyno for server.
+    dummyReq();
+
+    setTimeout(() => {
+      if (pin !== undefined) {
+        setInitialPin(pin);
+        setScreen('join');
+      } else {
+        setScreen('frontpage');
+      }
+    }, 500);
   };
 
   const checkUser = async () => {
@@ -44,13 +61,15 @@ const App = () => {
           method: 'GET', url: `${server.url}/party`, headers, withCredentials: true,
         });
         if (typeof res.data === 'object') {
-          if (res.data.creator.id === localStorage.getItem('userId')) {
-            setPlaylistData(res.data);
-            setScreen('admin');
-          } else {
-            setPlaylistData(res.data);
-            setScreen('participant');
-          }
+          setTimeout(() => {
+            if (res.data.creator.id === localStorage.getItem('userId')) {
+              setPlaylistData(res.data);
+              setScreen('admin');
+            } else {
+              setPlaylistData(res.data);
+              setScreen('participant');
+            }
+          }, 300);
         } else {
           clearCookie();
           parseQueryString();
@@ -119,6 +138,7 @@ const App = () => {
 
   return (
     <div className="App">
+      {screen === 'loading' && <LoadingPage />}
       <CSSTransition
         in={screen === 'frontpage'}
         timeout={350}
