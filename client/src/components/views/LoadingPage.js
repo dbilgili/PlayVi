@@ -7,7 +7,7 @@ const LoadingPage = () => (
       <span />
       <span />
     </div>
-    <p>Loading</p>
+    <p>loading</p>
   </div>
 );
 
