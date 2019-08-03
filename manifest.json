@@ -1,6 +1,7 @@
 {
   "short_name": "PlayVi",
   "name": "PlayVi",
+  "description": "Create collaborative party playlist for Spotify with ease!",
   "start_url": ".",
   "display": "fullscreen",
   "theme_color": "#000000",
