@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/playvi/precache-manifest.23955fce7bf7261c2f215fc1826c9cf7.js"
+  "/playvi/precache-manifest.a9f13dbae72ec005330af3d669417763.js"
 );
 
 workbox.clientsClaim();
