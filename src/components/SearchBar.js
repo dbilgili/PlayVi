@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-// import '../assets/stylus/global.css';
 import search from '../assets/images/search.png';
 import cross from '../assets/images/cross.png';
 

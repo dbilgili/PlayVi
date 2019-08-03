@@ -4,8 +4,6 @@ import TextInput from '../TextInput';
 import NavigationButtons from '../NavigationButtons';
 import LoadingBar from '../LoadingBar';
 
-// import '../../assets/stylus/global.css';
-
 const CreateParty = (props) => {
   const {
     screen, createPlaylist, playlistData, loading,

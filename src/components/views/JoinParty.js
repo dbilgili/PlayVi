@@ -4,8 +4,6 @@ import TextInput from '../TextInput';
 import NavigationButtons from '../NavigationButtons';
 import LoadingBar from '../LoadingBar';
 
-// import '../../assets/stylus/global.css';
-
 const JoinParty = (props) => {
   const {
     screen, joinParty, isPinValid, loading, clearParty, initialPin,

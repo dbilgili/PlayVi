@@ -18,14 +18,11 @@ const AddSong = (props) => {
   const [isPlaying, setIsPlaying] = useState({ id: null });
   const [showSongLoading, setShowSongLoading] = useState(false);
   const [readyToPlay, setReadyToPlay] = useState(false);
-  const [offset, setOffset] = useState(0);
   const [noResult, setNoResult] = useState(false);
   const [addingSong, setAddingSong] = useState({ id: null, index: null });
   const [inputDebounced] = useDebounce(songName, 300);
-  const [isScrollingFinished, setIsScrollingFinished] = useState(true);
 
   let addSongTimeOut;
-  let scrollTimeOut = null;
 
   const refEl = useRef(null);
 
@@ -39,17 +36,6 @@ const AddSong = (props) => {
         setNoResult(true);
       }
       refEl.current.scrollTop = 0;
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const fetchMore = async () => {
-    try {
-      const res = await axios({
-        method: 'GET', url: `${server.url}/song/search?q=${inputDebounced}&limit=20&offset=${offset}`, withCredentials: true,
-      });
-      setResponse(prevState => [...prevState, ...res.data.tracks.items]);
     } catch (e) {
       console.log(e);
     }
@@ -95,7 +81,6 @@ const AddSong = (props) => {
 
   useEffect(() => {
     if (inputDebounced.length) {
-      setOffset(0);
       try {
         getSong(inputDebounced);
       } catch (e) {
@@ -105,38 +90,6 @@ const AddSong = (props) => {
       setResponse([]);
     }
   }, [inputDebounced]);
-
-  useEffect(() => {
-    if (offset > 0 && response.length < 60) {
-      try {
-        // fetchMore();
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }, [offset]);
-
-  const detectScroll = () => {
-    const element = refEl.current;
-
-    console.log('s');
-    clearTimeout(scrollTimeOut);
-
-    scrollTimeOut = setTimeout(() => {
-      setIsScrollingFinished(true);
-    }, 500);
-
-    if (isScrollingFinished) {
-      console.log('hide');
-      document.querySelector('.custom-search-bar').blur();
-      setIsScrollingFinished(false);
-    }
-
-    // Detect end of scroll
-    if (element.offsetHeight + element.scrollTop >= element.scrollHeight) {
-      setOffset(prevState => prevState + 20);
-    }
-  };
 
   const debouncedAddSong = (id, index) => {
     if (isPlaying.id === id) {
@@ -198,7 +151,7 @@ const AddSong = (props) => {
         onChange={setSongName}
         onClear={() => setNoResult(false)}
       />
-      <div ref={refEl} className="songs-container" data-scroll-lock-scrollable onScroll={detectScroll}>
+      <div ref={refEl} className="songs-container" data-scroll-lock-scrollable>
         {songName.length ? response.map((item, index) => song(item, index)) : <span className="add-song-message">Add a new song to playlist</span>}
         {noResult && <span className="add-song-message">No matching result</span>}
       </div>

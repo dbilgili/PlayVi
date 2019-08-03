@@ -7,22 +7,11 @@ import ReactHtmlParser from 'react-html-parser';
 const LoadingBar = (props) => {
   const {
     id,
-    // element,
-    // index,
     info,
   } = props;
 
   const [isOpen, setIsOpen] = useState(false);
   const [isSeen, setIsSeen] = useState(false);
-
-  /*
-  const [pos, setPos] = useState({ top: 0, left: 0 });
-
-  useEffect(() => {
-    const { top, left } = document.querySelectorAll(`.${element}`)[index].getBoundingClientRect();
-    setPos({ top, left });
-  }, []);
-  */
 
   const close = () => {
     setIsOpen(prevState => !prevState);
