@@ -11,5 +11,3 @@ export const clearCookie = () => {
 export const setCookie = (res) => {
   document.cookie = `SESSION=${res.headers.authorization}; expires=${new Date(new Date().setFullYear(new Date().getFullYear() + 1))}; path=/`;
 };
-
-export default { getCookie, clearCookie, setCookie };
