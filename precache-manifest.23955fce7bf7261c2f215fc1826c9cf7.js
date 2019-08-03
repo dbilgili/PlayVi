@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/playvi/static/js/runtime~main.a7ca34ba.js"
   },
   {
-    "revision": "f9d7eeb5ac1ef475d194",
+    "revision": "9a132b1dc1f1d1cbb11b",
     "url": "/playvi/static/js/main.443137cf.chunk.js"
   },
   {
@@ -12,11 +12,11 @@ self.__precacheManifest = [
     "url": "/playvi/static/js/2.7565f7ed.chunk.js"
   },
   {
-    "revision": "f9d7eeb5ac1ef475d194",
-    "url": "/playvi/static/css/main.87a7f5ff.chunk.css"
+    "revision": "9a132b1dc1f1d1cbb11b",
+    "url": "/playvi/static/css/main.bf5b5752.chunk.css"
   },
   {
-    "revision": "15dcc08730b3ecccf976f94592dfe78a",
+    "revision": "ce97895f212386ec907b1de35355b2a4",
     "url": "/playvi/index.html"
   }
 ];

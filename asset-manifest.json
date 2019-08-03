@@ -1,5 +1,5 @@
 {
-  "main.css": "/playvi/static/css/main.87a7f5ff.chunk.css",
+  "main.css": "/playvi/static/css/main.bf5b5752.chunk.css",
   "main.js": "/playvi/static/js/main.443137cf.chunk.js",
   "main.js.map": "/playvi/static/js/main.443137cf.chunk.js.map",
   "runtime~main.js": "/playvi/static/js/runtime~main.a7ca34ba.js",
@@ -7,7 +7,7 @@
   "static/js/2.7565f7ed.chunk.js": "/playvi/static/js/2.7565f7ed.chunk.js",
   "static/js/2.7565f7ed.chunk.js.map": "/playvi/static/js/2.7565f7ed.chunk.js.map",
   "index.html": "/playvi/index.html",
-  "precache-manifest.4fdb9a4af3926e4acb327507b9ed3357.js": "/playvi/precache-manifest.4fdb9a4af3926e4acb327507b9ed3357.js",
+  "precache-manifest.23955fce7bf7261c2f215fc1826c9cf7.js": "/playvi/precache-manifest.23955fce7bf7261c2f215fc1826c9cf7.js",
   "service-worker.js": "/playvi/service-worker.js",
-  "static/css/main.87a7f5ff.chunk.css.map": "/playvi/static/css/main.87a7f5ff.chunk.css.map"
+  "static/css/main.bf5b5752.chunk.css.map": "/playvi/static/css/main.bf5b5752.chunk.css.map"
 }
