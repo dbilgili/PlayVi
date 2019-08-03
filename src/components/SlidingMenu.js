@@ -4,8 +4,13 @@ import cross from '../assets/images/cross.png';
 
 const SlidingMenu = (props) => {
   const {
-    close, exit, copyAccessLink, playlistData: {
-      accessLink, spotifyName, pin,
+    close,
+    exit,
+    //copyAccessLink,
+    playlistData: {
+      accessLink,
+      spotifyName,
+      pin,
     },
   } = props;
 

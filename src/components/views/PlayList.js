@@ -16,7 +16,7 @@ const PlayList = (props) => {
     },
     songs,
     refreshPlaylist,
-    copyAccessLink,
+    // copyAccessLink,
   } = props;
 
   const [removeStatus, setRemoveStatus] = useState({ songId: null, index: null });
