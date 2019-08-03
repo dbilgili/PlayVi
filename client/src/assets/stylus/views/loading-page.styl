@@ -29,20 +29,23 @@ animation()
     width: 80px
     span
       display: block
-      width: 20px
-      height: 20px
+      width: 15px
+      height: 15px
       border-radius: 50%
       background-color: $white
       &:nth-child(1)
         animation()
         animation-delay: -0.2s
+        background-color: $light-red
       &:nth-child(2)
         animation()
         animation-delay: -0.1s
       &:nth-child(3)
         animation()
         animation-delay: 0
+        background-color: $green
 
   p
     margin-top: 35px
     letter-spacing: 4px
+    opacity: 0.5
