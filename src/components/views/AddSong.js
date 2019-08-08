@@ -91,6 +91,10 @@ const AddSong = (props) => {
     }
   }, [inputDebounced]);
 
+  const detectScroll = () => {
+    document.querySelector('.custom-search-bar').blur();
+  }
+
   const debouncedAddSong = (id, index) => {
     if (isPlaying.id === id) {
       togglePreview(id);
@@ -151,7 +155,7 @@ const AddSong = (props) => {
         onChange={setSongName}
         onClear={() => setNoResult(false)}
       />
-      <div ref={refEl} className="songs-container" data-scroll-lock-scrollable>
+      <div ref={refEl} className="songs-container" onScroll={detectScroll} data-scroll-lock-scrollable>
         {songName.length ? response.map((item, index) => song(item, index)) : <span className="add-song-message">Add a new song to playlist</span>}
         {noResult && <span className="add-song-message">No matching result</span>}
       </div>
