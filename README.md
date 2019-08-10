@@ -15,7 +15,7 @@ It is built to look and work better on mobile devices, but you can use it with a
 ## __Basic usage__
 
 1) Create a party.
-2) Share the party pin with people before the actual party.
+2) Share the party pin & app link with people before the actual party.
 3) Wait for people to add songs.
 4) When the party day comes, click the playlist name to open & play it in Spotify.
 
