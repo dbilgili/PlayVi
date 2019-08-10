@@ -11,7 +11,7 @@ It is built to look and work better on mobile devices, but you can use it with a
 
 <br/>
 
-<img width="306" alt="PlayVi main screen" src="https://user-images.githubusercontent.com/22943912/62656114-cdf81800-b963-11e9-8790-d783b316b2c7.png">
+<img width="250" alt="PlayVi main screen" src="https://user-images.githubusercontent.com/22943912/62656114-cdf81800-b963-11e9-8790-d783b316b2c7.png">
 
 ---
 
@@ -29,7 +29,7 @@ As an alternative, you can use the query string of `?pin=` with your party pin t
 
 <br/>
 
-<img width="306" alt="PlayVi party screen" src="https://user-images.githubusercontent.com/22943912/62656582-ce44e300-b964-11e9-9fb5-a63fed891b2f.png">
+<img width="250" alt="PlayVi party screen" src="https://user-images.githubusercontent.com/22943912/62656582-ce44e300-b964-11e9-9fb5-a63fed891b2f.png">
 
 ## __Joining to a party__
 
@@ -60,5 +60,6 @@ Link to playlist and party pin can always be accessed through more options icon 
 
 
 
-![screenshot1](https://user-images.githubusercontent.com/22943912/62742796-4e8c4680-ba40-11e9-85a5-97292f9016e7.png)  |  ![screenshot2](https://user-images.githubusercontent.com/22943912/62742797-4e8c4680-ba40-11e9-8450-d9608e650d55.png)
+<img width="250" alt="PlayVi main screen" src="https://user-images.githubusercontent.com/22943912/62742796-4e8c4680-ba40-11e9-85a5-97292f9016e7.png">  |  <img width="250" alt="PlayVi main screen" src="https://user-images.githubusercontent.com/22943912/62742797-4e8c4680-ba40-11e9-8450-d9608e650d55.png">
 :-------------------------:|:-------------------------:
+
