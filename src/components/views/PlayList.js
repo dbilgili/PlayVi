@@ -128,11 +128,21 @@ const PlayList = (props) => {
   };
 
   const songItem = (item, index) => (
-    <div key={item.id} className="song-wrapper">
-      <img alt="album-cover" className="album-cover" src={item.albumCoverUrl} />
+    <div
+      key={item.id}
+      className="song-wrapper"
+    >
+      <img
+        alt="album-cover"
+        className="album-cover"
+        src={item.albumCoverUrl}
+      />
       <div className={isValidToDelete(item.creator.id) ? 'text-info short-ellipsis' : 'text-info'}>
         <p>{item.name}</p>
-        <p>{item.artists.map((artist, artistIndex) => <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>)}</p>
+        <p>
+          {item.artists.map((artist, artistIndex) => (
+            <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>))}
+        </p>
         <p>{`Added by ${item.creator.username}`}</p>
       </div>
       {songRemoveButton(item.creator.id, item.id, index)}
@@ -147,7 +157,10 @@ const PlayList = (props) => {
           <span>  -  </span>
           <span>{totalSongDuration()}</span>
         </div>
-        <div className="playlist-songs-container" data-scroll-lock-scrollable>
+        <div
+          className="playlist-songs-container"
+          data-scroll-lock-scrollable
+        >
           {songs.map((song, index) => songItem(song, index))}
         </div>
         <div className="transparent-gradient" />
@@ -175,7 +188,13 @@ const PlayList = (props) => {
               </span>
               <br />
               <span>
-                <a target='_new' className="playlist-link" href={accessLink}>{spotifyName}</a>
+                <a
+                  target='_new'
+                  className="playlist-link"
+                  href={accessLink}
+                >
+                  {spotifyName}
+                </a>
               </span>
               <br />
               <span>Click on the playlist name to open it in Spotify.</span>

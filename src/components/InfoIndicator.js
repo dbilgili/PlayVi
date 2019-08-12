@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -54,11 +56,26 @@ const LoadingBar = (props) => {
           classNames="front-page-container"
           unmountOnExit
         >
-          <div className="info-modal-container" onClick={close}>
-            <div className="info-modal" onClick={e => e.stopPropagation()}>
+          <div
+            role="button"
+            tabIndex="0"
+            className="info-modal-container"
+            onClick={close}
+          >
+            <div
+              role="button"
+              tabIndex="0"
+              className="info-modal"
+              onClick={e => e.stopPropagation()}
+            >
               {ReactHtmlParser(info)}
-              {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
-              <button type="button" className="close-button" onClick={gotIt}><span role="img">👍🏻</span></button>
+              <button
+                type="button"
+                className="close-button"
+                onClick={gotIt}
+              >
+                <span role="img">👍🏻</span>
+              </button>
             </div>
           </div>
         </CSSTransition>,

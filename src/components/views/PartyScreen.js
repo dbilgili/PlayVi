@@ -68,7 +68,10 @@ const PartyScreen = (props) => {
   }, []);
 
   return (
-    <div className="party-screen-container" onClick={() => toggleMore && setToggleMore(prev => !prev)}>
+    <div
+      className="party-screen-container"
+      onClick={() => toggleMore && setToggleMore(prev => !prev)}
+    >
       <CSSTransition
         in={toggleMore}
         timeout={250}
@@ -94,8 +97,17 @@ const PartyScreen = (props) => {
         swipeOptions={{ continuous: false, callback: detectChange }}
         ref={reactSwipeEl}
       >
-        <PlayList userRole={userRole} playlistData={playlistData} songs={songs} refreshPlaylist={refreshPlaylist} /*copyAccessLink={copyAccessLink}*/ />
-        <AddSong refreshPlaylist={refreshPlaylist} songs={songs} />
+        <PlayList
+          userRole={userRole}
+          playlistData={playlistData}
+          songs={songs}
+          refreshPlaylist={refreshPlaylist}
+          /* copyAccessLink={copyAccessLink} */
+        />
+        <AddSong
+          refreshPlaylist={refreshPlaylist}
+          songs={songs}
+        />
       </ReactSwipe>
     </div>
   );

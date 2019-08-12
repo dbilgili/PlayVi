@@ -3,7 +3,13 @@ import React, { useState } from 'react';
 import more from '../assets/images/more.png';
 
 const TabMenu = (props) => {
-  const { moreButton, next, prev, tabPos } = props;
+  const {
+    moreButton,
+    next,
+    prev,
+    tabPos,
+  } = props;
+
   const [tab, setTab] = useState(0);
 
   const tabSwitch = (type) => {
@@ -24,9 +30,25 @@ const TabMenu = (props) => {
 
   return (
     <div className="tab-menu-container">
-      <button type="button" className="tab-button" onClick={() => tabSwitch('prev')}>Playlist</button>
-      <button type="button" className="tab-button" onClick={() => tabSwitch('next')}>Add Songs</button>
-      <button type="button" className="more-button" onClick={() => moreButton()}>
+      <button
+        type="button"
+        className="tab-button"
+        onClick={() => tabSwitch('prev')}
+      >
+        Playlist
+      </button>
+      <button
+        type="button"
+        className="tab-button"
+        onClick={() => tabSwitch('next')}
+      >
+        Add Songs
+      </button>
+      <button
+        type="button"
+        className="more-button"
+        onClick={() => moreButton()}
+      >
         <img alt="more" src={more} />
       </button>
       <span className={tab ? 'underline slide' : 'underline'} />

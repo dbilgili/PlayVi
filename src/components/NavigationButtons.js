@@ -7,8 +7,20 @@ const NavigationButtons = (props) => {
 
   return (
     <div className="navigation-buttons-container">
-      <button type="button" className="big-text-button" onClick={backAction}>{leftButton}</button>
-      <button type="button" className="big-text-button" onClick={nextAction}>{rightButton}</button>
+      <button
+        type="button"
+        className="big-text-button"
+        onClick={backAction}
+      >
+        {leftButton}
+      </button>
+      <button
+        type="button"
+        className="big-text-button"
+        onClick={nextAction}
+      >
+        {rightButton}
+      </button>
     </div>
   );
 };
