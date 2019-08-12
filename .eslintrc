@@ -1,0 +1,15 @@
+{
+  "extends": "@hyperoslo/eslint-config/react",
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "no-restricted-syntax": "off",
+    "react/prop-types": "off",
+    "import/no-unresolved": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "max-len": ["error", { "code": 300 }],
+    "no-else-return": "off",
+    "no-new": "off"
+  }
+}
