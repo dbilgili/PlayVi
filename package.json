@@ -1,7 +1,7 @@
 {
   "name": "playvi",
   "version": "0.1.0",
-  "homepage": "https://dbilgili.github.io/playvi",
+  "homepage": "https://playvi.co",
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
