@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="preload" href="https://fonts.googleapis.com/css?family=Comfortaa:700|Roboto:300,500&display=swap" as="style" onload="this.rel='stylesheet'">
+    <link rel="preload" as="font" href="./fonts/roboto-v20-latin-300.woff2" type="font/woff2" crossorigin="">
+    <link rel="preload" as="font" href="./fonts/roboto-v20-latin-500.woff2" type="font/woff2" crossorigin="">
+    <link rel="preload" as="font" href="./fonts/comfortaa-v23-latin-700.woff2" type="font/woff2" crossorigin="">
+
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no"
@@ -12,6 +15,33 @@
     <link rel="apple-touch-icon" sizes="180x180" href="images/icon-200.png">
 
     <title>PlayVi</title>
+
+    <style>
+      @font-face {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 300;
+        src: local('Roboto Light'), local('Roboto-Light'),
+            url('../fonts/roboto-v20-latin-300.woff2') format('woff2'),
+            url('../fonts/roboto-v20-latin-300.woff') format('woff');
+      }
+      @font-face {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 500;
+        src: local('Roboto Medium'), local('Roboto-Medium'),
+            url('../fonts/roboto-v20-latin-500.woff2') format('woff2'),
+            url('../fonts/roboto-v20-latin-500.woff') format('woff');
+      }
+      @font-face {
+        font-family: 'Comfortaa';
+        font-style: normal;
+        font-weight: 700;
+        src: local(''),
+            url('../fonts/comfortaa-v23-latin-700.woff2') format('woff2'),
+            url('../fonts/comfortaa-v23-latin-700.woff') format('woff');
+      }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
