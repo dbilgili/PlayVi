@@ -14,7 +14,7 @@ It is built to look and work better on mobile devices, but you can use it with a
 
 ## __Basic usage__
 
-1) Create a party.
+1) Start a party.
 2) Share the party pin & app link with people before the actual party.
 3) Wait for people to add songs.
 4) When the party day comes, click the playlist name to open & play it in Spotify.
@@ -25,7 +25,7 @@ It is built to look and work better on mobile devices, but you can use it with a
 
 Once you start a party, a public Spotify playlist is automatically generated for you along with a four-digit pin code to share with your friends so that they can join and contribute to the playlist.
 
-_When you create a party, you become the party admin and you have the privilige of being able to remove any song from the playlist._
+_When you start a party, you become the party admin and you have the privilige of being able to remove any song from the playlist._
 
 In the example screen below, a Spotify playlist named `cyanDaisy` is created along with the party pin of `6971`.
 
