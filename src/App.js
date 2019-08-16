@@ -10,6 +10,7 @@ import CreateParty from './components/views/CreateParty';
 import JoinParty from './components/views/JoinParty';
 import PartyScreen from './components/views/PartyScreen';
 import AboutPage from './components/views/AboutPage';
+import HowToPage from './components/views/HowToPage';
 
 import { getCookie, clearCookie, setCookie } from './utilities/CookieUtils';
 
@@ -196,6 +197,16 @@ const App = () => {
         unmountOnExit
       >
         <AboutPage
+          screen={type => setScreen(type)}
+        />
+      </CSSTransition>
+      <CSSTransition
+        in={screen === 'how-to'}
+        timeout={350}
+        classNames="join-party-container"
+        unmountOnExit
+      >
+        <HowToPage
           screen={type => setScreen(type)}
         />
       </CSSTransition>

@@ -22,10 +22,17 @@ const FrontPage = (props) => {
       </button>
       <button
         type="button"
-        className="small-text-button second"
+        className="small-text-button"
         onClick={() => screen('about')}
       >
         About
+      </button>
+      <button
+        type="button"
+        className="small-text-button"
+        onClick={() => screen('how-to')}
+      >
+        How to use
       </button>
     </div>
   );
