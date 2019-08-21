@@ -47,7 +47,7 @@ _You can add songs and only remove the songs you have added._
 
 When you search for a song under the `Add Songs` tab, you get the top 20 results.
 
-The green circle icon on the top right corner of the album cover indicates that the song has a preview. You can tap/click the album cover and listen to it. Tapping/clicking the song name adds it to the playlist.
+The green circle icon next to song title indicates that the song has a preview. You can tap/click the album cover and listen to it. Tapping/clicking the song name adds it to the playlist.
 
 If a song is already in the playlist, it gets greyed out and cannot be added again.
 
@@ -57,6 +57,6 @@ Link to playlist and party pin can always be accessed through more options icon 
 
 
 
-<img width="250" alt="PlayVi main screen" src="https://user-images.githubusercontent.com/22943912/62742796-4e8c4680-ba40-11e9-85a5-97292f9016e7.png">  |  <img width="250" alt="PlayVi main screen" src="https://user-images.githubusercontent.com/22943912/62742797-4e8c4680-ba40-11e9-8450-d9608e650d55.png">
+<img width="250" alt="PlayVi main screen" src="https://user-images.githubusercontent.com/22943912/63462764-ee43ce80-c45b-11e9-8256-b598f5d36aea.png">  |  <img width="250" alt="PlayVi main screen" src="https://user-images.githubusercontent.com/22943912/63462766-ee43ce80-c45b-11e9-9a25-e424d7a7c18c.png">
 :-------------------------:|:-------------------------:
 
