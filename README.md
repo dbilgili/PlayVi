@@ -47,7 +47,7 @@ _You can add songs and only remove the songs you have added._
 
 When you search for a song under the `Add Songs` tab, you get the top 20 results.
 
-The green circle icon next to song title indicates that the song has a preview. You can tap/click the album cover and listen to it. Tapping/clicking the song name adds it to the playlist.
+The small green play icon next to song title indicates that the song has a preview. You can tap/click the album cover and listen to it. Tapping/clicking the song name adds it to the playlist.
 
 If a song is already in the playlist, it gets greyed out and cannot be added again.
 
