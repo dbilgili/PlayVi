@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { useState, useEffect, useRef } from 'react';
 
@@ -154,8 +155,13 @@ const AddSong = (props) => {
         className={addingSong.index === index ? 'text-info short-ellipsis' : 'text-info'}
         onClick={isSongExisting(item.id) ? null : () => debouncedAddSong(item.id, index)}
       >
-        <p className={isSongExisting(item.id) && 'greyed-out'}>{item.name}</p>
-        <p className={isSongExisting(item.id) && 'greyed-out'}>
+        <p
+          className={isSongExisting(item.id) ? 'greyed-out' : undefined}
+          style={item.preview_url && { paddingLeft: '17px' }}
+        >
+          {item.name}
+        </p>
+        <p className={isSongExisting(item.id) ?'greyed-out' : undefined}>
           {item.artists.map((artist, artistIndex) => (
             <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>))}
         </p>
