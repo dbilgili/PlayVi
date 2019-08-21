@@ -12,7 +12,7 @@ import PartyScreen from './components/views/PartyScreen';
 import AboutPage from './components/views/AboutPage';
 import HowToPage from './components/views/HowToPage';
 
-import { getCookie, clearCookie, setCookie } from './utilities/CookieUtils';
+import { getSession, clearSession, setSession } from './utilities/CookieUtils';
 
 import server from './server.json';
 import './assets/stylus/global.css';
@@ -52,9 +52,9 @@ const App = () => {
   };
 
   const checkUser = async () => {
-    const headers = getCookie();
+    const headers = getSession();
 
-    if (headers.Authorization === undefined) {
+    if (headers.Authorization === null) {
       parseQueryString();
     } else {
       try {
@@ -72,11 +72,11 @@ const App = () => {
             }
           }, 300);
         } else {
-          clearCookie();
+          clearSession();
           parseQueryString();
         }
       } catch (e) {
-        clearCookie();
+        clearSession();
         parseQueryString();
       }
     }
@@ -94,7 +94,7 @@ const App = () => {
       localStorage.setItem('userId', res.data.creator.id);
       setPlaylistData(res.data);
       setLoading(false);
-      setCookie(res);
+      setSession(res);
     } catch (e) {
       setLoading(false);
     }
@@ -115,7 +115,7 @@ const App = () => {
       if (typeof res.data === 'object') {
         localStorage.setItem('userId', res.data.id);
         setIsPinValid(true);
-        setCookie(res);
+        setSession(res);
         checkUser();
       } else {
         setIsPinValid(false);

@@ -8,7 +8,7 @@ import TabMenu from '../TabMenu';
 import PlayList from './PlayList';
 import AddSong from './AddSong';
 import SlidingMenu from '../SlidingMenu';
-import { getCookie, clearCookie } from '../../utilities/CookieUtils';
+import { getSession, clearSession } from '../../utilities/CookieUtils';
 
 import server from '../../server.json';
 
@@ -29,7 +29,7 @@ const PartyScreen = (props) => {
   };
 
   const refreshPlaylist = async () => {
-    const headers = getCookie();
+    const headers = getSession();
 
     try {
       const res = await axios({
@@ -46,7 +46,7 @@ const PartyScreen = (props) => {
   const leaveParty = () => {
     screen('frontpage');
     localStorage.removeItem('userId');
-    clearCookie();
+    clearSession();
   };
 
   /*

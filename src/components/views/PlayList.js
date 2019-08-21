@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import InfoIndicator from '../InfoIndicator';
 
-import { getCookie } from '../../utilities/CookieUtils';
+import { getSession } from '../../utilities/CookieUtils';
 
 import server from '../../server.json';
 import cross from '../../assets/images/cross.png';
@@ -64,7 +64,7 @@ const PlayList = (props) => {
   };
 
   const removeSong = async (songId, index) => {
-    const headers = getCookie();
+    const headers = getSession();
     const bodyFormData = new FormData();
     bodyFormData.set('songId', songId);
     bodyFormData.set('position', index);

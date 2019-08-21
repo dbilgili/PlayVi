@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useDebounce } from 'use-debounce';
 
 import SearchBar from '../SearchBar';
-import { getCookie } from '../../utilities/CookieUtils';
+import { getSession } from '../../utilities/CookieUtils';
 
 import server from '../../server.json';
 
@@ -44,7 +44,7 @@ const AddSong = (props) => {
   };
 
   const addSongToPlaylist = async (songId) => {
-    const headers = getCookie();
+    const headers = getSession();
     const bodyFormData = new FormData();
     bodyFormData.set('songId', songId);
 
