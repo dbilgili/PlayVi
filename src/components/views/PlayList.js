@@ -63,6 +63,20 @@ const PlayList = (props) => {
     return millisToHoursAndMinutesAndSeconds(duration);
   };
 
+  const totalContributors = () => {
+    const contributorList = [];
+
+    songs.forEach((song) => {
+      if (!contributorList.includes(song.creator.username)) {
+        contributorList.push(song.creator.username);
+      }
+    });
+
+    return contributorList.length > 1
+      ? `${contributorList.length} contributors`
+      : `${contributorList.length} contributor`;
+  };
+
   const removeSong = async (songId, index) => {
     const headers = getSession();
     const bodyFormData = new FormData();
@@ -156,6 +170,8 @@ const PlayList = (props) => {
           <span>{songs.length > 1 ? `${songs.length} songs` : `${songs.length} song`}</span>
           <span>  -  </span>
           <span>{totalSongDuration()}</span>
+          <span>  |  </span>
+          <span>{totalContributors()}</span>
         </div>
         <div
           className="playlist-songs-container"
