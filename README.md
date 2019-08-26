@@ -60,3 +60,6 @@ Link to playlist and party pin can always be accessed through more options icon 
 <img width="250" alt="PlayVi main screen" src="https://user-images.githubusercontent.com/22943912/63462764-ee43ce80-c45b-11e9-8256-b598f5d36aea.png">  |  <img width="250" alt="PlayVi main screen" src="https://user-images.githubusercontent.com/22943912/63462766-ee43ce80-c45b-11e9-9a25-e424d7a7c18c.png">
 :-------------------------:|:-------------------------:
 
+## __Server__
+
+Refer to [this repository](https://github.com/merterpam/PlayVi/) for the source code of the server.
