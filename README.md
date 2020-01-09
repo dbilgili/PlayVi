@@ -4,7 +4,7 @@
 
 __PlayVi__ is a web application built on top of Spotify API in order to simplify the process of creating a public playlist and collaborating on it with minimum hassle.
 
-Anyone with a party pin including those who doesn't have a Spotify account can contribute to a playlist created through __PlayVi__. However, a Spotify account is required to play the playlist eventually.
+Anyone with a party pin including those who doesn't have a Spotify account can contribute to a playlist created through __PlayVi__. And, you don't need to authenticate with your Spotify credentials to start a party. However, a Spotify account is required to play the playlist eventually.
 
 It is built to look and work better on mobile devices, but you can use it with a browser virtually on any device.
 
