@@ -36,13 +36,15 @@ const App = () => {
   };
 
   const parseQueryString = () => {
-    const pin = window.location.search.substring(1).split('=')[1];
+    const queryString = window.location.search.substring(1).split('=');
+    const key = queryString[0];
+    const pin = queryString[1];
 
     // To wake up the heroku dyno for server.
     dummyReq();
 
     setTimeout(() => {
-      if (pin !== undefined) {
+      if (key === 'pin' && pin !== undefined) {
         setInitialPin(pin);
         setScreen('join');
       } else {
