@@ -10,7 +10,7 @@ It is built to look and work better on mobile devices, but you can use it with a
 
 <br/>
 
-<img width="250" alt="PlayVi main screen" src="https://user-images.githubusercontent.com/22943912/62656114-cdf81800-b963-11e9-8790-d783b316b2c7.png">
+<img width="250" alt="PlayVi main screen" src="https://user-images.githubusercontent.com/22943912/72381887-7468f600-3718-11ea-8ff1-6ef1aebadbb0.png">
 
 ## __Basic usage__
 
