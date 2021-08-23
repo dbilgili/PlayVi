@@ -1,6 +1,6 @@
 # PlayVi
 
-[__Try PlayVi !__](https://playvi.app) 🎉 (Looks better on mobile)
+[__Try PlayVi !__](https://dbilgili.github.io/PlayVi/) 🎉 (Looks better on mobile)
 
 __PlayVi__ is a web application built on top of Spotify API in order to simplify the process of creating a public playlist and collaborating on it with minimum hassle.
 
@@ -31,7 +31,7 @@ In the example screen below, a Spotify playlist named `cyanDaisy` is created alo
 
 As an alternative to sharing party pin and the app link separately, you can use the query string of `?pin=` with your party pin. When you do so, it redirects to correct route and fills in the party pin automatically.
 
-`playvi.app/?pin=6971`
+`dbilgili.github.io/PlayVi//?pin=6971`
 
 <br/>
 
