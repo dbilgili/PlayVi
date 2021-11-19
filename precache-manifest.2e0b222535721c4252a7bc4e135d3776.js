@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/PlayVi/static/js/2.9dc2cddd.chunk.js"
   },
   {
-    "revision": "b0c5bf625312c9da4808deb55c70aa18",
+    "revision": "697b996ed0202a8153e75cea8a55c4de",
     "url": "/PlayVi/index.html"
   }
 ];
