@@ -1,7 +1,6 @@
 {
   "name": "playvi",
   "version": "0.1.0",
-  "homepage": "http://https://dbilgili.github.io/PlayVi",
   "private": true,
   "homepage": "https://dbilgili.github.io/PlayVi",
   "dependencies": {
