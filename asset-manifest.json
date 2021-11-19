@@ -1,5 +1,5 @@
 {
-  "main.css": "/PlayVi/static/css/main.ea0094fa.chunk.css",
+  "main.css": "/PlayVi/static/css/main.21a6508e.chunk.css",
   "main.js": "/PlayVi/static/js/main.1068f2e5.chunk.js",
   "main.js.map": "/PlayVi/static/js/main.1068f2e5.chunk.js.map",
   "runtime~main.js": "/PlayVi/static/js/runtime~main.e0a75dfc.js",
@@ -7,7 +7,8 @@
   "static/js/2.9dc2cddd.chunk.js": "/PlayVi/static/js/2.9dc2cddd.chunk.js",
   "static/js/2.9dc2cddd.chunk.js.map": "/PlayVi/static/js/2.9dc2cddd.chunk.js.map",
   "index.html": "/PlayVi/index.html",
-  "precache-manifest.2e0b222535721c4252a7bc4e135d3776.js": "/PlayVi/precache-manifest.2e0b222535721c4252a7bc4e135d3776.js",
+  "precache-manifest.0fe67c6f879a7a08c7a594cc5d602954.js": "/PlayVi/precache-manifest.0fe67c6f879a7a08c7a594cc5d602954.js",
   "service-worker.js": "/PlayVi/service-worker.js",
-  "static/css/main.ea0094fa.chunk.css.map": "/PlayVi/static/css/main.ea0094fa.chunk.css.map"
+  "static/css/main.21a6508e.chunk.css.map": "/PlayVi/static/css/main.21a6508e.chunk.css.map",
+  "static/media/global.css": "/PlayVi/static/media/roboto-v20-latin-500.020c97dc.woff2"
 }
