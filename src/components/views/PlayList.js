@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
-import axios from 'axios';
 import InfoIndicator from '../InfoIndicator';
 
-import { getSession } from '../../utilities/CookieUtils';
-
-import server from '../../server.json';
 import cross from '../../assets/images/cross.png';
+import { ref, remove} from 'firebase/database'
 
 const PlayList = (props) => {
   const {
     userRole,
     playlistData: {
-      accessLink, spotifyName, pin, creator,
+      accessLink, spotifyName, pin, creator
     },
     songs,
-    refreshPlaylist,
+    firebaseAuth,
+    firebaseDatabase,
     // copyAccessLink,
   } = props;
 
@@ -77,18 +75,12 @@ const PlayList = (props) => {
       : `${contributorList.length} contributor`;
   };
 
-  const removeSong = async (songId, index) => {
-    const headers = getSession();
-    const bodyFormData = new FormData();
-    bodyFormData.set('songId', songId);
-    bodyFormData.set('position', index);
-
+  const removeSong = async (songId) => {
     try {
-      await axios({
-        method: 'DELETE', url: `${server.url}/party/removeSong`, data: bodyFormData, headers, withCredentials: true,
-      });
 
-      refreshPlaylist();
+      const songReference = ref(firebaseDatabase, `playlist/${pin}/songs/${songId}`);
+      await remove(songReference);
+
     } catch (e) {
       setRemoveStatus({ songId: null, index: null });
       console.log(e);
@@ -96,7 +88,7 @@ const PlayList = (props) => {
   };
 
   const isValidToDelete = (creatorId) => {
-    const userId = localStorage.getItem('userId');
+    const userId = firebaseAuth.currentUser.uid;
 
     if (userId) {
       if (creator.id === userId) {
@@ -110,7 +102,7 @@ const PlayList = (props) => {
 
   useEffect(() => {
     if (removeStatus.songId !== null) {
-      removeSong(removeStatus.songId, removeStatus.index);
+      removeSong(removeStatus.songId);
     }
   }, [removeStatus]);
 
@@ -157,7 +149,7 @@ const PlayList = (props) => {
           {item.artists.map((artist, artistIndex) => (
             <span key={artist.id}>{artistIndex !== item.artists.length - 1 ? `${artist.name}, ` : artist.name}</span>))}
         </p>
-        <p>{`Added by ${item.creator.username}`}</p>
+        <p>{item.creator.username ? `Added by ${item.creator.username}` : ""}</p>
       </div>
       {songRemoveButton(item.creator.id, item.id, index)}
     </div>

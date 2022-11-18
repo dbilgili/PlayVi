@@ -2,18 +2,18 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { useState, useEffect, useRef } from 'react';
 
-import axios from 'axios';
+import { getFunctions, httpsCallableFromURL } from "firebase/functions";
+import { getApp } from "firebase/app";
+
 import { useDebounce } from 'use-debounce';
 
 import SearchBar from '../SearchBar';
-import { getSession } from '../../utilities/CookieUtils';
-
-import server from '../../server.json';
+import { getDatabase, ref, set } from 'firebase/database'
 
 let loaderTimeout = null;
 
 const AddSong = (props) => {
-  const { refreshPlaylist, songs } = props;
+  const { pin, songs, firebaseAuth } = props;
 
   const [songName, setSongName] = useState('');
   const [response, setResponse] = useState([]);
@@ -24,36 +24,47 @@ const AddSong = (props) => {
   const [addingSong, setAddingSong] = useState({ id: null, index: null });
   const [inputDebounced] = useDebounce(songName, 300);
 
+  const functions = getFunctions(getApp(), "europe-west1");
+  const searchSongsCall = httpsCallableFromURL(
+    functions,
+    "https://searchsongs-dclj74qtzq-ew.a.run.app/searchsongs"
+  );
+
   let addSongTimeOut;
 
   const refEl = useRef(null);
 
   const getSong = async (input) => {
     try {
-      const res = await axios({
-        method: 'GET', url: `${server.url}/song/search?q=${input}&limit=50&offset=0`, withCredentials: true,
-      });
-      setResponse(res.data.tracks.items);
-      if (!res.data.tracks.items.length) {
-        setNoResult(true);
-      }
-      refEl.current.scrollTop = 0;
+      searchSongsCall({ q: input, limit:50, offset:0})
+        .then((result) => {
+          // Read result of the Cloud Function.
+          const data = result.data;
+          setResponse(data.tracks.items);
+          if (!data.tracks.items.length) {
+            setNoResult(true);
+          }
+          refEl.current.scrollTop = 0;
+        });
     } catch (e) {
       console.log(e);
     }
   };
 
   const addSongToPlaylist = async (songId) => {
-    const headers = getSession();
-    const bodyFormData = new FormData();
-    bodyFormData.set('songId', songId);
 
     try {
-      await axios({
-        method: 'POST', url: `${server.url}/party/addSong`, data: bodyFormData, headers, withCredentials: true,
-      });
+      const currentUser = firebaseAuth.currentUser;
+      const addSongData = {
+        creator: {
+          id: currentUser.uid,
+        },
+        timestamp: Date.now(),
+      };
+
+      await set(ref(getDatabase(), `playlist/${pin}/songs/${songId}`), addSongData);
+
       setTimeout(() => setAddingSong({ id: null, index: null }), 100);
-      refreshPlaylist();
     } catch (e) {
       setAddingSong({ id: null, index: null });
       console.log(e);

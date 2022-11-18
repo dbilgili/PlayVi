@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-import axios from 'axios';
 import { CSSTransition } from 'react-transition-group';
 import { disablePageScroll } from 'scroll-lock';
+import { getApp, initializeApp } from 'firebase/app'
+import {getAuth, signInAnonymously, signOut} from "firebase/auth";
+import { getDatabase, ref, onValue, get} from "firebase/database";
 
 import LoadingPage from './components/views/LoadingPage';
 import FrontPage from './components/views/FrontPage';
@@ -12,10 +14,9 @@ import PartyScreen from './components/views/PartyScreen';
 import AboutPage from './components/views/AboutPage';
 import HowToPage from './components/views/HowToPage';
 
-import { getSession, clearSession, setSession } from './utilities/CookieUtils';
-
-import server from './server.json';
 import './assets/stylus/global.css';
+import {updateProfile} from "@firebase/auth";
+import { getFunctions, httpsCallableFromURL } from 'firebase/functions'
 
 
 const App = () => {
@@ -25,23 +26,33 @@ const App = () => {
   const [playlistData, setPlaylistData] = useState(null);
   const [isPinValid, setIsPinValid] = useState(null);
 
-  const dummyReq = async () => {
-    const headers = {
-      Authorization: null,
-    };
-
-    await axios({
-      method: 'GET', url: `${server.url}/party`, headers, withCredentials: true,
-    });
+  const firebaseConfig = {
+    apiKey: "AIzaSyDxDlBDqLsuFgwEWi9hUO0ebOeC3XyUIEc",
+    authDomain: "playvi.firebaseapp.com",
+    projectId: "playvi",
+    storageBucket: "playvi.appspot.com",
+    messagingSenderId: "815991548965",
+    appId: "1:815991548965:web:7565c1da50cad0e46a63cc",
+    databaseURL: "https://playvi-default-rtdb.europe-west1.firebasedatabase.app"
   };
+
+  const firebaseApp = initializeApp(firebaseConfig);
+  const firebaseDatabase = getDatabase(firebaseApp);
+  const firebaseAuth = getAuth();
+
+  const functions = getFunctions(getApp(), "europe-west1");
+  const createPlaylistCall = httpsCallableFromURL(
+    functions,
+    "https://createplaylist-dclj74qtzq-ew.a.run.app/createplaylist"
+  );
+
+  let unsubscribePlaylist = () => { // TODO how should this function be set?
+  }
 
   const parseQueryString = () => {
     const queryString = window.location.search.substring(1).split('=');
     const key = queryString[0];
     const pin = queryString[1];
-
-    // To wake up the heroku dyno for server.
-    dummyReq();
 
     setTimeout(() => {
       if (key === 'pin' && pin !== undefined) {
@@ -53,91 +64,97 @@ const App = () => {
     }, 500);
   };
 
-  const checkUser = async () => {
-    const headers = getSession();
-
-    if (headers.Authorization === null) {
-      parseQueryString();
-    } else {
-      try {
-        const res = await axios({
-          method: 'GET', url: `${server.url}/party`, headers, withCredentials: true,
-        });
-        if (typeof res.data === 'object') {
-          setTimeout(() => {
-            if (res.data.creator.id === localStorage.getItem('userId')) {
-              setPlaylistData(res.data);
-              setScreen('admin');
-            } else {
-              setPlaylistData(res.data);
-              setScreen('participant');
-            }
-          }, 300);
-        } else {
-          clearSession();
-          parseQueryString();
-        }
-      } catch (e) {
-        clearSession();
-        parseQueryString();
-      }
-    }
-  };
-
   const createPlaylist = async (nickname) => {
     setLoading(true);
-    const bodyFormData = new FormData();
-    bodyFormData.set('username', nickname);
 
-    try {
-      const res = await axios({
-        method: 'POST', url: `${server.url}/party/create`, data: bodyFormData, withCredentials: true,
-      });
-      localStorage.setItem('userId', res.data.creator.id);
-      setPlaylistData(res.data);
+    await signInAnonymouslyWithNickname(nickname);
+
+    createPlaylistCall()
+      .then((response) => {
+        const playlistData = response.data;
+        setPlaylistData(playlistData);
+        setScreen('admin');
+        setLoading(false);
+        subscribePlaylist(playlistData.pin);
+      }).catch(() => {
       setLoading(false);
-      setSession(res);
-    } catch (e) {
-      setLoading(false);
-    }
+    });
   };
 
-  const joinParty = async (pin, nickname) => {
+  const joinParty = async (playlistPin, nickname) => {
     setLoading(true);
     setIsPinValid(null);
-    const bodyFormData = new FormData();
-    bodyFormData.set('username', nickname);
-    bodyFormData.set('pin', pin);
 
-    try {
-      const res = await axios({
-        method: 'POST', url: `${server.url}/party`, data: bodyFormData, withCredentials: true,
+    await signInAnonymouslyWithNickname(nickname);
+
+    const playlistReference = ref(firebaseDatabase, 'playlist/' + playlistPin);
+    get(playlistReference).then((snapshot) => {
+          if (!snapshot.exists()) {
+              setIsPinValid(false);
+              setLoading(false);
+          } else {
+              const playlistData = snapshot.val();
+
+            // TODO any better way?
+            if(playlistData.songs) {
+              playlistData.songs = Object.entries(playlistData.songs)
+                .map(payload => payload[1])
+                .filter(song => song.name);
+            }
+
+              setPlaylistData(playlistData);
+              setScreen('participant');
+              setLoading(false);
+
+              subscribePlaylist(playlistPin);
+          }
+      }).catch(() => {
+          setLoading(false);
       });
-      setLoading(false);
-      if (typeof res.data === 'object') {
-        localStorage.setItem('userId', res.data.id);
-        setIsPinValid(true);
-        setSession(res);
-        checkUser();
-      } else {
-        setIsPinValid(false);
-      }
-    } catch (e) {
-      setLoading(false);
-    }
   };
 
-  const clearParty = () => setPlaylistData(null);
+  const clearParty = () => {
+      console.log(unsubscribePlaylist);
+      signOut(firebaseAuth);
+      unsubscribePlaylist();
+      setPlaylistData(null);
+  }
 
   useEffect(() => {
     disablePageScroll(null);
-    checkUser();
+    parseQueryString();
 
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
     document.addEventListener('gesturestart', e => e.preventDefault());
   }, []);
 
+  const signInAnonymouslyWithNickname = async (nickname)  => {
+      const userCredential = await signInAnonymously(firebaseAuth);
+      await updateProfile(userCredential.user, {displayName: nickname})
+  }
+
+  const subscribePlaylist = async (playlistPin) => {
+    const playlistReference = ref(firebaseDatabase, 'playlist/' + playlistPin);
+    unsubscribePlaylist = onValue(playlistReference, (snapshot) => {
+          if(!snapshot.exists()) {
+              clearParty();
+          } else {
+              const playlistData = snapshot.val();
+              // TODO any better way?
+            if(playlistData.songs) {
+              playlistData.songs = Object.entries(playlistData.songs)
+                .map(payload =>  payload[1])
+                .filter(song => song.name);
+            }
+
+            console.log(playlistData.songs);
+
+            setPlaylistData(playlistData);
+          }
+    });
+
+  }
 
   return (
     <div className="App">
@@ -190,6 +207,8 @@ const App = () => {
           clearParty={clearParty}
           userRole={screen}
           playlistData={playlistData}
+          firebaseDatabase={firebaseDatabase}
+          firebaseAuth={firebaseAuth}
         />
       </CSSTransition>
       <CSSTransition
